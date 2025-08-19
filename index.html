@@ -14,8 +14,9 @@
             font-family: 'Inter', sans-serif;
             background-color: #f8fafc; /* Light blue-gray background */
             color: #334155; /* Dark slate gray text */
+            overflow-x: hidden; /* Prevent horizontal scroll from animations */
         }
-        /* Smooth scroll for navigation */
+        /* Smooth scroll for navigation (CSS fallback/reinforcement) */
         html {
             scroll-behavior: smooth;
         }
@@ -34,6 +35,46 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #64748b;
         }
+
+        /* Styles for scroll reveal animation */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .scroll-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Styles for back to top button */
+        #back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4f46e5; /* Indigo-600 */
+            color: white;
+            padding: 12px 16px;
+            border-radius: 9999px; /* Fully rounded */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            display: none; /* Hidden by default */
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+            z-index: 1000; /* Ensure it's on top */
+            font-size: 1.5rem; /* Larger arrow */
+            line-height: 1; /* Align arrow vertically */
+        }
+        #back-to-top:hover {
+            background-color: #4338ca; /* Indigo-700 */
+            transform: translateY(-2px);
+        }
+
+        /* Styles for typewriter text stability */
+        #typewriter-text {
+            min-width: 400px; /* Increased minimum width to prevent horizontal shifting */
+            white-space: nowrap; /* Prevent text from wrapping to a new line */
+            /* Removed display: inline-block; and line-height: 2rem; as flexbox will handle alignment */
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -43,16 +84,17 @@
             <!-- Your Name and Title -->
             <div class="text-center md:text-left mb-4 md:mb-0">
                 <h1 class="text-4xl font-bold mb-1">Glen Larkin</h1>
-                <p class="text-xl font-light opacity-90">IT Supervisor</p>
+                <!-- Container for typewriter effect -->
+                <p id="typewriter-text" class="text-xl font-light opacity-90 h-8 flex items-center justify-center md:justify-start"></p>
             </div>
             <!-- Navigation -->
             <nav>
                 <ul class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-lg font-medium">
-                    <li><a href="#about" class="hover:text-blue-200 transition duration-300 ease-in-out">About</a></li>
-                    <li><a href="#experience" class="hover:text-blue-200 transition duration-300 ease-in-out">Experience</a></li>
-                    <li><a href="#education" class="hover:text-blue-200 transition duration-300 ease-in-out">Education</a></li>
-                    <li><a href="#skills" class="hover:text-blue-200 transition duration-300 ease-in-out">Skills</a></li>
-                    <li><a href="#contact" class="hover:text-blue-200 transition duration-300 ease-in-out">Contact</a></li>
+                    <li><a href="#about" class="hover:text-blue-200 transition duration-300 ease-in-out nav-link">About</a></li>
+                    <li><a href="#experience" class="hover:text-blue-200 transition duration-300 ease-in-out nav-link">Experience</a></li>
+                    <li><a href="#education" class="hover:text-blue-200 transition duration-300 ease-in-out nav-link">Education</a></li>
+                    <li><a href="#skills" class="hover:text-blue-200 transition duration-300 ease-in-out nav-link">Skills</a></li>
+                    <li><a href="#contact" class="hover:text-blue-200 transition duration-300 ease-in-out nav-link">Contact</a></li>
                 </ul>
             </nav>
         </div>
@@ -62,7 +104,7 @@
     <main class="container mx-auto px-4 py-10 md:py-16">
 
         <!-- About Me Section -->
-        <section id="about" class="bg-white p-8 rounded-lg shadow-md mb-10 md:mb-16">
+        <section id="about" class="bg-white p-8 rounded-lg shadow-md mb-10 md:mb-16 scroll-reveal">
             <h2 class="text-3xl font-semibold text-blue-700 mb-6 border-b-2 border-blue-200 pb-2">About Me</h2>
             <p class="text-lg leading-relaxed text-gray-700">
                 Welcome to my profile! I am a highly motivated and results-oriented IT Supervisor with nine years of experience in user support and troubleshooting. I am passionate about Cybersecurity and dedicated to providing top-tier support. My expertise lies in leadership, automation, and problem-solving. I am always eager to learn new technologies and take on challenging projects.
@@ -73,7 +115,7 @@
         </section>
 
         <!-- Experience Section -->
-        <section id="experience" class="bg-white p-8 rounded-lg shadow-md mb-10 md:mb-16">
+        <section id="experience" class="bg-white p-8 rounded-lg shadow-md mb-10 md:mb-16 scroll-reveal">
             <h2 class="text-3xl font-semibold text-blue-700 mb-6 border-b-2 border-blue-200 pb-2">Experience</h2>
             <div class="space-y-8">
                 <!-- Job 1 -->
@@ -115,7 +157,7 @@
         </section>
 
         <!-- Education Section -->
-        <section id="education" class="bg-white p-8 rounded-lg shadow-md mb-10 md:mb-16">
+        <section id="education" class="bg-white p-8 rounded-lg shadow-md mb-10 md:mb-16 scroll-reveal">
             <h2 class="text-3xl font-semibold text-blue-700 mb-6 border-b-2 border-blue-200 pb-2">Education</h2>
             <div class="space-y-6">
                 <!-- Degree 1 -->
@@ -136,7 +178,7 @@
         </section>
 
         <!-- Skills Section -->
-        <section id="skills" class="bg-white p-8 rounded-lg shadow-md mb-10 md:mb-16">
+        <section id="skills" class="bg-white p-8 rounded-lg shadow-md mb-10 md:mb-16 scroll-reveal">
             <h2 class="text-3xl font-semibold text-blue-700 mb-6 border-b-2 border-blue-200 pb-2">Skills</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Technical Skills -->
@@ -185,7 +227,7 @@
         </section>
 
         <!-- Contact Section -->
-        <section id="contact" class="bg-white p-8 rounded-lg shadow-md">
+        <section id="contact" class="bg-white p-8 rounded-lg shadow-md scroll-reveal">
             <h2 class="text-3xl font-semibold text-blue-700 mb-6 border-b-2 border-blue-200 pb-2">Contact Me</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
@@ -202,7 +244,6 @@
                 <div>
                     <h3 class="text-xl font-semibold text-gray-800 mb-3">Send a Message</h3>
                     <form action="https://formspree.io/f/xanbkyry" method="POST" class="space-y-4">
-                        <!-- Note: This form is for display only. To make it functional, you'll need a backend service (e.g., Formspree, Netlify Forms) -->
                         <div>
                             <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
                             <input type="text" id="name" name="name" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Your Name">
@@ -233,5 +274,10 @@
         </div>
     </footer>
 
+    <!-- Back to Top Button -->
+    <button id="back-to-top" title="Go to top">&#9650;</button> <!-- Unicode for upward pointing triangle -->
+
+    <!-- Link to external JavaScript file -->
+    <script src="script.js"></script>
 </body>
 </html>
