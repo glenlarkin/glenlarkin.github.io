@@ -1,0 +1,76 @@
+/* Custom CSS to ensure Inter font is applied globally */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8fafc; /* Light blue-gray background */
+    color: #334155; /* Dark slate gray text */
+    overflow-x: hidden; /* Prevent horizontal scroll from animations */
+}
+/* Smooth scroll for navigation (CSS fallback/reinforcement) */
+html {
+    scroll-behavior: smooth;
+}
+/* Custom scrollbar for a cleaner look */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #e2e8f0;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+    background: #94a3b8;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #64748b;
+}
+
+/* Styles for scroll reveal animation */
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+.scroll-reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Styles for back to top button */
+#back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #4f46e5; /* Indigo-600 */
+    color: white;
+    padding: 12px 16px;
+    border-radius: 9999px; /* Fully rounded */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    display: none; /* Hidden by default */
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+    z-index: 1000; /* Ensure it's on top */
+    font-size: 1.5rem; /* Larger arrow */
+    line-height: 1; /* Align arrow vertically */
+}
+#back-to-top:hover {
+    background-color: #4338ca; /* Indigo-700 */
+    transform: translateY(-2px);
+}
+
+/* Styles for typewriter text stability */
+#typewriter-text {
+    height: 2rem; /* Explicit fixed height to prevent vertical shifts */
+    min-width: 400px; /* Keeps horizontal stability */
+    white-space: nowrap; /* Prevents text from wrapping */
+    display: flex; /* Enables flexbox for content alignment */
+    align-items: center; /* Vertically centers text within the fixed height */
+    justify-content: center; /* Horizontally centers text for mobile */
+}
+
+/* Media query to align text to the left on larger screens */
+@media (min-width: 768px) { /* Corresponds to Tailwind's 'md' breakpoint */
+    #typewriter-text {
+        justify-content: flex-start; /* Aligns text to the left for desktop */
+    }
+}

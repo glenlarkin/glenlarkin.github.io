@@ -8,74 +8,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts - Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* Custom CSS to ensure Inter font is applied globally */
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8fafc; /* Light blue-gray background */
-            color: #334155; /* Dark slate gray text */
-            overflow-x: hidden; /* Prevent horizontal scroll from animations */
-        }
-        /* Smooth scroll for navigation (CSS fallback/reinforcement) */
-        html {
-            scroll-behavior: smooth;
-        }
-        /* Custom scrollbar for a cleaner look */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #e2e8f0;
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #94a3b8;
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #64748b;
-        }
-
-        /* Styles for scroll reveal animation */
-        .scroll-reveal {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
-        .scroll-reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Styles for back to top button */
-        #back-to-top {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #4f46e5; /* Indigo-600 */
-            color: white;
-            padding: 12px 16px;
-            border-radius: 9999px; /* Fully rounded */
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            display: none; /* Hidden by default */
-            cursor: pointer;
-            transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
-            z-index: 1000; /* Ensure it's on top */
-            font-size: 1.5rem; /* Larger arrow */
-            line-height: 1; /* Align arrow vertically */
-        }
-        #back-to-top:hover {
-            background-color: #4338ca; /* Indigo-700 */
-            transform: translateY(-2px);
-        }
-
-        /* Styles for typewriter text stability */
-        #typewriter-text {
-            min-width: 400px; /* Increased minimum width to prevent horizontal shifting */
-            white-space: nowrap; /* Prevent text from wrapping to a new line */
-            /* Removed display: inline-block; and line-height: 2rem; as flexbox will handle alignment */
-        }
-    </style>
+    <!-- Link to external custom CSS file -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body class="antialiased">
     <!-- Header Section -->
@@ -85,7 +19,7 @@
             <div class="text-center md:text-left mb-4 md:mb-0">
                 <h1 class="text-4xl font-bold mb-1">Glen Larkin</h1>
                 <!-- Container for typewriter effect -->
-                <p id="typewriter-text" class="text-xl font-light opacity-90 h-8 flex items-center justify-center md:justify-start"></p>
+                <p id="typewriter-text" class="text-xl font-light opacity-90"></p>
             </div>
             <!-- Navigation -->
             <nav>
@@ -244,6 +178,7 @@
                 <div>
                     <h3 class="text-xl font-semibold text-gray-800 mb-3">Send a Message</h3>
                     <form action="https://formspree.io/f/xanbkyry" method="POST" class="space-y-4">
+                        <!-- Note: This form is for display only. To make it functional, you'll need a backend service (e.g., Formspree, Netlify Forms) -->
                         <div>
                             <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
                             <input type="text" id="name" name="name" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Your Name">
