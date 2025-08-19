@@ -4,6 +4,7 @@ body {
     background-color: #f8fafc; /* Light blue-gray background */
     color: #334155; /* Dark slate gray text */
     overflow-x: hidden; /* Prevent horizontal scroll from animations */
+    padding-top: 8rem; /* Add padding to push content below the fixed header */
 }
 /* Smooth scroll for navigation (CSS fallback/reinforcement) */
 html {
@@ -72,5 +73,26 @@ html {
 @media (min-width: 768px) { /* Corresponds to Tailwind's 'md' breakpoint */
     #typewriter-text {
         justify-content: flex-start; /* Aligns text to the left for desktop */
+    }
+}
+
+/* Gradient animation for the header */
+header {
+    position: fixed; /* Make the header stick to the top */
+    top: 0; /* Align it to the very top */
+    width: 100%; /* Ensure it spans the full width */
+    z-index: 999; /* Keep it on top of other content */
+    /* New background for continuous blue-purple cycle */
+    background-image: linear-gradient(to right, #2563eb, #4338ca, #2563eb); /* Blue -> Purple -> Blue */
+    background-size: 200% 100%; /* Make background wider than the element */
+    animation: smooth-color-cycle 3s linear infinite alternate; /* Animate it smoothly, now with alternating direction */
+}
+
+@keyframes smooth-color-cycle {
+    0% {
+        background-position: 0% 0; /* Start at left edge of background */
+    }
+    100% {
+        background-position: 100% 0; /* Shift background right by its own width (which is 200% of header) */
     }
 }
