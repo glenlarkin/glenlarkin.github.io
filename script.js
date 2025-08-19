@@ -16,7 +16,8 @@ const phrases = [
     "IT Supervisor",
     "Cybersecurity Enthusiast",
     "Systems Administrator",
-    "Problem Solver"
+    "Problem Solver",
+    "Technical Expert"
 ];
 let phraseIndex = 0;
 let charIndex = 0;
