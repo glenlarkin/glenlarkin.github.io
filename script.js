@@ -3,7 +3,16 @@ document.querySelectorAll('.nav-link').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
 
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        const headerOffset = document.querySelector('header').offsetHeight; // Get the height of the fixed header
+
+        // Calculate the position to scroll to, accounting for the header's height
+        const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+        const offsetPosition = elementPosition - headerOffset - 20; // Added extra 20px for a little buffer
+
+        window.scrollTo({
+            top: offsetPosition,
             behavior: 'smooth'
         });
     });
@@ -18,7 +27,7 @@ const phrases = [
     "Systems Administrator",
     "Problem Solver",
     "Technical Expert"
-];
+]
 let phraseIndex = 0;
 let charIndex = 0;
 let isDeleting = false;
