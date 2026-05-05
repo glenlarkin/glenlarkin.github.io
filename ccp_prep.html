@@ -1,0 +1,1650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CCP Exam Review — 2025/2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=IBM+Plex+Sans:wght@300;400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f14;
+    --surface: #13161e;
+    --surface2: #1a1e29;
+    --border: #252a38;
+    --accent: #00d4ff;
+    --accent2: #ff6b35;
+    --accent3: #7cfc5e;
+    --warn: #ffd166;
+    --text: #d4dbe8;
+    --muted: #6b7590;
+    --heading: #eef2ff;
+    --priority: rgba(255,107,53,0.12);
+    --priority-border: #ff6b35;
+    --correct: rgba(124,252,94,0.1);
+    --correct-border: #7cfc5e;
+    --wrong: rgba(255,80,80,0.1);
+    --wrong-border: #ff5050;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 28px 40px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+  }
+  .header-grid {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .header-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--heading);
+    letter-spacing: -0.5px;
+  }
+  .header-meta {
+    text-align: right;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.9;
+  }
+  .meta-pill {
+    display: inline-block;
+    background: rgba(0,212,255,0.1);
+    color: var(--accent);
+    border: 1px solid rgba(0,212,255,0.3);
+    border-radius: 4px;
+    padding: 1px 8px;
+    font-size: 11px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  /* ── EXAM SNAPSHOT ── */
+  .snapshot {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    padding: 20px 40px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+  .snap-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    text-align: center;
+  }
+  .snap-val {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .snap-label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 2px;
+  }
+
+  /* ── NAV TABS ── */
+  .tab-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tab-bar::-webkit-scrollbar { display: none; }
+  .tab {
+    padding: 14px 18px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    color: var(--muted);
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+    transition: color 0.2s, border-color 0.2s;
+    user-select: none;
+    flex-shrink: 0;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab.priority { }
+  .tab.priority.active { color: var(--accent2); border-bottom-color: var(--accent2); }
+
+  /* ── CONTENT ── */
+  .main { padding: 32px 40px 60px; max-width: 1100px; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* ── DOMAIN HEADER ── */
+  .domain-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .domain-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .domain-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--heading);
+    flex: 1;
+  }
+  .domain-weight {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: rgba(0,212,255,0.1);
+    color: var(--accent);
+    border: 1px solid rgba(0,212,255,0.25);
+  }
+  .domain-weight.high {
+    background: rgba(255,107,53,0.12);
+    color: var(--accent2);
+    border-color: rgba(255,107,53,0.35);
+  }
+  .priority-banner {
+    background: var(--priority);
+    border: 1px solid var(--priority-border);
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 13px;
+    color: var(--accent2);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .priority-banner::before { content: '★ '; font-size: 14px; }
+
+  /* ── CONTENT BLOCKS ── */
+  h2 {
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent);
+    margin: 32px 0 14px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  h2.orange { color: var(--accent2); border-bottom-color: rgba(255,107,53,0.3); }
+  h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--heading);
+    margin: 20px 0 10px;
+  }
+  p { margin-bottom: 12px; }
+
+  .card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+  }
+  .card-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--heading);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .tag-blue { background: rgba(0,212,255,0.1); color: var(--accent); border: 1px solid rgba(0,212,255,0.2); }
+  .tag-orange { background: rgba(255,107,53,0.1); color: var(--accent2); border: 1px solid rgba(255,107,53,0.2); }
+  .tag-green { background: rgba(124,252,94,0.1); color: var(--accent3); border: 1px solid rgba(124,252,94,0.2); }
+  .tag-yellow { background: rgba(255,209,102,0.1); color: var(--warn); border: 1px solid rgba(255,209,102,0.2); }
+
+  ul, ol {
+    padding-left: 20px;
+    margin-bottom: 12px;
+  }
+  li { margin-bottom: 5px; }
+  li strong { color: var(--heading); }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+  @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
+
+  .table-wrap { overflow-x: auto; margin-bottom: 16px; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+  }
+  th {
+    background: var(--surface2);
+    color: var(--heading);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  td {
+    padding: 9px 14px;
+    border-bottom: 1px solid rgba(37,42,56,0.6);
+    vertical-align: top;
+  }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+  td strong { color: var(--heading); }
+  td code, p code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    background: rgba(0,212,255,0.08);
+    color: var(--accent);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+
+  .callout {
+    border-left: 3px solid var(--accent);
+    background: rgba(0,212,255,0.05);
+    padding: 12px 16px;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 14px;
+    font-size: 13.5px;
+  }
+  .callout.orange { border-left-color: var(--accent2); background: rgba(255,107,53,0.05); }
+  .callout.green { border-left-color: var(--accent3); background: rgba(124,252,94,0.05); }
+  .callout.yellow { border-left-color: var(--warn); background: rgba(255,209,102,0.05); }
+
+  /* ── PRACTICE QUESTIONS ── */
+  .pq-section { margin-top: 36px; }
+  .pq-header {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: var(--warn);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .pq-header::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  .pq {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 14px;
+    overflow: hidden;
+  }
+  .pq-q {
+    padding: 16px 20px;
+    cursor: pointer;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    transition: background 0.2s;
+  }
+  .pq-q:hover { background: rgba(255,255,255,0.02); }
+  .pq-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--warn);
+    min-width: 26px;
+    padding-top: 2px;
+  }
+  .pq-text { flex: 1; font-size: 14px; color: var(--text); }
+  .pq-chevron {
+    font-size: 12px;
+    color: var(--muted);
+    padding-top: 3px;
+    transition: transform 0.2s;
+  }
+  .pq.open .pq-chevron { transform: rotate(180deg); }
+
+  .pq-options {
+    padding: 0 20px 0 58px;
+    display: none;
+  }
+  .pq.open .pq-options { display: block; }
+  .pq-opt {
+    padding: 7px 12px;
+    margin: 4px 0;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13.5px;
+    border: 1px solid transparent;
+    transition: background 0.15s, border-color 0.15s;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .pq-opt:hover { background: rgba(255,255,255,0.04); border-color: var(--border); }
+  .pq-opt .opt-letter {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    min-width: 18px;
+    padding-top: 2px;
+    color: var(--muted);
+  }
+  .pq-opt.correct { background: var(--correct); border-color: var(--correct-border); color: var(--accent3); }
+  .pq-opt.wrong { background: var(--wrong); border-color: var(--wrong-border); color: #ff8080; }
+  .pq-opt.correct .opt-letter { color: var(--accent3); }
+  .pq-opt.wrong .opt-letter { color: #ff8080; }
+  .pq-opt.disabled { cursor: default; pointer-events: none; }
+
+  .pq-explain {
+    display: none;
+    margin: 8px 0 14px;
+    background: rgba(0,0,0,0.25);
+    border-left: 3px solid var(--accent3);
+    padding: 10px 14px;
+    font-size: 13px;
+    border-radius: 0 6px 6px 0;
+    color: var(--text);
+  }
+  .pq-explain.show { display: block; }
+  .pq-explain strong { color: var(--accent3); }
+
+  /* ── SCORE BAR ── */
+  .score-bar-wrap {
+    position: sticky;
+    bottom: 0;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 10px 40px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 13px;
+    z-index: 50;
+  }
+  .score-text { font-family: 'IBM Plex Mono', monospace; color: var(--muted); }
+  .score-num { color: var(--warn); font-weight: 600; }
+  .reset-btn {
+    margin-left: auto;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 12px;
+    padding: 5px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .reset-btn:hover { color: var(--text); border-color: var(--text); }
+
+  /* ── PROGRESS RING ── */
+  .domain-progress {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  .dp-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .dp-item:hover { border-color: var(--accent); }
+  .dp-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--muted);
+    flex-shrink: 0;
+  }
+  .dp-item.active .dp-dot { background: var(--accent); }
+  .dp-item.priority-domain .dp-dot { background: var(--accent2); }
+
+  /* ── CAP FLOW ── */
+  .flow-row {
+    display: flex;
+    gap: 0;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .flow-step {
+    flex: 1;
+    min-width: 110px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 12px 14px;
+    text-align: center;
+    position: relative;
+    font-size: 12px;
+  }
+  .flow-step:not(:last-child)::after {
+    content: '▶';
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--accent);
+    font-size: 11px;
+    z-index: 1;
+  }
+  .flow-step:first-child { border-radius: 8px 0 0 8px; }
+  .flow-step:last-child { border-radius: 0 8px 8px 0; }
+  .flow-step-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .flow-step-label { color: var(--heading); font-weight: 600; }
+  .flow-step-sub { color: var(--muted); font-size: 11px; margin-top: 3px; }
+
+  /* ── OVERVIEW ── */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  .ov-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+    position: relative;
+    overflow: hidden;
+  }
+  .ov-card:hover { border-color: var(--accent); transform: translateY(-1px); }
+  .ov-card.priority:hover { border-color: var(--accent2); }
+  .ov-bar {
+    position: absolute;
+    bottom: 0; left: 0;
+    height: 3px;
+    background: var(--accent);
+    transition: width 0.5s;
+  }
+  .ov-card.priority .ov-bar { background: var(--accent2); }
+  .ov-domain { font-size: 11px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; margin-bottom: 4px; }
+  .ov-name { font-size: 14px; font-weight: 600; color: var(--heading); margin-bottom: 8px; }
+  .ov-pct { font-family: 'IBM Plex Mono', monospace; font-size: 20px; color: var(--accent); }
+  .ov-card.priority .ov-pct { color: var(--accent2); }
+  .ov-qs { font-size: 11px; color: var(--muted); }
+
+  .time-guide {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+  }
+  .time-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13.5px;
+  }
+  .time-row:last-child { border-bottom: none; }
+  .time-row-name { display: flex; align-items: center; gap: 8px; }
+  .time-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  .priority-dot { background: var(--accent2); }
+  .time-mins { font-family: 'IBM Plex Mono', monospace; color: var(--warn); font-size: 13px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-grid">
+    <div>
+      <div class="header-label">CCP Exam Review · CMMC v2.0</div>
+      <h1>Certified CMMC Professional</h1>
+      <p style="color:var(--muted);font-size:13px;margin-top:6px;">Advanced Review Guide · 2–3 Hour Session · All 6 Domains</p>
+    </div>
+    <div class="header-meta">
+      <span class="meta-pill">170 Q / 3.5 HRS</span><br>
+      Pass Score: 500 (scaled)<br>
+      Cyber AB · Meazure Learning<br>
+      Updated 2025/2026
+    </div>
+  </div>
+</div>
+
+<div class="snapshot">
+  <div class="snap-card"><div class="snap-val">170</div><div class="snap-label">Questions</div></div>
+  <div class="snap-card"><div class="snap-val">3.5h</div><div class="snap-label">Time Limit</div></div>
+  <div class="snap-card"><div class="snap-val">500</div><div class="snap-label">Passing Score</div></div>
+  <div class="snap-card"><div class="snap-val">6</div><div class="snap-label">Domains</div></div>
+  <div class="snap-card"><div class="snap-val">110</div><div class="snap-label">NIST Practices</div></div>
+  <div class="snap-card"><div class="snap-val">14</div><div class="snap-label">Security Domains</div></div>
+</div>
+
+<div class="tab-bar" id="tabBar">
+  <div class="tab active" data-tab="overview">Overview</div>
+  <div class="tab" data-tab="d1">D1 · Ecosystem</div>
+  <div class="tab" data-tab="d2">D2 · Ethics</div>
+  <div class="tab priority" data-tab="d3">D3 · Governance ★</div>
+  <div class="tab" data-tab="d4">D4 · Model</div>
+  <div class="tab priority" data-tab="d5">D5 · CAP ★</div>
+  <div class="tab" data-tab="d6">D6 · Scoping</div>
+  <div class="tab" data-tab="practice">All Practice Qs</div>
+</div>
+
+<div class="main">
+
+<!-- ═══════════ OVERVIEW ═══════════ -->
+<div class="section active" id="overview">
+  <h2>Exam Roadmap</h2>
+  <div class="overview-grid">
+    <div class="ov-card" onclick="switchTab('d1')">
+      <div class="ov-domain">DOMAIN 1</div>
+      <div class="ov-name">CMMC Ecosystem</div>
+      <div class="ov-pct">5%</div>
+      <div class="ov-qs">~8–9 questions</div>
+      <div class="ov-bar" style="width:5%"></div>
+    </div>
+    <div class="ov-card" onclick="switchTab('d2')">
+      <div class="ov-domain">DOMAIN 2</div>
+      <div class="ov-name">Code of Professional Conduct</div>
+      <div class="ov-pct">5%</div>
+      <div class="ov-qs">~8–9 questions</div>
+      <div class="ov-bar" style="width:5%"></div>
+    </div>
+    <div class="ov-card priority" onclick="switchTab('d3')">
+      <div class="ov-domain">DOMAIN 3 ★ PRIORITY</div>
+      <div class="ov-name">Governance & Source Documents</div>
+      <div class="ov-pct">15%</div>
+      <div class="ov-qs">~25–26 questions</div>
+      <div class="ov-bar" style="width:15%"></div>
+    </div>
+    <div class="ov-card" onclick="switchTab('d4')">
+      <div class="ov-domain">DOMAIN 4</div>
+      <div class="ov-name">Model Construct & Implementation</div>
+      <div class="ov-pct">25–35%</div>
+      <div class="ov-qs">~42–60 questions</div>
+      <div class="ov-bar" style="width:30%"></div>
+    </div>
+    <div class="ov-card priority" onclick="switchTab('d5')">
+      <div class="ov-domain">DOMAIN 5 ★ PRIORITY</div>
+      <div class="ov-name">CMMC Assessment Process (CAP)</div>
+      <div class="ov-pct">35–40%</div>
+      <div class="ov-qs">~60–68 questions</div>
+      <div class="ov-bar" style="width:40%"></div>
+    </div>
+    <div class="ov-card" onclick="switchTab('d6')">
+      <div class="ov-domain">DOMAIN 6</div>
+      <div class="ov-name">Scoping</div>
+      <div class="ov-pct">15–20%</div>
+      <div class="ov-qs">~25–34 questions</div>
+      <div class="ov-bar" style="width:18%"></div>
+    </div>
+  </div>
+
+  <h2>Suggested 2–3 Hour Study Schedule</h2>
+  <div class="time-guide">
+    <div class="time-row"><div class="time-row-name"><div class="time-dot priority-dot"></div>Domain 3 · Governance & Source Docs <span class="tag tag-orange">Priority</span></div><div class="time-mins">25 min</div></div>
+    <div class="time-row"><div class="time-row-name"><div class="time-dot priority-dot"></div>Domain 5 · CMMC Assessment Process <span class="tag tag-orange">Priority</span></div><div class="time-mins">40 min</div></div>
+    <div class="time-row"><div class="time-row-name"><div class="time-dot"></div>Domain 4 · Model Construct & Implementation</div><div class="time-mins">35 min</div></div>
+    <div class="time-row"><div class="time-row-name"><div class="time-dot"></div>Domain 6 · Scoping</div><div class="time-mins">25 min</div></div>
+    <div class="time-row"><div class="time-row-name"><div class="time-dot"></div>Domain 1 · Ecosystem</div><div class="time-mins">10 min</div></div>
+    <div class="time-row"><div class="time-row-name"><div class="time-dot"></div>Domain 2 · Ethics / CoPC</div><div class="time-mins">10 min</div></div>
+    <div class="time-row"><div class="time-row-name"><div class="time-dot" style="background:var(--warn)"></div>Practice Questions (all domains)</div><div class="time-mins">35 min</div></div>
+  </div>
+
+  <h2>Key Source Documents — Quick Reference</h2>
+  <div class="callout yellow">These documents are tested directly. Know the relationship between each one — many questions hinge on knowing which source document governs what.</div>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Document</th><th>What It Governs</th><th>Key Link</th></tr>
+      <tr><td><strong>CMMC 2.0 Final Rule (32 CFR Part 170)</strong></td><td>The CMMC program rule itself — levels, requirements, certification paths</td><td>DoD / OUSD(A&S)</td></tr>
+      <tr><td><strong>DFARS 252.204-7012</strong></td><td>Safeguarding Covered Defense Information; mandates NIST SP 800-171 compliance</td><td>Existing contract clause</td></tr>
+      <tr><td><strong>DFARS 252.204-7019 / 7020 / 7021</strong></td><td>7019: SPRS score requirement; 7020: allows DoD to review SSP; 7021: requires CMMC certification</td><td>CMMC-level contracts</td></tr>
+      <tr><td><strong>NIST SP 800-171 Rev 2</strong></td><td>110 security requirements for protecting CUI; basis of CMMC Level 2</td><td>Maps to 14 domains</td></tr>
+      <tr><td><strong>NIST SP 800-172</strong></td><td>Enhanced security requirements for CUI (Level 3 baseline)</td><td>Critical programs only</td></tr>
+      <tr><td><strong>NIST SP 800-171A</strong></td><td>Assessment procedures for 800-171 controls — drives examination/interview/test methods</td><td>Used in CAP</td></tr>
+      <tr><td><strong>48 CFR Part 52 / FAR 52.204-21</strong></td><td>Basic Safeguarding of Covered Contractor Information Systems; 15 practices for FCI</td><td>Level 1 baseline</td></tr>
+      <tr><td><strong>32 CFR Part 2002 (CUI Rule)</strong></td><td>ISOO CUI program; definitions, markings, categories</td><td>Authoritative for CUI</td></tr>
+      <tr><td><strong>CMMC Assessment Process (CAP) Document</strong></td><td>Cyber AB's official document governing how C3PAO assessments are conducted</td><td>C3PAO / assessment teams</td></tr>
+    </table>
+  </div>
+
+  <h2>High-Frequency Exam Terms</h2>
+  <div class="two-col">
+    <div class="card">
+      <div class="card-title">Information Categories <span class="tag tag-blue">Know Cold</span></div>
+      <ul>
+        <li><strong>FCI</strong> – Federal Contract Information: info provided by or generated for the Government under a contract. NOT intended for public release. Requires <em>basic safeguarding</em> (FAR 52.204-21, 15 practices).</li>
+        <li><strong>CUI</strong> – Controlled Unclassified Information: information the Government creates or possesses that requires safeguarding per law/policy. Requires NIST 800-171 (CMMC Level 2).</li>
+        <li><strong>CDI</strong> – Covered Defense Information: umbrella term per DFARS 7012; includes CUI and operationally critical technical data.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Key Acronyms <span class="tag tag-blue">Tested</span></div>
+      <ul>
+        <li><strong>OSC</strong> – Organization Seeking Certification</li>
+        <li><strong>C3PAO</strong> – CMMC Third-Party Assessor Organization</li>
+        <li><strong>CCA</strong> – Certified CMMC Assessor</li>
+        <li><strong>CCP</strong> – Certified CMMC Professional (you)</li>
+        <li><strong>CCI</strong> – Certified CMMC Instructor</li>
+        <li><strong>DIB</strong> – Defense Industrial Base</li>
+        <li><strong>SPRS</strong> – Supplier Performance Risk System (score repository)</li>
+        <li><strong>POA&M</strong> – Plan of Action & Milestones</li>
+        <li><strong>SSP</strong> – System Security Plan</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ DOMAIN 1 ═══════════ -->
+<div class="section" id="d1">
+  <div class="domain-header">
+    <div>
+      <div class="domain-num">Domain 1</div>
+      <div class="domain-title">CMMC Ecosystem</div>
+    </div>
+    <div class="domain-weight">5% of Exam</div>
+  </div>
+
+  <h2>Ecosystem Roles & Relationships</h2>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Entity</th><th>Role</th><th>Key Facts</th></tr>
+      <tr><td><strong>OUSD(A&S)</strong></td><td>Policy owner</td><td>Under Secretary of Defense for Acquisition & Sustainment. Owns CMMC program policy and rulemaking (32 CFR Part 170).</td></tr>
+      <tr><td><strong>Cyber AB (formerly CMMC-AB)</strong></td><td>Accreditation body</td><td>Non-profit authorized by DoD. Accredits C3PAOs, certifies CCPs/CCAs/CCIs. Maintains marketplace. Issues Code of Professional Conduct.</td></tr>
+      <tr><td><strong>CAICO</strong></td><td>Compliance & enforcement</td><td>CMMC Accreditation Institute Compliance Organization — investigates CoPC violations.</td></tr>
+      <tr><td><strong>C3PAO</strong></td><td>Conducts L2/L3 assessments</td><td>Must be Cyber AB–accredited. Employs Lead CCA + assessment team. Cannot consult for the same OSC they assess (conflict of interest).</td></tr>
+      <tr><td><strong>RPO</strong></td><td>Consulting / readiness</td><td>Registered Practitioner Organization — helps OSCs prepare. <em>Cannot</em> conduct formal assessments. Employs CCPs.</td></tr>
+      <tr><td><strong>OSC</strong></td><td>The contractor being assessed</td><td>Organization Seeking Certification. Responsible for their own compliance, SSP, evidence.</td></tr>
+      <tr><td><strong>DCSA</strong></td><td>DoD L3 government-led assessments</td><td>Defense Counterintelligence and Security Agency — conducts Level 3 assessments on behalf of DoD.</td></tr>
+    </table>
+  </div>
+
+  <h2>CCP Role & Boundaries</h2>
+  <div class="callout">A CCP can <strong>support</strong> assessments under CCA supervision but cannot <strong>lead</strong> them. Know the line between what a CCP vs. CCA vs. Lead CCA is authorized to do.</div>
+  <ul>
+    <li>CCP: Can be on assessment team, collect evidence, support gap analysis. Employed by RPOs and C3PAOs.</li>
+    <li>CCA: Can lead and sign off on CMMC assessments. Requires passing CCA exam + mentored assessment hours.</li>
+    <li>Lead CCA: Leads the entire assessment engagement; final responsible party for the report.</li>
+  </ul>
+
+  <h2>Conflict of Interest Rules</h2>
+  <div class="card">
+    <div class="card-title">Prohibited Scenarios <span class="tag tag-orange">Tested</span></div>
+    <ul>
+      <li>Same C3PAO <strong>cannot</strong> both consult/prepare an OSC <em>and</em> conduct their CMMC assessment (consulting taint).</li>
+      <li>An assessor <strong>cannot</strong> assess an organization where they have a financial or employment interest.</li>
+      <li>CCPs/CCAs must disclose conflicts before being assigned to engagements.</li>
+      <li>Marketplace listing does not imply endorsement of any specific OSC relationship.</li>
+    </ul>
+  </div>
+
+  <div class="pq-section">
+    <div class="pq-header">Practice Questions · Domain 1</div>
+
+    <div class="pq" data-correct="B">
+      <div class="pq-q" onclick="toggleQ(this)">
+        <div class="pq-num">Q1</div>
+        <div class="pq-text">An RPO has been helping an OSC prepare for their Level 2 CMMC assessment for six months. The OSC now asks the same RPO to conduct the formal certification assessment. What is the correct course of action?</div>
+        <div class="pq-chevron">▼</div>
+      </div>
+      <div class="pq-options">
+        <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> The RPO may conduct the assessment since they are already familiar with the OSC's environment.</div>
+        <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> The RPO cannot conduct the assessment; a separate, unaffiliated C3PAO must be engaged.</div>
+        <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> The RPO can conduct the assessment if a CCA from a different RPO is the lead assessor.</div>
+        <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> The assessment is allowed if the OSC signs a conflict-of-interest waiver.</div>
+        <div class="pq-explain">✓ <strong>B is correct.</strong> RPOs are consulting organizations only — they cannot conduct formal CMMC certification assessments. Additionally, consulting for and then assessing the same OSC is explicitly prohibited as a conflict of interest. Only accredited C3PAOs may conduct certification assessments.</div>
+      </div>
+    </div>
+
+    <div class="pq" data-correct="C">
+      <div class="pq-q" onclick="toggleQ(this)">
+        <div class="pq-num">Q2</div>
+        <div class="pq-text">Which entity is responsible for investigating potential Code of Professional Conduct violations against a Certified CMMC Professional?</div>
+        <div class="pq-chevron">▼</div>
+      </div>
+      <div class="pq-options">
+        <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> OUSD(A&S)</div>
+        <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> The C3PAO that employed the individual</div>
+        <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> CAICO (CMMC Accreditation Institute Compliance Organization)</div>
+        <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> DCSA</div>
+        <div class="pq-explain">✓ <strong>C is correct.</strong> CAICO is the enforcement arm of the Cyber AB ecosystem responsible for investigating CoPC violations. OUSD(A&S) owns policy, not individual conduct enforcement.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ DOMAIN 2 ═══════════ -->
+<div class="section" id="d2">
+  <div class="domain-header">
+    <div>
+      <div class="domain-num">Domain 2</div>
+      <div class="domain-title">Code of Professional Conduct (Ethics)</div>
+    </div>
+    <div class="domain-weight">5% of Exam</div>
+  </div>
+
+  <h2>CoPC Core Pillars</h2>
+  <div class="two-col">
+    <div class="card">
+      <div class="card-title">Professionalism</div>
+      <ul>
+        <li>Represent credentials accurately; only claim certifications you hold.</li>
+        <li>Perform only work within your competence level.</li>
+        <li>Maintain continuing education requirements for certification renewal.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Objectivity / Independence</div>
+      <ul>
+        <li>Assessors must remain free of bias and conflict of interest.</li>
+        <li>Cannot allow personal relationships to influence assessment outcomes.</li>
+        <li>Results must be based solely on evidence.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Confidentiality</div>
+      <ul>
+        <li>Protect all information obtained during assessments — including SSPs, network diagrams, and findings.</li>
+        <li>OSC data cannot be shared without authorization.</li>
+        <li>Confidentiality obligations survive after an engagement ends.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Proper Use of Materials</div>
+      <ul>
+        <li>Do not reproduce, distribute, or share proprietary CMMC training materials.</li>
+        <li>Exam content is confidential — sharing questions is a CoPC violation.</li>
+        <li>Includes materials from Cyber AB, LTPs, and official source documents.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout orange">Exam questions often present scenarios and ask you to identify <em>which CoPC principle was violated</em>. Map each scenario to: Professionalism, Objectivity, Confidentiality, or Proper Use.</div>
+
+  <div class="pq-section">
+    <div class="pq-header">Practice Questions · Domain 2</div>
+    <div class="pq" data-correct="D">
+      <div class="pq-q" onclick="toggleQ(this)">
+        <div class="pq-num">Q3</div>
+        <div class="pq-text">A CCP who recently completed an assessment casually mentions specific findings from an OSC's assessment to colleagues at an industry conference. Which CoPC principle has been violated?</div>
+        <div class="pq-chevron">▼</div>
+      </div>
+      <div class="pq-options">
+        <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> Professionalism</div>
+        <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> Objectivity</div>
+        <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> Proper Use of Materials</div>
+        <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> Confidentiality</div>
+        <div class="pq-explain">✓ <strong>D is correct.</strong> Sharing specific assessment findings outside authorized channels — even informally — is a violation of the Confidentiality obligation. Confidentiality persists after the engagement concludes.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ DOMAIN 3 ═══════════ -->
+<div class="section" id="d3">
+  <div class="domain-header">
+    <div>
+      <div class="domain-num">Domain 3</div>
+      <div class="domain-title">Governance & Source Documents</div>
+    </div>
+    <div class="domain-weight high">15% — Priority ★</div>
+  </div>
+
+  <div class="priority-banner">This is a priority area for your review. Focus on the regulatory chain, information type definitions, and how each source document flows into CMMC requirements.</div>
+
+  <h2 class="orange">The Regulatory Chain</h2>
+  <div class="callout orange">The exam tests whether you understand the <em>hierarchy</em> of requirements — from federal law → DoD policy → contract clause → CMMC requirement. Many wrong answers confuse which layer governs what.</div>
+
+  <div class="flow-row">
+    <div class="flow-step"><div class="flow-step-num">01</div><div class="flow-step-label">Federal Law</div><div class="flow-step-sub">FISMA, E.O. 13556</div></div>
+    <div class="flow-step"><div class="flow-step-num">02</div><div class="flow-step-label">DoD Regulation</div><div class="flow-step-sub">32 CFR 170</div></div>
+    <div class="flow-step"><div class="flow-step-num">03</div><div class="flow-step-label">Contract Clauses</div><div class="flow-step-sub">DFARS 252.204</div></div>
+    <div class="flow-step"><div class="flow-step-num">04</div><div class="flow-step-label">NIST Standards</div><div class="flow-step-sub">800-171, 800-172</div></div>
+    <div class="flow-step"><div class="flow-step-num">05</div><div class="flow-step-label">CMMC Model</div><div class="flow-step-sub">L1 / L2 / L3</div></div>
+  </div>
+
+  <h2 class="orange">DFARS Clauses — Critical Distinctions</h2>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Clause</th><th>Requirement</th><th>Who It Applies To</th></tr>
+      <tr><td><code>252.204-7012</code></td><td>Safeguard Covered Defense Information; report cyber incidents to DIBNet within 72 hours; preserve images 90 days; report malicious software</td><td>All contractors handling CDI/CUI</td></tr>
+      <tr><td><code>252.204-7019</code></td><td>Notice of NIST SP 800-171 DoD Assessment Req. — contractor must complete NIST 800-171 assessment and post score to SPRS</td><td>Contractors before award</td></tr>
+      <tr><td><code>252.204-7020</code></td><td>NIST SP 800-171 DoD Assessment Requirements — gives DoD right to review contractor's SSP and assessment results</td><td>Contractors post-award</td></tr>
+      <tr><td><code>252.204-7021</code></td><td>CMMC Level Requirements — specifies the required CMMC level; contractor must achieve and maintain it</td><td>Contracts requiring CMMC cert</td></tr>
+    </table>
+  </div>
+
+  <h2 class="orange">FCI vs. CUI — Master This</h2>
+  <div class="two-col">
+    <div class="card">
+      <div class="card-title">FCI <span class="tag tag-blue">Federal Contract Information</span></div>
+      <ul>
+        <li>Information provided by or generated for the Government under a contract.</li>
+        <li><strong>Not</strong> intended for public release.</li>
+        <li>Governed by <strong>FAR 52.204-21</strong> (15 basic safeguarding practices).</li>
+        <li>Requires <strong>CMMC Level 1</strong> (17 practices, annual self-assessment).</li>
+        <li>Does NOT include information provided to the public or simple transactional data (price lists, etc.).</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">CUI <span class="tag tag-orange">Controlled Unclassified Information</span></div>
+      <ul>
+        <li>Information the Government creates or possesses that requires safeguarding per law, regulation, or policy.</li>
+        <li>Governed by <strong>32 CFR Part 2002</strong> and the CUI Registry (ISOO).</li>
+        <li>Handling, marking, and destruction governed by CUI markings (e.g., CUI//SP-CTI).</li>
+        <li>Requires <strong>CMMC Level 2</strong> (110 practices from NIST 800-171).</li>
+        <li>All CUI is a subset of CDI under DFARS 7012.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout yellow"><strong>Key distinction:</strong> FCI flows under a contract. CUI is designated by a Government agency and requires specific handling. A contractor can have FCI <em>without</em> having CUI.</div>
+
+  <h2 class="orange">CMMC Level Structure</h2>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Level</th><th>Name</th><th>Practices</th><th>Source</th><th>Assessment</th><th>For</th></tr>
+      <tr><td><strong>L1</strong></td><td>Foundational</td><td>17</td><td>FAR 52.204-21</td><td>Annual self-assessment, affirmed to SPRS</td><td>Contractors with FCI only</td></tr>
+      <tr><td><strong>L2</strong></td><td>Advanced</td><td>110</td><td>NIST SP 800-171 Rev 2</td><td>Triennial third-party (C3PAO) <em>or</em> self-assessment (some programs)</td><td>Contractors with CUI</td></tr>
+      <tr><td><strong>L3</strong></td><td>Expert</td><td>110 + 24</td><td>NIST SP 800-171 + 800-172 subset</td><td>Government-led (DCSA)</td><td>Critical programs, highest-risk CUI</td></tr>
+    </table>
+  </div>
+
+  <h2 class="orange">POA&M Rules</h2>
+  <div class="callout">Plan of Action & Milestones (POA&M) rules differ by level. This is tested frequently.</div>
+  <ul>
+    <li>For Level 2 third-party assessments: limited POA&M is allowed for certain practices, but there is a <strong>minimum floor score</strong> — a contractor cannot achieve CMMC if their score is below the threshold, regardless of POA&M.</li>
+    <li>POA&M items must have realistic, achievable timelines — they are a commitment, not a parking lot.</li>
+    <li>Critical/high-impact practices cannot be left on a POA&M; they must be MET at time of assessment.</li>
+    <li>Closing the POA&M triggers a follow-up or confirmation assessment before certification is awarded.</li>
+  </ul>
+
+  <div class="pq-section">
+    <div class="pq-header">Practice Questions · Domain 3</div>
+
+    <div class="pq" data-correct="B">
+      <div class="pq-q" onclick="toggleQ(this)">
+        <div class="pq-num">Q4</div>
+        <div class="pq-text">A prime contractor generates reports documenting technical specifications used during weapon system development for the DoD. These reports are shared with a subcontractor. Which information category BEST describes these reports?</div>
+        <div class="pq-chevron">▼</div>
+      </div>
+      <div class="pq-options">
+        <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> FCI only — it was generated under a DoD contract.</div>
+        <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> CUI — technical specifications for weapon systems are a controlled category under the CUI Registry.</div>
+        <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> Classified information — weapon system data is always classified.</div>
+        <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> CDI only — not CUI since it flows through a subcontractor.</div>
+        <div class="pq-explain">✓ <strong>B is correct.</strong> Weapon system technical specifications fall under controlled CUI categories (CTI/ITAR-related categories). CUI designation is based on content, not just contract origin. Note: CUI and classified information are mutually exclusive — CUI is <em>unclassified</em>.</div>
+      </div>
+    </div>
+
+    <div class="pq" data-correct="A">
+      <div class="pq-q" onclick="toggleQ(this)">
+        <div class="pq-num">Q5</div>
+        <div class="pq-text">A contractor discovers that their SPRS score is -147 and has not been updated in 18 months. A new contract under DFARS 252.204-7019 is being awarded. What is the contractor's immediate obligation?</div>
+        <div class="pq-chevron">▼</div>
+      </div>
+      <div class="pq-options">
+        <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> Complete a current NIST SP 800-171 self-assessment, establish a POA&M, and post the updated score to SPRS before contract award.</div>
+        <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> Immediately achieve a passing CMMC Level 2 certification before proceeding.</div>
+        <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> Submit an exception request to DoD explaining the low score.</div>
+        <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> No action is required; SPRS scores are advisory only under 252.204-7019.</div>
+        <div class="pq-explain">✓ <strong>A is correct.</strong> Under DFARS 252.204-7019, contractors must have a current (within 3 years) NIST 800-171 self-assessment score posted in SPRS prior to award. A current score with an active POA&M is acceptable for the SPRS requirement — CMMC certification is a separate, phased requirement under 252.204-7021.</div>
+      </div>
+    </div>
+
+    <div class="pq" data-correct="C">
+      <div class="pq-q" onclick="toggleQ(this)">
+        <div class="pq-num">Q6</div>
+        <div class="pq-text">Which DFARS clause specifically grants the DoD Contracting Officer the right to review a contractor's System Security Plan?</div>
+        <div class="pq-chevron">▼</div>
+      </div>
+      <div class="pq-options">
+        <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> DFARS 252.204-7012</div>
+        <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> DFARS 252.204-7019</div>
+        <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> DFARS 252.204-7020</div>
+        <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> DFARS 252.204-7021</div>
+        <div class="pq-explain">✓ <strong>C is correct.</strong> 252.204-7020 gives the DoD the right to review a contractor's SSP and supporting assessment documentation. 7019 requires the assessment to happen; 7020 allows DoD to verify it. 7021 is the future-forward clause that will require CMMC certification in contracts.</div>
+      </div>
+    </div>
+
+    <div class="pq" data-correct="D">
+      <div class="pq-q" onclick="toggleQ(this)">
+        <div class="pq-num">Q7</div>
+        <div class="pq-text">Under 32 CFR Part 170, which CMMC level requires a Government-led assessment conducted by DCSA?</div>
+        <div class="pq-chevron">▼</div>
+      </div>
+      <div class="pq-options">
+        <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> Level 1</div>
+        <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> Level 2 (all contracts)</div>
+        <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> Level 2 (critical programs)</div>
+        <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> Level 3</div>
+        <div class="pq-explain">✓ <strong>D is correct.</strong> Level 3 assessments are Government-led and conducted by DCSA. Level 2 third-party assessments are conducted by accredited C3PAOs. Level 1 uses annual self-assessments. This is a clean, testable distinction.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ DOMAIN 4 ═══════════ -->
+<div class="section" id="d4">
+  <div class="domain-header">
+    <div>
+      <div class="domain-num">Domain 4</div>
+      <div class="domain-title">CMMC Model Construct & Implementation Evaluation</div>
+    </div>
+    <div class="domain-weight">25–35% of Exam</div>
+  </div>
+
+  <h2>The 14 CMMC Security Domains</h2>
+  <div class="callout">These map directly from NIST SP 800-171. Know each domain abbreviation, approximate practice count at L2, and what it governs. Scenario questions will test whether you can assign a control to the right domain.</div>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Abbr</th><th>Domain</th><th>Key Focus</th><th>L2 Practices</th></tr>
+      <tr><td><code>AC</code></td><td>Access Control</td><td>Least privilege, remote access, session controls, CUI flow control</td><td>22</td></tr>
+      <tr><td><code>AT</code></td><td>Awareness & Training</td><td>User security awareness, role-based training, insider threat awareness</td><td>3</td></tr>
+      <tr><td><code>AU</code></td><td>Audit & Accountability</td><td>Log creation, protection, review, retention, event correlation</td><td>9</td></tr>
+      <tr><td><code>CM</code></td><td>Configuration Management</td><td>Baselines, change control, least functionality, software restrictions</td><td>9</td></tr>
+      <tr><td><code>IA</code></td><td>Identification & Authentication</td><td>Multi-factor auth, password management, authenticator management</td><td>11</td></tr>
+      <tr><td><code>IR</code></td><td>Incident Response</td><td>Incident handling, reporting (72-hr DIBNet), testing response capability</td><td>3</td></tr>
+      <tr><td><code>MA</code></td><td>Maintenance</td><td>Controlled/sanitized maintenance, maintenance tools, remote maintenance</td><td>6</td></tr>
+      <tr><td><code>MP</code></td><td>Media Protection</td><td>Access, marking, storage, transport, sanitization, destruction of CUI media</td><td>9</td></tr>
+      <tr><td><code>PS</code></td><td>Personnel Security</td><td>Screening, termination, transfer, third-party personnel</td><td>2</td></tr>
+      <tr><td><code>PE</code></td><td>Physical Protection</td><td>Physical access to systems/facilities containing CUI</td><td>6</td></tr>
+      <tr><td><code>RA</code></td><td>Risk Assessment</td><td>Risk assessments, vulnerability scanning, risk response</td><td>3</td></tr>
+      <tr><td><code>CA</code></td><td>Security Assessment</td><td>System assessments, plans of action, configuration management, monitoring</td><td>4</td></tr>
+      <tr><td><code>SC</code></td><td>System & Communications Protection</td><td>Network boundaries, CUI in transit, architecture, mobile code, VoIP</td><td>16</td></tr>
+      <tr><td><code>SI</code></td><td>System & Information Integrity</td><td>Malware, security alerts, patching, spam protection, input validation</td><td>7</td></tr>
+    </table>
+  </div>
+
+  <h2>Practice vs. Objective vs. Capability</h2>
+  <div class="two-col">
+    <div class="card">
+      <div class="card-title">CMMC Model Hierarchy <span class="tag tag-blue">Architecture</span></div>
+      <ul>
+        <li><strong>Domain</strong> → Highest grouping (14 total, e.g., Access Control)</li>
+        <li><strong>Capability</strong> → Grouping of related practices within a domain (not tested as heavily in CCP)</li>
+        <li><strong>Practice</strong> → Specific activity requirement, numbered (e.g., AC.L2-3.1.1)</li>
+        <li><strong>Objective</strong> → Sub-elements within a practice used in assessment; from NIST 800-171A</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Practice Numbering Format</div>
+      <p style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--accent)">AC.L2-3.1.1</p>
+      <ul>
+        <li><strong>AC</strong> = Domain (Access Control)</li>
+        <li><strong>L2</strong> = Level (Level 2)</li>
+        <li><strong>3.1.1</strong> = NIST SP 800-171 requirement number (Family 3.1, Req. 1)</li>
+      </ul>
+      <p style="margin-top:8px;font-size:13px;">Level 1 practices are labeled <code>L1</code>; Level 2 includes all Level 1 practices plus additional ones.</p>
+    </div>
+  </div>
+
+  <h2>Evidence Types</h2>
+  <div class="callout">From NIST 800-171A / CMMC Assessment Guide — assessors use three methods. Know when each is appropriate.</div>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Method</th><th>What It Is</th><th>Examples</th></tr>
+      <tr><td><strong>Examine</strong></td><td>Review of documentation, mechanisms, and configurations</td><td>Policies, SSP, log samples, screenshots, config files, network diagrams</td></tr>
+      <tr><td><strong>Interview</strong></td><td>Questioning of individuals to verify knowledge and process</td><td>System admin confirming patch process, ISSO explaining incident response steps</td></tr>
+      <tr><td><strong>Test</strong></td><td>Exercising a mechanism to verify it works as intended</td><td>Attempting unauthorized access, running vulnerability scanner, MFA test</td></tr>
+    </table>
+  </div>
+  <div class="callout yellow">Most CMMC practices require ALL THREE methods to achieve a MET determination. A practice is only MET when all objectives are satisfied. If any objective is NOT MET, the practice is NOT MET.</div>
+
+  <h2>MET / NOT MET Scoring</h2>
+  <ul>
+    <li>Each practice is scored as either <strong>MET</strong> or <strong>NOT MET</strong> — there is no partial credit.</li>
+    <li>SPRS score starts at 110. Each NOT MET practice deducts a weighted point value. The maximum SPRS score is 110; a perfect score means all practices are MET.</li>
+    <li>Negative SPRS scores are possible and reflect significant gaps.</li>
+    <li>A CMMC Level 2 certification requires <strong>all 110 practices MET</strong> (with limited POA&M exceptions).</li>
+  </ul>
+
+  <div class="pq-section">
+    <div class="pq-header">Practice Questions · Domain 4</div>
+
+    <div class="pq" data-correct="B">
+      <div class="pq-q" onclick="toggleQ(this)">
+        <div class="pq-num">Q8</div>
+        <div class="pq-text">During an assessment, an assessor reviews firewall rule sets, interviews the network engineer about segmentation rationale, and attempts to access a CUI system from an untrusted network segment. Which assessment methods are being used, respectively?</div>
+        <div class="pq-chevron">▼</div>
+      </div>
+      <div class="pq-options">
+        <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> Test, Interview, Examine</div>
+        <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> Examine, Interview, Test</div>
+        <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> Interview, Examine, Test</div>
+        <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> Examine, Test, Interview</div>
+        <div class="pq-explain">✓ <strong>B is correct.</strong> Reviewing firewall rule sets = Examine (documentation/configuration review). Questioning the network engineer = Interview. Attempting access = Test (exercising a security mechanism). The order Examine → Interview → Test is logical and should be memorized.</div>
+      </div>
+    </div>
+
+    <div class="pq" data-correct="C">
+      <div class="pq-q" onclick="toggleQ(this)">
+        <div class="pq-num">Q9</div>
+        <div class="pq-text">An OSC has 108 out of 110 practices MET. The 2 remaining practices are NOT MET and placed on a POA&M. Under CMMC Level 2 with a third-party assessment, what outcome is MOST accurate?</div>
+        <div class="pq-chevron">▼</div>
+      </div>
+      <div class="pq-options">
+        <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> CMMC Level 2 certification is automatically awarded — 108/110 exceeds the passing threshold.</div>
+        <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> Certification is denied; no POA&M is permitted under L2 third-party assessments.</div>
+        <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> Conditional certification may be awarded if the NOT MET practices meet POA&M criteria; certification is finalized after POA&M closure and confirmation.</div>
+        <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> The OSC must restart the assessment from scratch once the POA&M is closed.</div>
+        <div class="pq-explain">✓ <strong>C is correct.</strong> CMMC 2.0 allows a limited POA&M pathway for certain practices — a conditional certification status can be granted while the OSC works through their POA&M. The POA&M must be closed within an allowed timeframe, followed by confirmation. Critical/highest-weighted practices may not be eligible for POA&M.</div>
+      </div>
+    </div>
+
+    <div class="pq" data-correct="A">
+      <div class="pq-q" onclick="toggleQ(this)">
+        <div class="pq-num">Q10</div>
+        <div class="pq-text">An assessor is evaluating practice SI.L2-3.14.1 (Identify, report, and correct information and information system flaws). The system has a documented patching policy, the admin demonstrates the patching tool, and the assessor confirms recent patches are applied. Three of four objectives are satisfied; the fourth (timely remediation verification) cannot be confirmed. What is the determination?</div>
+        <div class="pq-chevron">▼</div>
+      </div>
+      <div class="pq-options">
+        <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> NOT MET — all objectives must be satisfied for a practice to be MET.</div>
+        <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> MET — 3 of 4 objectives represents substantial compliance.</div>
+        <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> Partially MET — the practice is scored proportionally.</div>
+        <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> MET with notation — the assessor adds a finding note but the practice passes.</div>
+        <div class="pq-explain">✓ <strong>A is correct.</strong> CMMC uses binary scoring: MET or NOT MET. There is no "Partially MET" or proportional credit. A single unsatisfied objective results in a NOT MET determination for the entire practice. This is a fundamental rule that is frequently tested.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ DOMAIN 5 ═══════════ -->
+<div class="section" id="d5">
+  <div class="domain-header">
+    <div>
+      <div class="domain-num">Domain 5</div>
+      <div class="domain-title">CMMC Assessment Process (CAP)</div>
+    </div>
+    <div class="domain-weight high">35–40% — Priority ★</div>
+  </div>
+
+  <div class="priority-banner">Highest-weighted domain on the exam. Know every phase, the sequence of steps, who does what, and what documents are produced at each stage. Scenario questions will ask you to identify the correct CAP step given a situation.</div>
+
+  <h2 class="orange">CAP Phases Overview</h2>
+  <div class="flow-row">
+    <div class="flow-step"><div class="flow-step-num">Phase 1</div><div class="flow-step-label">Pre-Assessment</div><div class="flow-step-sub">Planning & Scoping</div></div>
+    <div class="flow-step"><div class="flow-step-num">Phase 2</div><div class="flow-step-label">Assessment</div><div class="flow-step-sub">Examine/Interview/Test</div></div>
+    <div class="flow-step"><div class="flow-step-num">Phase 3</div><div class="flow-step-label">Post-Assessment</div><div class="flow-step-sub">Reporting & Adjudication</div></div>
+  </div>
+
+  <h2 class="orange">Phase 1: Pre-Assessment Activities</h2>
+  <div class="card">
+    <div class="card-title">Key Pre-Assessment Steps <span class="tag tag-orange">Know the Sequence</span></div>
+    <ol>
+      <li><strong>Contract / Engagement Agreement</strong> — C3PAO and OSC establish NDA, scope, rules of engagement, and fee arrangement.</li>
+      <li><strong>OSC Evidence Package Request</strong> — C3PAO requests the SSP, network diagrams, asset inventory, and supporting policies prior to kickoff.</li>
+      <li><strong>Kickoff Meeting</strong> — Introduce assessment team, review scope, confirm assessment timeline and logistics.</li>
+      <li><strong>Review SSP</strong> — The SSP is the <em>primary artifact</em> for the assessment; all scoping and evidence requirements map back to it.</li>
+      <li><strong>Develop Assessment Plan</strong> — Documents which practices will be tested, what evidence is needed, who will be interviewed, what tests will be performed, and the schedule.</li>
+      <li><strong>OSC Notification</strong> — OSC informed of the scope and plan; they have opportunity to review for accuracy before execution.</li>
+    </ol>
+  </div>
+  <div class="callout orange">The SSP is the cornerstone document. If the SSP doesn't describe how a practice is implemented, the assessor cannot assume it is MET — lack of documentation = NOT MET unless evidence is produced.</div>
+
+  <h2 class="orange">Phase 2: Assessment Execution</h2>
+  <div class="two-col">
+    <div class="card">
+      <div class="card-title">Evidence Collection Rules</div>
+      <ul>
+        <li>Evidence must be <strong>current, relevant, and sufficient</strong> to support a MET determination.</li>
+        <li>The assessor collects — does NOT generate — evidence. The OSC owns all artifacts.</li>
+        <li>Hearsay is not acceptable; verbal claims must be supported by documented evidence or demonstrated through testing.</li>
+        <li>Screenshots must have timestamps; configurations must be system-generated (not manually typed).</li>
+        <li>Sampling is acceptable for large populations (e.g., reviewing a subset of user accounts for MFA).</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Findings Documentation</div>
+      <ul>
+        <li>All findings must be documented in the <strong>Assessment Findings Report</strong>.</li>
+        <li>Each NOT MET determination must include: which practice, which objective, what evidence was missing or insufficient, and the rationale.</li>
+        <li>Assessment notes are maintained by the team throughout the engagement.</li>
+        <li>Discrepancies between assessors must be resolved before finalization — Lead CCA is the tiebreaker.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 class="orange">Phase 3: Post-Assessment</h2>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Output</th><th>Description</th><th>Recipient</th></tr>
+      <tr><td><strong>Draft Assessment Report</strong></td><td>Findings shared with OSC for factual accuracy review (not for disputing scores)</td><td>OSC review</td></tr>
+      <tr><td><strong>Final Assessment Report</strong></td><td>Signed by Lead CCA; captures all MET/NOT MET determinations with supporting evidence references</td><td>OSC + Cyber AB eMASS</td></tr>
+      <tr><td><strong>POA&M (if applicable)</strong></td><td>OSC's documented plan to close NOT MET practices; must be realistic and approved</td><td>OSC → C3PAO review</td></tr>
+      <tr><td><strong>CMMC Certificate / Status</strong></td><td>Issued by Cyber AB (not C3PAO) upon approval of final assessment results</td><td>OSC; posted to marketplace</td></tr>
+      <tr><td><strong>SPRS Entry</strong></td><td>Assessment result submitted; reflects certification status</td><td>SPRS (visible to DoD COs)</td></tr>
+    </table>
+  </div>
+
+  <div class="callout green"><strong>Key distinction:</strong> The C3PAO conducts and reports the assessment. The <strong>Cyber AB</strong> awards the CMMC certification — NOT the C3PAO.</div>
+
+  <h2 class="orange">CCP Role in the CAP</h2>
+  <ul>
+    <li>CCPs support evidence collection, conduct interviews, and perform testing activities under CCA supervision.</li>
+    <li>A CCP <strong>cannot</strong> independently determine MET/NOT MET — that authority rests with the CCA.</li>
+    <li>A CCP should escalate any ambiguous or disputed evidence to the Lead CCA.</li>
+    <li>CCPs must maintain objectivity — they cannot advocate for the OSC's position.</li>
+  </ul>
+
+  <h2 class="orange">Assessment Integrity Rules</h2>
+  <div class="two-col">
+    <div class="card">
+      <div class="card-title">What IS Allowed</div>
+      <ul>
+        <li>Asking clarifying questions about how a control is implemented.</li>
+        <li>Requesting additional supporting evidence if initial evidence is insufficient.</li>
+        <li>Allowing OSC to present new evidence during the factual accuracy review of the draft report.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">What Is NOT Allowed</div>
+      <ul>
+        <li>OSC modifying or creating new policies <em>during</em> the assessment to create documentation for practices.</li>
+        <li>Assessors accepting evidence they know to be fabricated or outdated.</li>
+        <li>Lead CCA signing off without reviewing all team findings.</li>
+        <li>C3PAO providing remediation recommendations during the assessment (consulting conflict).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="pq-section">
+    <div class="pq-header">Practice Questions · Domain 5 (CAP)</div>
+
+    <div class="pq" data-correct="C">
+      <div class="pq-q" onclick="toggleQ(this)">
+        <div class="pq-num">Q11</div>
+        <div class="pq-text">During Phase 2 of a CMMC Level 2 assessment, the OSC's CISO verbally tells the assessor that multi-factor authentication is enforced on all CUI-accessible accounts, but no technical evidence (logs, configuration screenshots, or policy documentation) can be produced. What should the assessor determine for the relevant IA practice?</div>
+        <div class="pq-chevron">▼</div>
+      </div>
+      <div class="pq-options">
+        <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> MET — senior leadership attestation is sufficient evidence for interview-based objectives.</div>
+        <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> MET with a risk notation — verbal confirmation from CISO is credible evidence.</div>
+        <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> NOT MET — verbal claims without supporting documentation or demonstrated capability are insufficient evidence.</div>
+        <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> Deferred — the assessor should schedule a follow-up once evidence is produced.</div>
+        <div class="pq-explain">✓ <strong>C is correct.</strong> Verbal claims alone are not sufficient to satisfy assessment objectives. Evidence must be documented, demonstrable, or testable. The CISO's verbal assertion without corroborating technical evidence is hearsay in the assessment context. Deferral beyond the assessment period is not a valid option for evidence collection.</div>
+      </div>
+    </div>
+
+    <div class="pq" data-correct="B">
+      <div class="pq-q" onclick="toggleQ(this)">
+        <div class="pq-num">Q12</div>
+        <div class="pq-text">The OSC reviews the Draft Assessment Report and disagrees with a NOT MET determination, arguing the assessor misunderstood how a configuration control operates. What is the appropriate CAP mechanism for the OSC to raise this concern?</div>
+        <div class="pq-chevron">▼</div>
+      </div>
+      <div class="pq-options">
+        <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> The OSC should contact the Cyber AB directly to dispute the finding before the report is finalized.</div>
+        <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> The OSC should raise the factual concern during the draft report review; the Lead CCA evaluates whether additional evidence or clarification changes the determination.</div>
+        <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> The OSC can modify the SSP to clarify the control implementation and resubmit it as corrected evidence.</div>
+        <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> The finding is final once the draft report is issued; the OSC has no recourse until the next assessment cycle.</div>
+        <div class="pq-explain">✓ <strong>B is correct.</strong> The draft report review is specifically designed for the OSC to identify factual inaccuracies. The Lead CCA reviews the OSC's concerns and, if supported by existing evidence, may revise the determination. However, the OSC cannot introduce new implementations or substantially new documentation at this stage — only clarifications about existing evidence.</div>
+      </div>
+    </div>
+
+    <div class="pq" data-correct="D">
+      <div class="pq-q" onclick="toggleQ(this)">
+        <div class="pq-num">Q13</div>
+        <div class="pq-text">Who is authorized to formally issue a CMMC Level 2 certification to an OSC after a successful C3PAO assessment?</div>
+        <div class="pq-chevron">▼</div>
+      </div>
+      <div class="pq-options">
+        <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> The Lead CCA who signed the final assessment report.</div>
+        <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> The C3PAO that conducted the assessment.</div>
+        <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> OUSD(A&S) upon notification from the C3PAO.</div>
+        <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> The Cyber AB, upon review and approval of the submitted assessment results.</div>
+        <div class="pq-explain">✓ <strong>D is correct.</strong> The Cyber AB is the accreditation body that issues CMMC certifications. The C3PAO conducts the assessment and submits results; the Cyber AB validates and awards the formal certificate. This separation ensures an oversight function independent of the assessing organization.</div>
+      </div>
+    </div>
+
+    <div class="pq" data-correct="A">
+      <div class="pq-q" onclick="toggleQ(this)">
+        <div class="pq-num">Q14</div>
+        <div class="pq-text">A CCP team member, while collecting evidence for the SC domain, notices that a practice in the AC domain also appears NOT MET based on what they observed. What is the most appropriate action?</div>
+        <div class="pq-chevron">▼</div>
+      </div>
+      <div class="pq-options">
+        <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> Document the observation and escalate to the Lead CCA so the finding can be formally evaluated under the AC domain assessment activities.</div>
+        <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> Make an independent NOT MET determination for the AC practice and include it in the findings.</div>
+        <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> Disregard the observation since you are assigned to the SC domain only.</div>
+        <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> Alert the OSC's IT team so they can address the issue before it's formally assessed.</div>
+        <div class="pq-explain">✓ <strong>A is correct.</strong> A CCP should document observations and escalate to the Lead CCA — they do not have independent authority to make MET/NOT MET determinations. Alerting the OSC (D) would be a CoPC violation (allowing remediation during the assessment). Ignoring the observation (C) fails the assessment team's duty to identify deficiencies.</div>
+      </div>
+    </div>
+
+    <div class="pq" data-correct="C">
+      <div class="pq-q" onclick="toggleQ(this)">
+        <div class="pq-num">Q15</div>
+        <div class="pq-text">In the CAP, the Assessment Plan is created during which phase and by whom?</div>
+        <div class="pq-chevron">▼</div>
+      </div>
+      <div class="pq-options">
+        <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> Phase 2 (Assessment Execution) by the OSC's ISSO.</div>
+        <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> Phase 3 (Post-Assessment) by the Lead CCA after reviewing evidence.</div>
+        <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> Phase 1 (Pre-Assessment) by the C3PAO assessment team.</div>
+        <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> Phase 1 (Pre-Assessment) by the OSC and approved by the Cyber AB.</div>
+        <div class="pq-explain">✓ <strong>C is correct.</strong> The Assessment Plan is a Pre-Assessment (Phase 1) deliverable created by the C3PAO/assessment team. It defines what will be assessed, how, by whom, and when. The OSC reviews it for logistical accuracy but does not author it, and the Cyber AB does not approve it pre-engagement.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ DOMAIN 6 ═══════════ -->
+<div class="section" id="d6">
+  <div class="domain-header">
+    <div>
+      <div class="domain-num">Domain 6</div>
+      <div class="domain-title">Scoping</div>
+    </div>
+    <div class="domain-weight">15–20% of Exam</div>
+  </div>
+
+  <h2>Asset Categories — Know All 6</h2>
+  <div class="callout">Scoping is one of the most nuanced areas. Many questions present asset scenarios and ask you to categorize them. Memorize all six asset types, their definitions, and how they affect the assessment scope.</div>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Asset Type</th><th>Definition</th><th>In Scope?</th><th>Assessment Impact</th></tr>
+      <tr><td><strong>CUI Assets</strong></td><td>Systems/components that process, store, or transmit CUI</td><td>Yes — fully in scope</td><td>All 110 practices assessed; highest scrutiny</td></tr>
+      <tr><td><strong>Security Protection Assets (SPAs)</strong></td><td>Assets that provide security functions protecting CUI assets (firewalls, IDS, IAM systems, logging platforms)</td><td>Yes — in scope</td><td>Assessed for their protective functions; critical controls apply</td></tr>
+      <tr><td><strong>Contractor Risk Managed Assets (CRMAs)</strong></td><td>Assets that can reach CUI assets but are managed to limit risk (e.g., managed network segments)</td><td>Partial</td><td>Contractor must demonstrate risk management; selected practices apply</td></tr>
+      <tr><td><strong>Specialized Assets</strong></td><td>OT/ICS, IoT, government-furnished equipment (GFE), test equipment not designed for standard NIST controls</td><td>In scope (documented)</td><td>May require documented exceptions; assessed for feasibility of practice implementation</td></tr>
+      <tr><td><strong>Out-of-Scope Assets</strong></td><td>Assets with no logical or physical connection to CUI environment and no path to CUI</td><td>No</td><td>Excluded; must be documented and justified in the SSP</td></tr>
+      <tr><td><strong>External Service Providers (ESPs)</strong></td><td>Cloud service providers, MSSPs, or vendors with access to CUI or CUI systems</td><td>In scope (inherited or shared)</td><td>Must meet applicable CMMC practices; FedRAMP equivalency for cloud</td></tr>
+    </table>
+  </div>
+
+  <h2>Cloud & FedRAMP</h2>
+  <div class="callout yellow">Cloud is heavily tested. Know when FedRAMP is required and what equivalency means.</div>
+  <ul>
+    <li>Cloud service providers (CSPs) that process, store, or transmit CUI must be <strong>FedRAMP Authorized</strong> at a Moderate or higher baseline — OR meet equivalent security requirements as determined by the DoD.</li>
+    <li><strong>FedRAMP Moderate</strong> baseline aligns with NIST 800-171 and is the standard threshold for CUI in cloud environments.</li>
+    <li>SaaS/IaaS/PaaS all fall under the same rule if CUI touches the service.</li>
+    <li>Inherited controls from a FedRAMP-authorized CSP still require the OSC to implement customer-responsible controls.</li>
+    <li>A contractor cannot claim FedRAMP controls as MET if the CSP's authorization doesn't cover the specific service being used.</li>
+  </ul>
+
+  <h2>Scoping Key Rules</h2>
+  <div class="two-col">
+    <div class="card">
+      <div class="card-title">What Drives the Scope</div>
+      <ul>
+        <li>Data flows: any path CUI can travel defines the boundary.</li>
+        <li>Network connectivity: a system connected to a CUI system is in scope unless isolated by a security boundary.</li>
+        <li>The SSP defines the boundary — the assessor verifies it is accurate and complete.</li>
+        <li>Scoping must be <em>conservative</em> — assessors err toward including ambiguous systems rather than excluding them.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Scoping Gotchas</div>
+      <ul>
+        <li>A system used for backup of CUI data is a CUI asset — not out of scope.</li>
+        <li>A printer connected to the CUI network is a specialized asset — still in scope.</li>
+        <li>Email systems that receive CUI from DoD partners are in scope even if CUI is incidental.</li>
+        <li>Personnel with access rights to CUI systems are in scope for AT and PS practices.</li>
+        <li>A firewall protecting CUI systems is an SPA — still assessed.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="pq-section">
+    <div class="pq-header">Practice Questions · Domain 6</div>
+
+    <div class="pq" data-correct="B">
+      <div class="pq-q" onclick="toggleQ(this)">
+        <div class="pq-num">Q16</div>
+        <div class="pq-text">A contractor uses a commercial email platform hosted in the cloud. Employees occasionally receive technical drawings (CUI) as email attachments from a DoD prime contractor. The cloud email provider does NOT have FedRAMP authorization. What is the MOST accurate scoping determination?</div>
+        <div class="pq-chevron">▼</div>
+      </div>
+      <div class="pq-options">
+        <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> Out of scope — the contractor does not intentionally store CUI on the platform.</div>
+        <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> In scope as a CUI asset / ESP; the cloud platform stores CUI and does not meet FedRAMP requirements, representing a compliance gap.</div>
+        <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> Specialized asset — email systems have limited applicability and can be excluded from full CMMC assessment.</div>
+        <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> In scope, but only for the AT domain since the issue is user behavior.</div>
+        <div class="pq-explain">✓ <strong>B is correct.</strong> CUI that flows into an email system means that system stores and processes CUI — it is in scope regardless of intent. A non-FedRAMP cloud provider handling CUI is a significant compliance gap. "Incidental" CUI receipt does not provide a scoping exception.</div>
+      </div>
+    </div>
+
+    <div class="pq" data-correct="C">
+      <div class="pq-q" onclick="toggleQ(this)">
+        <div class="pq-num">Q17</div>
+        <div class="pq-text">A manufacturing company's shop floor uses legacy programmable logic controllers (PLCs) that cannot support modern authentication standards. These PLCs control machinery in a facility that also processes CUI in an adjacent office network. How should these PLCs be categorized?</div>
+        <div class="pq-chevron">▼</div>
+      </div>
+      <div class="pq-options">
+        <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> Out of scope — PLCs are not information systems.</div>
+        <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> CUI Assets — they are in the same facility as CUI.</div>
+        <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> Specialized Assets — OT/ICS equipment that may require documented exceptions for practices that are not technically feasible.</div>
+        <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> CRMAs — the contractor can manage risk without implementing CMMC controls.</div>
+        <div class="pq-explain">✓ <strong>C is correct.</strong> OT/ICS equipment (PLCs, SCADA) is classified as Specialized Assets. They are in scope but may require documented exceptions where full CMMC control implementation is not technically feasible. The OSC must still implement compensating controls and document the exception in the SSP. Physical co-location alone does not make them CUI Assets (that requires logical connectivity to CUI data flows).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ ALL PRACTICE Qs ═══════════ -->
+<div class="section" id="practice">
+  <div class="domain-header">
+    <div>
+      <div class="domain-title">All Practice Questions</div>
+    </div>
+    <div class="domain-weight">17 Questions · All Domains</div>
+  </div>
+  <div class="callout">Use this section for a timed run-through. Click each question to expand, select your answer, then check the explanation. Track your score in the bar below.</div>
+
+  <h2>Domain 1 · Ecosystem</h2>
+  <div class="pq" data-correct="B">
+    <div class="pq-q" onclick="toggleQ(this)"><div class="pq-num">Q1</div><div class="pq-text">An RPO has been helping an OSC prepare for their Level 2 CMMC assessment for six months. The OSC now asks the same RPO to conduct the formal certification assessment. What is the correct course of action?</div><div class="pq-chevron">▼</div></div>
+    <div class="pq-options">
+      <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> The RPO may conduct the assessment since they are already familiar with the OSC's environment.</div>
+      <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> The RPO cannot conduct the assessment; a separate, unaffiliated C3PAO must be engaged.</div>
+      <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> The RPO can conduct the assessment if a CCA from a different RPO is the lead assessor.</div>
+      <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> The assessment is allowed if the OSC signs a conflict-of-interest waiver.</div>
+      <div class="pq-explain">✓ <strong>B is correct.</strong> RPOs cannot conduct formal assessments. Consulting + assessing the same OSC is a prohibited conflict of interest.</div>
+    </div>
+  </div>
+
+  <div class="pq" data-correct="C">
+    <div class="pq-q" onclick="toggleQ(this)"><div class="pq-num">Q2</div><div class="pq-text">Which entity investigates potential Code of Professional Conduct violations against a Certified CMMC Professional?</div><div class="pq-chevron">▼</div></div>
+    <div class="pq-options">
+      <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> OUSD(A&S)</div>
+      <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> The C3PAO that employed the individual</div>
+      <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> CAICO</div>
+      <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> DCSA</div>
+      <div class="pq-explain">✓ <strong>C is correct.</strong> CAICO is the compliance and enforcement arm of the Cyber AB ecosystem.</div>
+    </div>
+  </div>
+
+  <h2>Domain 2 · Ethics</h2>
+  <div class="pq" data-correct="D">
+    <div class="pq-q" onclick="toggleQ(this)"><div class="pq-num">Q3</div><div class="pq-text">A CCP casually mentions specific findings from an OSC's assessment to colleagues at an industry conference. Which CoPC principle was violated?</div><div class="pq-chevron">▼</div></div>
+    <div class="pq-options">
+      <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> Professionalism</div>
+      <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> Objectivity</div>
+      <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> Proper Use of Materials</div>
+      <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> Confidentiality</div>
+      <div class="pq-explain">✓ <strong>D is correct.</strong> Sharing assessment findings outside authorized channels violates Confidentiality, which persists after engagement ends.</div>
+    </div>
+  </div>
+
+  <h2>Domain 3 · Governance</h2>
+  <div class="pq" data-correct="B">
+    <div class="pq-q" onclick="toggleQ(this)"><div class="pq-num">Q4</div><div class="pq-text">A prime contractor generates technical specifications for a weapon system and shares them with a subcontractor. Which information category BEST describes these reports?</div><div class="pq-chevron">▼</div></div>
+    <div class="pq-options">
+      <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> FCI only</div>
+      <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> CUI — weapon system technical specifications are a controlled CUI category</div>
+      <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> Classified information</div>
+      <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> CDI only</div>
+      <div class="pq-explain">✓ <strong>B is correct.</strong> Weapon system technical specifications fall under CUI categories. CUI is always unclassified — it is not classified information.</div>
+    </div>
+  </div>
+  <div class="pq" data-correct="A">
+    <div class="pq-q" onclick="toggleQ(this)"><div class="pq-num">Q5</div><div class="pq-text">A contractor's SPRS score is -147 and hasn't been updated in 18 months. A new DFARS 252.204-7019 contract is being awarded. What is required?</div><div class="pq-chevron">▼</div></div>
+    <div class="pq-options">
+      <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> Complete a current NIST SP 800-171 assessment, establish a POA&M, and post the updated score to SPRS before award.</div>
+      <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> Immediately achieve CMMC Level 2 certification.</div>
+      <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> Submit an exception request to DoD.</div>
+      <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> No action required; SPRS scores are advisory only.</div>
+      <div class="pq-explain">✓ <strong>A is correct.</strong> 252.204-7019 requires a current assessment posted to SPRS before award. A score with a POA&M is acceptable for this clause. CMMC certification (7021) is a separate requirement.</div>
+    </div>
+  </div>
+  <div class="pq" data-correct="C">
+    <div class="pq-q" onclick="toggleQ(this)"><div class="pq-num">Q6</div><div class="pq-text">Which DFARS clause gives DoD the right to review a contractor's System Security Plan?</div><div class="pq-chevron">▼</div></div>
+    <div class="pq-options">
+      <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> DFARS 252.204-7012</div>
+      <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> DFARS 252.204-7019</div>
+      <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> DFARS 252.204-7020</div>
+      <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> DFARS 252.204-7021</div>
+      <div class="pq-explain">✓ <strong>C is correct.</strong> 7020 grants DoD the right to review SSPs. 7019 requires the assessment; 7020 allows verification of it.</div>
+    </div>
+  </div>
+  <div class="pq" data-correct="D">
+    <div class="pq-q" onclick="toggleQ(this)"><div class="pq-num">Q7</div><div class="pq-text">Under 32 CFR Part 170, which CMMC level requires a Government-led assessment by DCSA?</div><div class="pq-chevron">▼</div></div>
+    <div class="pq-options">
+      <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> Level 1</div>
+      <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> Level 2 (all contracts)</div>
+      <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> Level 2 (critical programs)</div>
+      <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> Level 3</div>
+      <div class="pq-explain">✓ <strong>D is correct.</strong> Level 3 = Government-led by DCSA. Level 2 = C3PAO third-party (or self-assessment for some programs). Level 1 = self-assessment.</div>
+    </div>
+  </div>
+
+  <h2>Domain 4 · Model</h2>
+  <div class="pq" data-correct="B">
+    <div class="pq-q" onclick="toggleQ(this)"><div class="pq-num">Q8</div><div class="pq-text">An assessor reviews firewall rules, interviews the network engineer about segmentation, and attempts access from an untrusted segment. What assessment methods are used, in order?</div><div class="pq-chevron">▼</div></div>
+    <div class="pq-options">
+      <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> Test, Interview, Examine</div>
+      <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> Examine, Interview, Test</div>
+      <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> Interview, Examine, Test</div>
+      <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> Examine, Test, Interview</div>
+      <div class="pq-explain">✓ <strong>B is correct.</strong> Reviewing = Examine. Questioning = Interview. Attempting access = Test.</div>
+    </div>
+  </div>
+  <div class="pq" data-correct="A">
+    <div class="pq-q" onclick="toggleQ(this)"><div class="pq-num">Q9</div><div class="pq-text">Three of four objectives for a practice are satisfied; the fourth cannot be confirmed. What is the determination?</div><div class="pq-chevron">▼</div></div>
+    <div class="pq-options">
+      <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> NOT MET — all objectives must be satisfied.</div>
+      <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> MET — 3/4 represents substantial compliance.</div>
+      <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> Partially MET — scored proportionally.</div>
+      <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> MET with notation.</div>
+      <div class="pq-explain">✓ <strong>A is correct.</strong> Binary scoring: MET or NOT MET. No partial credit. One unsatisfied objective = NOT MET for the entire practice.</div>
+    </div>
+  </div>
+
+  <h2>Domain 5 · CAP</h2>
+  <div class="pq" data-correct="C">
+    <div class="pq-q" onclick="toggleQ(this)"><div class="pq-num">Q10</div><div class="pq-text">CISO verbally confirms MFA is enforced but no technical evidence can be produced. What should the assessor determine?</div><div class="pq-chevron">▼</div></div>
+    <div class="pq-options">
+      <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> MET — senior leadership attestation is sufficient for interview objectives.</div>
+      <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> MET with risk notation.</div>
+      <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> NOT MET — verbal claims without documentation or demonstration are insufficient.</div>
+      <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> Deferred pending follow-up evidence.</div>
+      <div class="pq-explain">✓ <strong>C is correct.</strong> Verbal claims alone are hearsay in an assessment. Evidence must be documentable, demonstrable, or testable.</div>
+    </div>
+  </div>
+  <div class="pq" data-correct="B">
+    <div class="pq-q" onclick="toggleQ(this)"><div class="pq-num">Q11</div><div class="pq-text">The OSC disputes a NOT MET finding in the Draft Assessment Report. What is the appropriate CAP mechanism?</div><div class="pq-chevron">▼</div></div>
+    <div class="pq-options">
+      <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> Contact the Cyber AB directly to dispute before the report is finalized.</div>
+      <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> Raise the factual concern during draft report review; Lead CCA evaluates whether evidence changes the determination.</div>
+      <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> Modify the SSP to clarify the control and resubmit as corrected evidence.</div>
+      <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> Finding is final; no recourse until the next assessment cycle.</div>
+      <div class="pq-explain">✓ <strong>B is correct.</strong> The draft review allows factual corrections, not new implementations. The Lead CCA decides whether existing evidence was properly interpreted.</div>
+    </div>
+  </div>
+  <div class="pq" data-correct="D">
+    <div class="pq-q" onclick="toggleQ(this)"><div class="pq-num">Q12</div><div class="pq-text">Who formally issues a CMMC Level 2 certification after a successful assessment?</div><div class="pq-chevron">▼</div></div>
+    <div class="pq-options">
+      <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> The Lead CCA</div>
+      <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> The C3PAO</div>
+      <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> OUSD(A&S)</div>
+      <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> The Cyber AB</div>
+      <div class="pq-explain">✓ <strong>D is correct.</strong> The Cyber AB issues CMMC certifications after reviewing and approving assessment results submitted by the C3PAO.</div>
+    </div>
+  </div>
+  <div class="pq" data-correct="A">
+    <div class="pq-q" onclick="toggleQ(this)"><div class="pq-num">Q13</div><div class="pq-text">A CCP notices a potential AC domain deficiency while collecting SC domain evidence. What should they do?</div><div class="pq-chevron">▼</div></div>
+    <div class="pq-options">
+      <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> Document and escalate to the Lead CCA for formal evaluation under AC assessment activities.</div>
+      <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> Make an independent NOT MET determination and include it in findings.</div>
+      <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> Disregard it since they are assigned to SC domain only.</div>
+      <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> Alert the OSC's IT team to address the issue before formal assessment.</div>
+      <div class="pq-explain">✓ <strong>A is correct.</strong> CCPs do not have independent determination authority. Alerting the OSC (D) is a CoPC violation that would taint the assessment.</div>
+    </div>
+  </div>
+  <div class="pq" data-correct="C">
+    <div class="pq-q" onclick="toggleQ(this)"><div class="pq-num">Q14</div><div class="pq-text">The Assessment Plan is created during which phase and by whom?</div><div class="pq-chevron">▼</div></div>
+    <div class="pq-options">
+      <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> Phase 2 by the OSC's ISSO</div>
+      <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> Phase 3 by the Lead CCA after reviewing evidence</div>
+      <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> Phase 1 by the C3PAO assessment team</div>
+      <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> Phase 1 by the OSC and approved by the Cyber AB</div>
+      <div class="pq-explain">✓ <strong>C is correct.</strong> The Assessment Plan is a Phase 1 (Pre-Assessment) deliverable created by the C3PAO. It defines scope, methods, schedule, and evidence requirements.</div>
+    </div>
+  </div>
+
+  <h2>Domain 6 · Scoping</h2>
+  <div class="pq" data-correct="B">
+    <div class="pq-q" onclick="toggleQ(this)"><div class="pq-num">Q15</div><div class="pq-text">A contractor uses a non-FedRAMP cloud email platform. Employees receive CUI technical drawings as attachments from a DoD prime. What is the scoping determination?</div><div class="pq-chevron">▼</div></div>
+    <div class="pq-options">
+      <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> Out of scope — CUI received incidentally doesn't trigger scope.</div>
+      <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> In scope as a CUI asset/ESP; non-FedRAMP cloud handling CUI is a compliance gap.</div>
+      <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> Specialized asset — email systems can be excluded from full assessment.</div>
+      <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> In scope for AT domain only since the issue is user behavior.</div>
+      <div class="pq-explain">✓ <strong>B is correct.</strong> Any system storing or processing CUI is in scope. A non-FedRAMP cloud provider handling CUI is a significant compliance gap regardless of whether CUI receipt was intentional.</div>
+    </div>
+  </div>
+  <div class="pq" data-correct="C">
+    <div class="pq-q" onclick="toggleQ(this)"><div class="pq-num">Q16</div><div class="pq-text">Legacy PLCs on a shop floor cannot support modern authentication. They share facility space with an office network that processes CUI. How should the PLCs be categorized?</div><div class="pq-chevron">▼</div></div>
+    <div class="pq-options">
+      <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> Out of scope — PLCs are not information systems.</div>
+      <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> CUI Assets — same facility as CUI.</div>
+      <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> Specialized Assets — OT/ICS with documented exceptions for infeasible practices.</div>
+      <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> CRMAs — contractor manages risk without full CMMC controls.</div>
+      <div class="pq-explain">✓ <strong>C is correct.</strong> OT/ICS (PLCs, SCADA) are Specialized Assets in scope but eligible for documented exceptions where full control implementation is technically infeasible. Physical co-location without logical CUI connectivity does not make them CUI Assets.</div>
+    </div>
+  </div>
+
+  <div class="pq" data-correct="B">
+    <div class="pq-q" onclick="toggleQ(this)"><div class="pq-num">Q17 (Bonus)</div><div class="pq-text">An OSC's Security Protection Asset (SPA) — specifically their SIEM platform — is experiencing a known unpatched vulnerability. Under CMMC scoping, which domain's practices are MOST directly applicable to this asset?</div><div class="pq-chevron">▼</div></div>
+    <div class="pq-options">
+      <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> RA (Risk Assessment) only — vulnerability management is a risk domain function.</div>
+      <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> Multiple domains including SI (patch/flaw remediation), RA (vulnerability scanning), and CA (security assessments) — SPAs are assessed for their protective function across all applicable domains.</div>
+      <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> SPAs are out of scope for CMMC practice assessment — they protect CUI assets but are not CUI assets themselves.</div>
+      <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> CM (Configuration Management) only — unpatched systems are a CM deficiency.</div>
+      <div class="pq-explain">✓ <strong>B is correct.</strong> Security Protection Assets are <em>in scope</em> and assessed across all applicable CMMC practice domains — not just one. An unpatched vulnerability on a SIEM implicates SI (flaw remediation/patching), RA (vulnerability scanning and response), CM (baseline configuration), and CA (assessment monitoring). SPAs being "in scope" means all applicable practices apply, not a subset.</div>
+    </div>
+  </div>
+
+</div>
+
+</div><!-- end .main -->
+
+<div class="score-bar-wrap">
+  <span class="score-text">Score: <span class="score-num" id="scoreDisplay">0 / 0</span> correct</span>
+  <button class="reset-btn" onclick="resetAll()">↺ Reset All</button>
+</div>
+
+<script>
+  let answered = 0;
+  let correct = 0;
+
+  function switchTab(id) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    const tabMap = {overview:'Overview','d1':'D1 · Ecosystem','d2':'D2 · Ethics','d3':'D3 · Governance ★','d4':'D4 · Model','d5':'D5 · CAP ★','d6':'D6 · Scoping','practice':'All Practice Qs'};
+    document.querySelectorAll('.tab').forEach(t => {
+      if (t.dataset.tab === id) t.classList.add('active');
+    });
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+  });
+
+  function toggleQ(el) {
+    const pq = el.closest('.pq');
+    pq.classList.toggle('open');
+  }
+
+  function answerQ(optEl, chosen) {
+    const pq = optEl.closest('.pq');
+    if (pq.dataset.answered) return;
+    pq.dataset.answered = '1';
+    const correctAns = pq.dataset.correct;
+    const allOpts = pq.querySelectorAll('.pq-opt');
+    allOpts.forEach(o => {
+      o.classList.add('disabled');
+      const letter = o.querySelector('.opt-letter').textContent.replace('.','').trim();
+      if (letter === correctAns) o.classList.add('correct');
+      else if (letter === chosen) o.classList.add('wrong');
+    });
+    const explain = pq.querySelector('.pq-explain');
+    if (explain) explain.classList.add('show');
+    answered++;
+    if (chosen === correctAns) correct++;
+    document.getElementById('scoreDisplay').textContent = `${correct} / ${answered}`;
+  }
+
+  function resetAll() {
+    document.querySelectorAll('.pq').forEach(pq => {
+      delete pq.dataset.answered;
+      pq.querySelectorAll('.pq-opt').forEach(o => {
+        o.classList.remove('correct','wrong','disabled');
+      });
+      const explain = pq.querySelector('.pq-explain');
+      if (explain) explain.classList.remove('show');
+    });
+    answered = 0; correct = 0;
+    document.getElementById('scoreDisplay').textContent = '0 / 0';
+  }
+</script>
+</body>
+</html>
