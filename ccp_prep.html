@@ -1126,174 +1126,499 @@
     <div class="domain-weight high">35–40% — Priority ★</div>
   </div>
 
-  <div class="priority-banner">Highest-weighted domain on the exam. Know every phase, the sequence of steps, who does what, and what documents are produced at each stage. Scenario questions will ask you to identify the correct CAP step given a situation.</div>
+  <div class="priority-banner">Highest-weighted domain. The CAP v5.6.1 (official training release) has FOUR phases, not three. Know every phase, sub-step, responsible party, mandatory template, and critical number. Scenario questions will map situations directly to CAP steps.</div>
 
-  <h2 class="orange">CAP Phases Overview</h2>
+  <h2 class="orange">CAP — 4 Phases Overview</h2>
+  <div class="callout orange">The CAP applies to <strong>Level 2 assessments only</strong>. It is developed by the Cyber AB, reviewed/endorsed by DoD, and adherence is <strong>required</strong> by C3PAOs and their assessors. The word "shall" in the CAP = a requirement.</div>
   <div class="flow-row">
-    <div class="flow-step"><div class="flow-step-num">Phase 1</div><div class="flow-step-label">Pre-Assessment</div><div class="flow-step-sub">Planning & Scoping</div></div>
-    <div class="flow-step"><div class="flow-step-num">Phase 2</div><div class="flow-step-label">Assessment</div><div class="flow-step-sub">Examine/Interview/Test</div></div>
-    <div class="flow-step"><div class="flow-step-num">Phase 3</div><div class="flow-step-label">Post-Assessment</div><div class="flow-step-sub">Reporting & Adjudication</div></div>
+    <div class="flow-step"><div class="flow-step-num">Phase 1</div><div class="flow-step-label">Plan &amp; Prepare</div><div class="flow-step-sub">1–several days</div></div>
+    <div class="flow-step"><div class="flow-step-num">Phase 2</div><div class="flow-step-label">Conduct</div><div class="flow-step-sub">Examine/Interview/Test</div></div>
+    <div class="flow-step"><div class="flow-step-num">Phase 3</div><div class="flow-step-label">Report Results</div><div class="flow-step-sub">Findings &amp; eMASS Upload</div></div>
+    <div class="flow-step"><div class="flow-step-num">Phase 4</div><div class="flow-step-label">Close-Out POA&amp;Ms</div><div class="flow-step-sub">Within 180 days</div></div>
   </div>
 
-  <h2 class="orange">Phase 1: Pre-Assessment Activities</h2>
-  <div class="card">
-    <div class="card-title">Key Pre-Assessment Steps <span class="tag tag-orange">Know the Sequence</span></div>
-    <ol>
-      <li><strong>Contract / Engagement Agreement</strong> — C3PAO and OSC establish NDA, scope, rules of engagement, and fee arrangement.</li>
-      <li><strong>OSC Evidence Package Request</strong> — C3PAO requests the SSP, network diagrams, asset inventory, and supporting policies prior to kickoff.</li>
-      <li><strong>Kickoff Meeting</strong> — Introduce assessment team, review scope, confirm assessment timeline and logistics.</li>
-      <li><strong>Review SSP</strong> — The SSP is the <em>primary artifact</em> for the assessment; all scoping and evidence requirements map back to it.</li>
-      <li><strong>Develop Assessment Plan</strong> — Documents which practices will be tested, what evidence is needed, who will be interviewed, what tests will be performed, and the schedule.</li>
-      <li><strong>OSC Notification</strong> — OSC informed of the scope and plan; they have opportunity to review for accuracy before execution.</li>
-    </ol>
-  </div>
-  <div class="callout orange">The SSP is the cornerstone document. If the SSP doesn't describe how a practice is implemented, the assessor cannot assume it is MET — lack of documentation = NOT MET unless evidence is produced.</div>
-
-  <h2 class="orange">Phase 2: Assessment Execution</h2>
+  <!-- CRITICAL NUMBERS CALLOUT -->
+  <h2 class="orange">Critical Numbers — Memorize These</h2>
   <div class="two-col">
     <div class="card">
-      <div class="card-title">Evidence Collection Rules</div>
+      <div class="card-title">Key Timeframes <span class="tag tag-orange">Tested Heavily</span></div>
       <ul>
-        <li>Evidence must be <strong>current, relevant, and sufficient</strong> to support a MET determination.</li>
-        <li>The assessor collects — does NOT generate — evidence. The OSC owns all artifacts.</li>
-        <li>Hearsay is not acceptable; verbal claims must be supported by documented evidence or demonstrated through testing.</li>
-        <li>Screenshots must have timestamps; configurations must be system-generated (not manually typed).</li>
-        <li>Sampling is acceptable for large populations (e.g., reviewing a subset of user accounts for MFA).</li>
+        <li><strong>5 business days</strong> — C3PAO must respond to OSC's initial assessment request</li>
+        <li><strong>5 business days</strong> — OSC has to correct Limited Practice Deficiencies after Final Findings Briefing (or Lead Assessor-defined date, max 5 calendar days before eMASS upload)</li>
+        <li><strong>180 days</strong> — Maximum POA&M validity from the Assessment Final Recommended Findings Briefing (Phase 3)</li>
+        <li><strong>180 days</strong> — OSC must complete POA&M Close-Out Assessment within this window</li>
+        <li><strong>10 business days</strong> — Report must be submitted to CQAP from Final Findings Briefing</li>
+        <li><strong>20 business days</strong> — Report must be uploaded to eMASS from Final Findings Briefing</li>
+        <li><strong>3 years</strong> — Assessment artifacts and notes must be retained and protected</li>
       </ul>
     </div>
     <div class="card">
-      <div class="card-title">Findings Documentation</div>
+      <div class="card-title">Key Thresholds &amp; Numbers <span class="tag tag-orange">Tested Heavily</span></div>
       <ul>
-        <li>All findings must be documented in the <strong>Assessment Findings Report</strong>.</li>
-        <li>Each NOT MET determination must include: which practice, which objective, what evidence was missing or insufficient, and the rationale.</li>
-        <li>Assessment notes are maintained by the team throughout the engagement.</li>
-        <li>Discrepancies between assessors must be resolved before finalization — Lead CCA is the tiebreaker.</li>
+        <li><strong>88 / 110</strong> — Minimum MET practices (80%) required for a Conditional L2 Certification (POA&M pathway)</li>
+        <li><strong>110</strong> — Starting SPRS score; perfect score = all practices MET</li>
+        <li><strong>15</strong> — Number of practice objectives that <em>must</em> be assessed in-person (cannot be virtual)</li>
+        <li><strong>5 pts</strong> — SPRS deduction for high-impact practices (significant exploitation risk)</li>
+        <li><strong>3 pts</strong> — SPRS deduction for medium-impact practices</li>
+        <li><strong>1 pt</strong> — SPRS deduction for low-impact practices</li>
+        <li><strong>1 CQAP minimum</strong> — Every C3PAO must have at least one CMMC Quality Assurance Professional on staff</li>
       </ul>
     </div>
   </div>
 
-  <h2 class="orange">Phase 3: Post-Assessment</h2>
+  <!-- PHASE 1 -->
+  <h2 class="orange">Phase 1 — Plan &amp; Prepare the Assessment</h2>
+  <div class="callout orange">Phase 1 is driven by the C3PAO and Lead Assessor. The Pre-Assessment Data Form is the master planning document — it must be kept current throughout Phase 1 and uploaded to eMASS at Phase 1 completion.</div>
+
+  <h3>1.1 — Receive Assessment Request &amp; Frame</h3>
+  <div class="card">
+    <div class="card-title">Initial Contact Rules <span class="tag tag-blue">CAP §1.1</span></div>
+    <ul>
+      <li>OSC initiates contact with a C3PAO listed as "Authorized" on the <strong>CMMC Marketplace</strong>.</li>
+      <li>C3PAO must respond within <strong>5 business days</strong>, acknowledging the request and proposing an initial coordination call.</li>
+      <li>Contact may be initiated by either party. <strong>Neither the Cyber AB nor DoD may serve in an introductory or facilitation role</strong> between OSC and C3PAO.</li>
+      <li>OSC may express a preference for a specific assessor — C3PAO may consider it, but the <strong>authority to select the assessment team rests solely with the C3PAO</strong>.</li>
+    </ul>
+  </div>
+
+  <div class="callout yellow"><strong>Assessment Framing vs. CMMC Assessment Scope</strong> — These two terms are often confused on the exam. Assessment Framing = high-level discussion of size, scale, date, location, cost, and effort. CMMC Assessment Scope = the technical, official boundary of assets to be assessed. Both are defined in Phase 1, but they are distinct activities.</div>
+
+  <h3>1.2 — Roles &amp; Responsibilities</h3>
   <div class="table-wrap">
     <table>
-      <tr><th>Output</th><th>Description</th><th>Recipient</th></tr>
-      <tr><td><strong>Draft Assessment Report</strong></td><td>Findings shared with OSC for factual accuracy review (not for disputing scores)</td><td>OSC review</td></tr>
-      <tr><td><strong>Final Assessment Report</strong></td><td>Signed by Lead CCA; captures all MET/NOT MET determinations with supporting evidence references</td><td>OSC + Cyber AB eMASS</td></tr>
-      <tr><td><strong>POA&M (if applicable)</strong></td><td>OSC's documented plan to close NOT MET practices; must be realistic and approved</td><td>OSC → C3PAO review</td></tr>
-      <tr><td><strong>CMMC Certificate / Status</strong></td><td>Issued by Cyber AB (not C3PAO) upon approval of final assessment results</td><td>OSC; posted to marketplace</td></tr>
-      <tr><td><strong>SPRS Entry</strong></td><td>Assessment result submitted; reflects certification status</td><td>SPRS (visible to DoD COs)</td></tr>
+      <tr><th>Role</th><th>Who They Are</th><th>Key Authority / Constraint</th></tr>
+      <tr><td><strong>OSC Assessment Official</strong></td><td>Most senior OSC representative directly responsible for the assessment engagement</td><td>Must be an employee of the OSC. Only they can sign/approve the assessment contract.</td></tr>
+      <tr><td><strong>OSC POC</strong></td><td>Day-to-day liaison between OSC and assessment team</td><td>Does NOT have to be an OSC employee — can be an RP or consultant.</td></tr>
+      <tr><td><strong>Lead Assessor (CCA)</strong></td><td>CCA who oversees and manages the C3PAO Assessment Team</td><td>Makes final determination on all practice scores. Holds the formal Lead Assessor designation from Cyber AB.</td></tr>
+      <tr><td><strong>Assessment Team Members</strong></td><td>CCPs/CCAs on the C3PAO team</td><td>Must be in Active/Good Standing status verifiable on the Marketplace.</td></tr>
+      <tr><td><strong>CQAP</strong></td><td>CMMC Quality Assurance Professional</td><td>Verifies documentation completeness/accuracy before eMASS upload. Each C3PAO must have <strong>at least one</strong>.</td></tr>
     </table>
   </div>
 
-  <div class="callout green"><strong>Key distinction:</strong> The C3PAO conducts and reports the assessment. The <strong>Cyber AB</strong> awards the CMMC certification — NOT the C3PAO.</div>
+  <h3>1.3 — Templates: Mandatory vs. Not Mandatory</h3>
+  <div class="callout yellow">The exam tests which templates are <strong>mandatory</strong>. Know this table cold.</div>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Template</th><th>Format</th><th>Phase</th><th>Mandatory?</th></tr>
+      <tr><td><strong>CMMC Pre-Assessment Form</strong></td><td>Excel</td><td>1</td><td><span class="tag tag-orange">MANDATORY</span></td></tr>
+      <tr><td><strong>Virtual Assessment Evidence Preparation Template</strong></td><td>Excel</td><td>1</td><td><span class="tag tag-orange">MANDATORY</span></td></tr>
+      <tr><td>CMMC Assessment Readiness Review (CA-RR) Checklist</td><td>PDF</td><td>1</td><td><span class="tag tag-blue">Not Mandatory</span></td></tr>
+      <tr><td>C3PAO and Assessor COI Attestation</td><td>MS Word</td><td>2</td><td><span class="tag tag-blue">Not Mandatory</span></td></tr>
+      <tr><td>CMMC Assessment In-Brief</td><td>PowerPoint</td><td>2</td><td><span class="tag tag-blue">Not Mandatory</span></td></tr>
+      <tr><td>Daily Checkpoint</td><td>PowerPoint</td><td>2</td><td><span class="tag tag-blue">Not Mandatory</span></td></tr>
+      <tr><td><strong>Limited Practice Deficiency Correction Worksheet</strong></td><td>PDF</td><td>2</td><td><span class="tag tag-orange">MANDATORY</span></td></tr>
+      <tr><td><strong>CMMC Assessment Results Form</strong></td><td>Excel</td><td>2/3/4</td><td><span class="tag tag-orange">MANDATORY</span></td></tr>
+      <tr><td>CMMC Assessment Findings Briefing</td><td>PowerPoint</td><td>2</td><td><span class="tag tag-blue">Not Mandatory</span> (brief-out itself IS required)</td></tr>
+      <tr><td><strong>CMMC Assessment Quality Review Checklist</strong></td><td>PDF</td><td>1/3</td><td><span class="tag tag-orange">MANDATORY</span></td></tr>
+      <tr><td>Confirmation of Destruction of OSC Data</td><td>MS Word</td><td>4</td><td><span class="tag tag-blue">Not Mandatory</span> (notification IS required)</td></tr>
+    </table>
+  </div>
 
-  <h2 class="orange">CCP Role in the CAP</h2>
-  <ul>
-    <li>CCPs support evidence collection, conduct interviews, and perform testing activities under CCA supervision.</li>
-    <li>A CCP <strong>cannot</strong> independently determine MET/NOT MET — that authority rests with the CCA.</li>
-    <li>A CCP should escalate any ambiguous or disputed evidence to the Lead CCA.</li>
-    <li>CCPs must maintain objectivity — they cannot advocate for the OSC's position.</li>
-  </ul>
-
-  <h2 class="orange">Assessment Integrity Rules</h2>
+  <h3>1.4 — Corporate Identity &amp; Scoping</h3>
   <div class="two-col">
     <div class="card">
-      <div class="card-title">What IS Allowed</div>
+      <div class="card-title">Organizational Definitions <span class="tag tag-blue">CAP §1.4.3</span></div>
       <ul>
-        <li>Asking clarifying questions about how a control is implemented.</li>
-        <li>Requesting additional supporting evidence if initial evidence is insufficient.</li>
-        <li>Allowing OSC to present new evidence during the factual accuracy review of the draft report.</li>
+        <li><strong>HQ Organization</strong> — The legal entity delivering products/services under a DoD contract. May itself be the OSC, or may designate a Host Unit.</li>
+        <li><strong>Host Unit</strong> — The specific people, procedures, and technology within an HQ org applied to the DoD contract. This is the OSC for assessment purposes.</li>
+        <li><strong>Enclave</strong> — A set of system resources in the same security domain behind a common security perimeter. An assessment scope can be within an enclave.</li>
+        <li><strong>Supporting Organization</strong> — External entities that support the Host Unit. Their assets may be in scope, but they do NOT receive a CMMC Certification.</li>
       </ul>
     </div>
     <div class="card">
-      <div class="card-title">What Is NOT Allowed</div>
+      <div class="card-title">Pre-Assessment Requirements <span class="tag tag-orange">Can Block Assessment</span></div>
       <ul>
-        <li>OSC modifying or creating new policies <em>during</em> the assessment to create documentation for practices.</li>
-        <li>Assessors accepting evidence they know to be fabricated or outdated.</li>
-        <li>Lead CCA signing off without reviewing all team findings.</li>
-        <li>C3PAO providing remediation recommendations during the assessment (consulting conflict).</li>
+        <li>The OSC must have a valid <strong>CAGE code</strong> issued by DoD — assessment cannot proceed without it.</li>
+        <li>The OSC must be registered in <strong>SAM.gov</strong> and have a <strong>UEI (Unique Entity Identifier)</strong>.</li>
+        <li>An NDA is <em>recommended</em> before proprietary information is shared — though a formal contract may not yet exist.</li>
+        <li>Scope disagreements between C3PAO and OSC <strong>must be resolved before assessment commences</strong>.</li>
+        <li><strong>Non-duplication rule</strong>: ISO 27001, FedRAMP, or other certifications do NOT grant CMMC credit or status absent DoD published non-duplication policy.</li>
       </ul>
     </div>
   </div>
 
-  <div class="pq-section">
-    <div class="pq-header">Practice Questions · Domain 5 (CAP)</div>
-
-    <div class="pq" data-correct="C">
-      <div class="pq-q" onclick="toggleQ(this)">
-        <div class="pq-num">Q11</div>
-        <div class="pq-text">During Phase 2 of a CMMC Level 2 assessment, the OSC's CISO verbally tells the assessor that multi-factor authentication is enforced on all CUI-accessible accounts, but no technical evidence (logs, configuration screenshots, or policy documentation) can be produced. What should the assessor determine for the relevant IA practice?</div>
-        <div class="pq-chevron">▼</div>
-      </div>
-      <div class="pq-options">
-        <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> MET — senior leadership attestation is sufficient evidence for interview-based objectives.</div>
-        <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> MET with a risk notation — verbal confirmation from CISO is credible evidence.</div>
-        <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> NOT MET — verbal claims without supporting documentation or demonstrated capability are insufficient evidence.</div>
-        <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> Deferred — the assessor should schedule a follow-up once evidence is produced.</div>
-        <div class="pq-explain">✓ <strong>C is correct.</strong> Verbal claims alone are not sufficient to satisfy assessment objectives. Evidence must be documented, demonstrable, or testable. The CISO's verbal assertion without corroborating technical evidence is hearsay in the assessment context. Deferral beyond the assessment period is not a valid option for evidence collection.</div>
-      </div>
+  <h3>1.5 — Evidence Collection Approach &amp; COI</h3>
+  <div class="callout">The Evidence Collection Approach documents how artifacts will be gathered, how interviews will be scheduled, and how tests will be observed — including any virtual collection techniques and associated CUI protection measures.</div>
+  <div class="two-col">
+    <div class="card">
+      <div class="card-title">Evidence: Adequacy vs. Sufficiency <span class="tag tag-orange">High Frequency</span></div>
+      <ul>
+        <li><strong>Adequacy</strong> — Does the assessment team have the <em>right</em> evidence? (Does this artifact actually demonstrate performance of the CMMC practice?)</li>
+        <li><strong>Sufficiency</strong> — Does the assessment team have <em>enough</em> of the right evidence? (Does coverage span all in-scope assets, Host Units, and Supporting Orgs?)</li>
+        <li>Both must be satisfied for a practice to be scored MET. A gap in either = Evidence Gap.</li>
+      </ul>
     </div>
+    <div class="card">
+      <div class="card-title">COI Management <span class="tag tag-blue">CAP §1.5.4</span></div>
+      <ul>
+        <li>Lead Assessor is responsible for identifying COIs and documenting them in the Pre-Assessment Plan.</li>
+        <li>If a COI cannot be sufficiently mitigated, the <strong>C3PAO must not proceed with the assessment</strong>.</li>
+        <li>All team members must attest (by signature) to an Absence of COI before Phase 2 commences.</li>
+        <li>ISO/IEC 17020 governs impartiality requirements for conformity assessments.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>1.6 — Readiness Determination</h3>
+  <div class="callout yellow">The Lead Assessor makes the readiness recommendation; the <strong>C3PAO retains final decision authority</strong>. The readiness review does NOT predict whether the OSC will pass — only that both parties are ready to conduct the assessment.</div>
+  <div class="card">
+    <div class="card-title">4 Possible Phase 1 Outcomes <span class="tag tag-orange">Know All Four</span></div>
+    <ol>
+      <li><strong>Proceed as planned</strong> — All conditions satisfied; assessment is a go.</li>
+      <li><strong>Replan</strong> — Preparedness requirements not met; discrepancies must be resolved before proceeding. C3PAO <em>cannot</em> offer advice on how to improve readiness — this is a CoPC violation.</li>
+      <li><strong>Reschedule</strong> — Ready but external factors (health issues, disaster, COVID protocols) require a new date.</li>
+      <li><strong>Cancel</strong> — Insurmountable factors: unmitigable COI, failure to reach contract terms, etc.</li>
+    </ol>
+  </div>
+  <div class="callout orange"><strong>Critical prohibition:</strong> At no time during the Phase 1 evidence verification or readiness review may the C3PAO or assessment team provide <em>any</em> advice, recommendations, or implementation assistance on how the OSC could improve their evidence or readiness. Doing so is an explicit CoPC violation.</div>
+
+  <!-- PHASE 2 -->
+  <h2 class="orange">Phase 2 — Conduct the Assessment</h2>
+  <div class="callout">Phase 2 begins with the kickoff meeting and is iterative by nature. The Lead Assessor makes final determination on all preliminary recommended findings. The C3PAO holds <strong>final interpretation authority</strong> on practice scores.</div>
+
+  <h3>2.1 — Kickoff Meeting</h3>
+  <ul>
+    <li>Convened by the Lead Assessor using the CMMC Assessment In-Brief (or equivalent).</li>
+    <li>Attendees: OSC Assessment Official, OSC POC, assessment team, and relevant OSC staff. The OSC's RP/RPO may attend.</li>
+    <li>OSC delivers a high-level overview of its cybersecurity program.</li>
+    <li>Lead Assessor ensures minutes/summary are documented and retained — including all Q&amp;A.</li>
+  </ul>
+
+  <h3>2.2 — Evidence Collection (Examine / Interview / Test)</h3>
+  <div class="two-col">
+    <div class="card">
+      <div class="card-title">Evidence Rules</div>
+      <ul>
+        <li>Evidence artifacts may <em>not</em> have a 1:1 relationship with practices — multiple artifacts may be required.</li>
+        <li>Artifacts must be <em>produced by people who implement, perform, or support the work</em> — not just described by them.</li>
+        <li>Policies and procedures must show <strong>deployment and adoption</strong> by affected OSC personnel — a signed policy alone is not sufficient.</li>
+        <li>For interviews: statements are accepted as evidence when provided by people who actually implement, perform, or support the practice.</li>
+        <li>For tests: any <em>failed</em> test results in NOT MET for that practice. Observed by the Lead Assessor and team.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Evidence Gaps &amp; Daily Checkpoints</div>
+      <ul>
+        <li>Evidence gaps = the space between what OSC evidence shows and what the assessment team requires.</li>
+        <li>Examples of deficient evidence: incomplete access control lists; affirmations from someone who is not the proper owner; policies lacking endorsement by senior management (unsigned or signed by someone without authority).</li>
+        <li><strong>Daily Checkpoint</strong> — "Hot wash" meeting each day. OSC may present additional evidence during these sessions; the Lead Assessor decides if it changes scores.</li>
+        <li>NOT MET determinations are reported to the Lead Assessor immediately — assessed by any team member but determination confirmed by Lead Assessor.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>In-Person Only — 15 Practice Objectives (Cannot Be Virtual)</h3>
+  <div class="callout orange">These 15 objectives MUST be observed by the assessment team <em>in-person, on-premises</em>. This is frequently tested — know the domains they fall under.</div>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Domain</th><th>Practice Objective</th><th>What Must Be Observed In-Person</th></tr>
+      <tr><td><code>CM</code></td><td>CM.L2-3.4.5[d]</td><td>Physical access restrictions associated with system changes</td></tr>
+      <tr><td><code>MA</code></td><td>MA.L2-3.7.2[d]</td><td>Personnel used for maintenance are controlled</td></tr>
+      <tr><td><code>MP</code></td><td>MP.L2-3.8.1[c]</td><td>Paper media containing CUI is securely stored</td></tr>
+      <tr><td><code>MP</code></td><td>MP.L2-3.8.1[d]</td><td>Digital media containing CUI is securely stored</td></tr>
+      <tr><td><code>MP</code></td><td>MP.L2-3.8.4[a]</td><td>Media containing CUI is marked with CUI markings</td></tr>
+      <tr><td><code>MP</code></td><td>MP.L2-3.8.4[b]</td><td>Media containing CUI is marked with distribution limitations</td></tr>
+      <tr><td><code>PE</code></td><td>PE.L1-3.10.1[b]</td><td>Physical access to org systems is limited to authorized individuals</td></tr>
+      <tr><td><code>PE</code></td><td>PE.L1-3.10.1[c]</td><td>Physical access to equipment is limited to authorized individuals</td></tr>
+      <tr><td><code>PE</code></td><td>PE.L2-3.10.2[a]</td><td>Physical facility is monitored</td></tr>
+      <tr><td><code>PE</code></td><td>PE.L2-3.10.2[d]</td><td>Support infrastructure for org systems is monitored</td></tr>
+      <tr><td><code>PE</code></td><td>PE.L1-3.10.3[a]</td><td>Visitors are escorted</td></tr>
+      <tr><td><code>PE</code></td><td>PE.L1-3.10.3[b]</td><td>Visitor activity is monitored</td></tr>
+      <tr><td><code>PE</code></td><td>PE.L1-3.10.5[b]</td><td>Physical access devices are controlled</td></tr>
+      <tr><td><code>PE</code></td><td>PE.L1-3.10.5[c]</td><td>Physical access devices are managed</td></tr>
+      <tr><td><code>SC</code></td><td>SC.L2-3.13.12[b]</td><td>Collaborative computing devices provide indication of use to present users</td></tr>
+    </table>
+  </div>
+
+  <h3>2.3 — Scoring &amp; Limited Practice Deficiency Correction</h3>
+  <div class="callout yellow">The <strong>Limited Practice Deficiency Correction</strong> program is a nuanced mechanism that is heavily tested. Know the eligibility criteria, the ineligibility criteria, and the scoring threshold that triggers it.</div>
+
+  <div class="two-col">
+    <div class="card">
+      <div class="card-title">Ineligible Practices (Cannot Use Correction Program)</div>
+      <ul>
+        <li>Practices that could lead to significant exploitation or CUI exfiltration (5-point practices from Appendix P/K)</li>
+        <li>Any practice already on the OSC's <em>Self-Assessment Practice Deficiency Tracker</em> (known beforehand)</li>
+        <li>Practices that were NOT implemented prior to the current assessment</li>
+        <li>Any practice that changes or limits the effectiveness of another practice already scored MET</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Eligible for Correction Program (Both Criteria Required)</div>
+      <ul>
+        <li>The practice WAS implemented but has <em>minor documentation gaps</em> (outdated policy, missing updated signature) — implementation evidence shows it has been in place for a period of time; AND</li>
+        <li>Team consensus that fixing it does NOT change or limit the effectiveness of any other MET practice.</li>
+        <li>Eligible practices are scored as <strong>NOT MET</strong> and tracked on the Limited Practice Deficiency Correction Worksheet (Appendix J — mandatory template).</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>2.4 — Determining Final MET/NOT MET/NA &amp; POA&amp;M Review</h3>
+  <div class="card">
+    <div class="card-title">The 80% Rule (88/110) <span class="tag tag-orange">Exact Numbers Tested</span></div>
+    <ul>
+      <li>After applying Limited Practice Deficiency Correction: if OSC scores <strong>fewer than 88/110 MET (&lt;80%)</strong> → finding is <strong>"Not Achieved"</strong> — OSC must correct deficiencies and reapply. No conditional cert.</li>
+      <li>If OSC scores <strong>88/110 or more MET (≥80%)</strong> → OSC may proceed to either: (a) close Limited Deficiencies within 5 business days for Final Cert, or (b) move remaining deficiencies to a POA&amp;M for Conditional Cert.</li>
+      <li>POA&amp;Ms are <strong>not allowed for the highest-weighted practices</strong> (the 5-point practices from Appendix P).</li>
+      <li>POA&amp;M validity period: <strong>maximum 180 days</strong> from the Assessment Final Recommended Findings Briefing.</li>
+    </ul>
+  </div>
+
+  <div class="callout">A valid POA&amp;M must document: the specific weakness tied to the practice, severity, scope within the environment, proposed mitigation, estimated remediation cost, documented progress, and a risk assessment of the deficiency.</div>
+
+  <!-- PHASE 3 -->
+  <h2 class="orange">Phase 3 — Report Recommended Assessment Results</h2>
+  <div class="callout">The C3PAO and Lead Assessor deliver findings to the OSC, then the CQAP verifies documentation before upload to eMASS. The CQAP verifies the package at the end of <strong>both Phase 1 and Phase 3</strong>.</div>
+
+  <div class="table-wrap">
+    <table>
+      <tr><th>Deliverable</th><th>Timeline</th><th>Responsibility</th></tr>
+      <tr><td><strong>Final Findings Briefing to OSC</strong></td><td>End of Phase 2 / beginning of Phase 3</td><td>Lead Assessor; formal brief-out required even if Findings Brief template not used</td></tr>
+      <tr><td><strong>Report submitted to CQAP</strong></td><td><strong>NLT 10 business days</strong> from Final Findings Briefing</td><td>Lead Assessor → C3PAO</td></tr>
+      <tr><td><strong>Upload to CMMC eMASS</strong></td><td><strong>NLT 20 business days</strong> from Final Findings Briefing</td><td>C3PAO designated eMASS account holder</td></tr>
+      <tr><td><strong>Artifact retention</strong></td><td><strong>3 years</strong></td><td>C3PAO (notes/records); OSC (hashed artifacts)</td></tr>
+      <tr><td><strong>OSC artifact hashing</strong></td><td>Prior to eMASS upload</td><td>OSC hashes artifacts; C3PAO reports hash values to eMASS</td></tr>
+      <tr><td><strong>Destruction of OSC proprietary data</strong></td><td>At assessment conclusion</td><td>C3PAO — all OSC proprietary information must be returned or destroyed. Retaining it past conclusion is a CoPC violation.</td></tr>
+    </table>
+  </div>
+
+  <div class="two-col">
+    <div class="card">
+      <div class="card-title">Certification Types After Phase 3</div>
+      <ul>
+        <li><strong>CMMC L2 Final Certification</strong> — All 110 practices MET (or Limited Deficiencies closed). No POA&amp;M outstanding.</li>
+        <li><strong>CMMC L2 Conditional Certification</strong> — ≥88/110 practices MET; remaining NOT MET items on approved POA&amp;M. OSC must close within 180 days and undergo a POA&amp;M Close-Out Assessment.</li>
+        <li><strong>Not Achieved</strong> — &lt;88/110 MET. OSC must correct all deficiencies and reapply from scratch.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Assessment Appeals</div>
+      <ul>
+        <li>If OSC believes there are scoring discrepancies, they can submit an appeal through the Assessment Appeals Process (Appendix R of the CAP).</li>
+        <li>The C3PAO official holds <strong>final interpretation authority</strong> for practice scores during the assessment.</li>
+        <li>Appeals of final assessment results go to the Cyber AB — not the C3PAO.</li>
+        <li>The C3PAO issuing the Conditional Cert is <strong>NOT responsible</strong> for conducting the POA&amp;M Close-Out Assessment.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- PHASE 4 -->
+  <h2 class="orange">Phase 4 — Close-Out POA&amp;Ms and Assessment</h2>
+  <div class="callout orange">Phase 4 is unique to OSCs with a Conditional Certification. It does NOT apply to OSCs with a Final Certification or those who received a "Not Achieved" result. Knowing when Phase 4 applies is itself a testable point.</div>
+
+  <div class="card">
+    <div class="card-title">Phase 4 Process <span class="tag tag-orange">CAP §4.1</span></div>
+    <ol>
+      <li><strong>OSC selects a C3PAO</strong> (may be different from the original assessment C3PAO) to conduct the POA&amp;M Close-Out Assessment within 180 days of the Final Recommended Findings Briefing.</li>
+      <li>Lead Assessor reviews the updated POA&amp;M with any evidence (observations, interviews, or tests).</li>
+      <li><strong>If ALL POA&amp;M items are MET</strong> → Lead Assessor recommends <strong>CMMC L2 Final Certification</strong> → follow Phase 3 steps 3.2.2–3.2.4.</li>
+      <li><strong>If ANY POA&amp;M item fails</strong> → Lead Assessor recommends OSC NOT receive Final Cert. The Conditional Cert becomes null and void. OSC must correct and reapply.</li>
+    </ol>
+  </div>
+
+  <div class="callout">Criteria for a successful POA&amp;M Close-Out: (1) The practice is now "Fully-Implemented" and scored MET; (2) closing the practice does NOT change/limit effectiveness of any previously MET practice; (3) updated risk assessment reflects removal of the POA&amp;M practice; (4) updated POA&amp;M shows no remaining deficiencies.</div>
+
+  <!-- SCORING APPENDIX -->
+  <h2 class="orange">SPRS Scoring — Appendix P Reference</h2>
+  <div class="callout">Every NOT MET practice deducts a weighted value from the maximum score of 110. Score can go negative. Know the weight tiers and which practices fall into each.</div>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Weight</th><th>Why</th><th>Example Practices</th></tr>
+      <tr><td><strong style="color:var(--accent2)">5 pts</strong></td><td>Not implemented = significant network exploitation or CUI exfiltration risk</td><td>AC.L1-3.1.1/3.1.2, IA.L1-3.5.1/3.5.2, IA.L2-3.5.3 (MFA), AU.L2-3.3.1, CM.L2-3.4.1/3.4.2, IR.L2-3.6.1/3.6.2, SI.L1-3.14.1/3.14.2/3.14.4, SC.L1-3.13.1/3.13.5, PE.L1-3.10.1, SC.L2-3.13.15, MA.L2-3.7.2</td></tr>
+      <tr><td><strong style="color:var(--warn)">3 pts</strong></td><td>Specific and confined effect — puts CUI on media/system at risk, not entire network</td><td>AC.L2-3.1.5, AU.L2-3.3.2, MA.L2-3.7.1/3.7.4, MP.L2-3.8.1/3.8.2/3.8.8, PS.L2-3.9.1, RA.L2-3.11.1, CA.L2-3.12.2, SC.L2-3.13.8, SI.L1-3.14.5/3.14.7</td></tr>
+      <tr><td><strong style="color:var(--muted)">1 pt</strong></td><td>Limited or indirect effect on network security</td><td>All remaining derived security requirements not in 5 or 3 categories</td></tr>
+      <tr><td><strong>N/A (special)</strong></td><td>CA.L2-3.12.4 (SSP)</td><td>Absence of SSP = assessment CANNOT BE COMPLETED due to noncompliance with DFARS 252.204-7012</td></tr>
+    </table>
+  </div>
+
+  <div class="callout yellow"><strong>FIPS Encryption Special Rule (SC.L2-3.13.11):</strong> If encryption is NOT employed at all → deduct 5 points. If encryption is employed but NOT FIPS-validated → deduct 3 points. This is the only practice with a tiered deduction built in.</div>
+
+  <!-- PRACTICE QUESTIONS -->
+  <div class="pq-section">
+    <div class="pq-header">Practice Questions · Domain 5 (CAP) — 12 Questions</div>
 
     <div class="pq" data-correct="B">
       <div class="pq-q" onclick="toggleQ(this)">
-        <div class="pq-num">Q12</div>
-        <div class="pq-text">The OSC reviews the Draft Assessment Report and disagrees with a NOT MET determination, arguing the assessor misunderstood how a configuration control operates. What is the appropriate CAP mechanism for the OSC to raise this concern?</div>
+        <div class="pq-num">Q1</div>
+        <div class="pq-text">The CAP v5.6.1 describes how many phases for a CMMC Level 2 assessment?</div>
         <div class="pq-chevron">▼</div>
       </div>
       <div class="pq-options">
-        <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> The OSC should contact the Cyber AB directly to dispute the finding before the report is finalized.</div>
-        <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> The OSC should raise the factual concern during the draft report review; the Lead CCA evaluates whether additional evidence or clarification changes the determination.</div>
-        <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> The OSC can modify the SSP to clarify the control implementation and resubmit it as corrected evidence.</div>
-        <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> The finding is final once the draft report is issued; the OSC has no recourse until the next assessment cycle.</div>
-        <div class="pq-explain">✓ <strong>B is correct.</strong> The draft report review is specifically designed for the OSC to identify factual inaccuracies. The Lead CCA reviews the OSC's concerns and, if supported by existing evidence, may revise the determination. However, the OSC cannot introduce new implementations or substantially new documentation at this stage — only clarifications about existing evidence.</div>
+        <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> Three — Plan, Conduct, Report</div>
+        <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> Four — Plan &amp; Prepare, Conduct, Report, Close-Out POA&amp;Ms</div>
+        <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> Five — Initiate, Plan, Conduct, Report, Close-Out</div>
+        <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> Three — Pre-Assessment, Assessment, Post-Assessment</div>
+        <div class="pq-explain">✓ <strong>B is correct.</strong> The CAP v5.6.1 defines exactly four phases: Phase 1 (Plan and Prepare), Phase 2 (Conduct), Phase 3 (Report Recommended Assessment Results), and Phase 4 (Close-Out POA&amp;Ms and Assessment). Phase 4 was commonly missed in earlier study materials that listed only three phases.</div>
       </div>
     </div>
 
-    <div class="pq" data-correct="D">
+    <div class="pq" data-correct="C">
       <div class="pq-q" onclick="toggleQ(this)">
-        <div class="pq-num">Q13</div>
-        <div class="pq-text">Who is authorized to formally issue a CMMC Level 2 certification to an OSC after a successful C3PAO assessment?</div>
+        <div class="pq-num">Q2</div>
+        <div class="pq-text">An OSC initiates contact with a C3PAO on Monday morning. Per the CAP, by when must the C3PAO acknowledge the request and propose an initial coordination call?</div>
         <div class="pq-chevron">▼</div>
       </div>
       <div class="pq-options">
-        <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> The Lead CCA who signed the final assessment report.</div>
-        <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> The C3PAO that conducted the assessment.</div>
-        <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> OUSD(A&S) upon notification from the C3PAO.</div>
-        <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> The Cyber AB, upon review and approval of the submitted assessment results.</div>
-        <div class="pq-explain">✓ <strong>D is correct.</strong> The Cyber AB is the accreditation body that issues CMMC certifications. The C3PAO conducts the assessment and submits results; the Cyber AB validates and awards the formal certificate. This separation ensures an oversight function independent of the assessing organization.</div>
+        <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> Within 24 hours</div>
+        <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> Within 3 business days</div>
+        <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> Within 5 business days</div>
+        <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> Within 10 business days</div>
+        <div class="pq-explain">✓ <strong>C is correct.</strong> Per CAP §1.1, once a CMMC Assessment Request is received, the C3PAO shall respond within <strong>5 business days</strong>, acknowledging the request and proposing scheduling of an initial coordination call or virtual meeting.</div>
       </div>
     </div>
 
     <div class="pq" data-correct="A">
       <div class="pq-q" onclick="toggleQ(this)">
-        <div class="pq-num">Q14</div>
-        <div class="pq-text">A CCP team member, while collecting evidence for the SC domain, notices that a practice in the AC domain also appears NOT MET based on what they observed. What is the most appropriate action?</div>
+        <div class="pq-num">Q3</div>
+        <div class="pq-text">During Phase 1 readiness review, the Lead Assessor discovers the OSC's system security plan is incomplete and some evidence is not yet available. The Lead Assessor wants to notify the OSC of what evidence would strengthen their readiness. What does the CAP say about this?</div>
         <div class="pq-chevron">▼</div>
       </div>
       <div class="pq-options">
-        <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> Document the observation and escalate to the Lead CCA so the finding can be formally evaluated under the AC domain assessment activities.</div>
-        <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> Make an independent NOT MET determination for the AC practice and include it in the findings.</div>
-        <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> Disregard the observation since you are assigned to the SC domain only.</div>
-        <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> Alert the OSC's IT team so they can address the issue before it's formally assessed.</div>
-        <div class="pq-explain">✓ <strong>A is correct.</strong> A CCP should document observations and escalate to the Lead CCA — they do not have independent authority to make MET/NOT MET determinations. Alerting the OSC (D) would be a CoPC violation (allowing remediation during the assessment). Ignoring the observation (C) fails the assessment team's duty to identify deficiencies.</div>
+        <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> The Lead Assessor is explicitly prohibited from providing any advice or recommendations on how the OSC can improve evidence or readiness — doing so is a CoPC violation.</div>
+        <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> The Lead Assessor may provide general guidance on evidence types but not specific recommendations on implementation.</div>
+        <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> The Lead Assessor may share a readiness checklist with the OSC and note which items are incomplete.</div>
+        <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> The Lead Assessor may consult on readiness since the formal assessment has not yet begun.</div>
+        <div class="pq-explain">✓ <strong>A is correct.</strong> CAP §1.6.1 explicitly states: "At no time during this preliminary review of the Evidence shall the Assessment Team provide any advice or recommendation on how the OSC could improve or enhance the sufficiency or adequacy of their presented Evidence." The same prohibition extends to replanned or rescheduled assessments (§1.6.2). This is a CoPC violation regardless of when in Phase 1 it occurs.</div>
+      </div>
+    </div>
+
+    <div class="pq" data-correct="D">
+      <div class="pq-q" onclick="toggleQ(this)">
+        <div class="pq-num">Q4</div>
+        <div class="pq-text">An OSC's parent company (Acme Heavy Industries) has a defense-focused division (Acme Defense Mission Systems) that performs DoD contract work. A subcontractor cloud provider (All-American Cloud Services) provides IT services to that division. In the CMMC organizational model, what role does All-American Cloud Services play?</div>
+        <div class="pq-chevron">▼</div>
+      </div>
+      <div class="pq-options">
+        <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> Host Unit — they directly support DoD contract delivery</div>
+        <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> HQ Organization — they are part of the overall corporate structure</div>
+        <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> OSC — they will also receive CMMC certification during the assessment</div>
+        <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> Supporting Organization — their assets may be in scope, but they will NOT receive CMMC certification</div>
+        <div class="pq-explain">✓ <strong>D is correct.</strong> Per CAP §1.4.3 (and Table 1.4.3 which uses this exact example): Acme Heavy Industries = HQ Organization; Acme Defense Mission Systems = Host Unit (OSC); All-American Cloud Services = Supporting Organization. Supporting Organizations' assets may be assessed as part of the scope but they do NOT receive CMMC certification from the OSC's assessment.</div>
+      </div>
+    </div>
+
+    <div class="pq" data-correct="B">
+      <div class="pq-q" onclick="toggleQ(this)">
+        <div class="pq-num">Q5</div>
+        <div class="pq-text">Which of the following templates is NOT mandatory per the CAP v5.6.1?</div>
+        <div class="pq-chevron">▼</div>
+      </div>
+      <div class="pq-options">
+        <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> CMMC Pre-Assessment Form Template</div>
+        <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> CMMC Assessment Readiness Review (CA-RR) Checklist</div>
+        <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> CMMC Assessment Results Form</div>
+        <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> Limited Practice Deficiency Correction Program Worksheet</div>
+        <div class="pq-explain">✓ <strong>B is correct.</strong> Per CAP Table 1.3, the CA-RR Checklist is listed as "N" (not mandatory). The Pre-Assessment Form (A), Assessment Results Form (C), and Limited Practice Deficiency Correction Worksheet (D) are all mandatory templates. Note: the Assessment Findings Brief-out is required, but the PowerPoint template itself is not mandatory.</div>
       </div>
     </div>
 
     <div class="pq" data-correct="C">
       <div class="pq-q" onclick="toggleQ(this)">
-        <div class="pq-num">Q15</div>
-        <div class="pq-text">In the CAP, the Assessment Plan is created during which phase and by whom?</div>
+        <div class="pq-num">Q6</div>
+        <div class="pq-text">During a CMMC assessment, an assessor needs to verify that CUI stored on physical paper media is securely stored. The OSC proposes demonstrating this via a live video call tour of the storage area. What does the CAP require?</div>
         <div class="pq-chevron">▼</div>
       </div>
       <div class="pq-options">
-        <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> Phase 2 (Assessment Execution) by the OSC's ISSO.</div>
-        <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> Phase 3 (Post-Assessment) by the Lead CCA after reviewing evidence.</div>
-        <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> Phase 1 (Pre-Assessment) by the C3PAO assessment team.</div>
-        <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> Phase 1 (Pre-Assessment) by the OSC and approved by the Cyber AB.</div>
-        <div class="pq-explain">✓ <strong>C is correct.</strong> The Assessment Plan is a Pre-Assessment (Phase 1) deliverable created by the C3PAO/assessment team. It defines what will be assessed, how, by whom, and when. The OSC reviews it for logistical accuracy but does not author it, and the Cyber AB does not approve it pre-engagement.</div>
+        <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> The video call tour is acceptable — the CAP allows virtual observation for all media protection practices.</div>
+        <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> The assessor may accept photographic evidence submitted in advance as a substitute for in-person observation.</div>
+        <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> The assessor must be physically on-premises to observe this — MP.L2-3.8.1[c] (paper media secure storage) is one of 15 objectives that cannot be observed virtually.</div>
+        <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> Virtual observation is acceptable if the OSC Assessment Official provides written attestation of secure storage.</div>
+        <div class="pq-explain">✓ <strong>C is correct.</strong> CAP §1.5.1 explicitly lists MP.L2-3.8.1[c] as one of 15 practice objectives that "must be observed by the C3PAO Assessment Team in-person and on the premises of the OSC" and where "Evidence collection thereof is precluded from being conducted virtually." MP.L2-3.8.1[d] (digital media) also appears on this list.</div>
+      </div>
+    </div>
+
+    <div class="pq" data-correct="A">
+      <div class="pq-q" onclick="toggleQ(this)">
+        <div class="pq-num">Q7</div>
+        <div class="pq-text">An OSC achieves a final score of 97 out of 110 practices MET. The 13 NOT MET practices are minor documentation gaps, and the Lead Assessor places them on the Limited Practice Deficiency Correction program. The OSC does not resolve them within 5 business days. What happens next?</div>
+        <div class="pq-chevron">▼</div>
+      </div>
+      <div class="pq-options">
+        <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> The Lead Assessor moves the unresolved deficiencies to a POA&amp;M. Since 97/110 ≥ 88/110 (80%), the OSC can receive a CMMC L2 Conditional Certification.</div>
+        <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> The assessment is voided and the OSC must restart the process.</div>
+        <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> The OSC receives "Not Achieved" — all deficiencies must be resolved before certification can proceed.</div>
+        <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> The Lead Assessor grants a 10-day extension for all Limited Practice Deficiency corrections.</div>
+        <div class="pq-explain">✓ <strong>A is correct.</strong> Per CAP §3.2.1, if Limited Practice Deficiency items fail to achieve MET, the Lead Assessor moves them to a POA&amp;M review (§2.3.1.2). Since 97/110 ≥ 88/110, the OSC still meets the 80% threshold required for a Conditional Certification. The Conditional Cert gives the OSC 180 days to close the POA&amp;M and complete a Phase 4 Close-Out Assessment.</div>
+      </div>
+    </div>
+
+    <div class="pq" data-correct="D">
+      <div class="pq-q" onclick="toggleQ(this)">
+        <div class="pq-num">Q8</div>
+        <div class="pq-text">An OSC received a Conditional CMMC L2 Certification 6 months ago. They have successfully implemented all POA&amp;M items and select a new C3PAO to conduct the POA&amp;M Close-Out Assessment. During the review, one POA&amp;M item is found to be MET, but its implementation now limits the effectiveness of a previously MET practice (AC.L1-3.1.1). What is the correct outcome?</div>
+        <div class="pq-chevron">▼</div>
+      </div>
+      <div class="pq-options">
+        <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> Final Certification is awarded — the POA&amp;M item is MET, which is the only criterion that matters in Phase 4.</div>
+        <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> Final Certification is awarded because the OSC is within the 180-day window.</div>
+        <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> The Conditional Cert remains valid and the OSC gets an extension to resolve the conflict.</div>
+        <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> Final Certification is NOT awarded. The Conditional Cert becomes null and void; the OSC must reapply.</div>
+        <div class="pq-explain">✓ <strong>D is correct.</strong> Per CAP §4.1, one of the criteria for Phase 4 success is that "All POA&amp;M items 'Fully-Implemented' do not change and/or limit the effectiveness of another practice that has been scored 'MET' during the CMMC L2 assessment." Since the closed POA&amp;M item now limits AC.L1-3.1.1, this criterion fails. Per §4.1.2, the Lead Assessor recommends the OSC NOT receive Final Certification and the Conditional Cert becomes null and void.</div>
+      </div>
+    </div>
+
+    <div class="pq" data-correct="C">
+      <div class="pq-q" onclick="toggleQ(this)">
+        <div class="pq-num">Q9</div>
+        <div class="pq-text">During a CMMC assessment, the OSC argues that their ISO 27001 certification demonstrates compliance with several CMMC practices and requests that the assessment team give credit for those controls. What does the CAP say?</div>
+        <div class="pq-chevron">▼</div>
+      </div>
+      <div class="pq-options">
+        <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> ISO 27001 is recognized as equivalent to CMMC Level 2 and all overlapping practices can be marked MET.</div>
+        <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> The Lead Assessor has discretion to accept ISO 27001 evidence for up to 25% of practices.</div>
+        <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> Other cybersecurity certifications such as ISO 27001 do not bestow any credit or status toward CMMC absent an official DoD non-duplication policy.</div>
+        <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> The OSC must submit a formal non-duplication request to OUSD(A&S) during the assessment to receive credit.</div>
+        <div class="pq-explain">✓ <strong>C is correct.</strong> CAP §1.4.5 explicitly states: "other cybersecurity conformance regimes that may have been implemented by an OSC do not bestow any status or credit toward an OSC's CMMC Assessment or Certification" absent official DoD non-duplication policy. This applies to ISO 27001, FedRAMP, and any other certification. All 110 practices must still be assessed against CMMC requirements.</div>
+      </div>
+    </div>
+
+    <div class="pq" data-correct="B">
+      <div class="pq-q" onclick="toggleQ(this)">
+        <div class="pq-num">Q10</div>
+        <div class="pq-text">An OSC's CMMC Assessment Results must be uploaded into CMMC eMASS. What are the correct timelines for (a) submitting the report to the CQAP, and (b) completing the eMASS upload?</div>
+        <div class="pq-chevron">▼</div>
+      </div>
+      <div class="pq-options">
+        <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> 5 business days to CQAP; 10 business days to eMASS</div>
+        <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> 10 business days to CQAP; 20 business days to eMASS</div>
+        <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> 15 business days to CQAP; 30 business days to eMASS</div>
+        <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> 5 calendar days to CQAP; 15 calendar days to eMASS</div>
+        <div class="pq-explain">✓ <strong>B is correct.</strong> Per CAP §3.2.3: "Reports must submit to the CQAP NLT 10 Business Days from the Final Findings Briefing. Reports must be uploaded to eMASS NLT 20 Business Days from the Final Findings Briefing." All timelines are measured from the Final Findings Briefing date — memorize both numbers.</div>
+      </div>
+    </div>
+
+    <div class="pq" data-correct="A">
+      <div class="pq-q" onclick="toggleQ(this)">
+        <div class="pq-num">Q11</div>
+        <div class="pq-text">Practice SC.L2-3.13.11 (FIPS-validated encryption) is assessed during a CMMC Level 2 assessment. The OSC uses encryption to protect CUI in transit but the cryptographic module is NOT FIPS-validated. What is the SPRS score impact?</div>
+        <div class="pq-chevron">▼</div>
+      </div>
+      <div class="pq-options">
+        <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> Subtract 3 points — encryption is employed but not FIPS-validated</div>
+        <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> Subtract 5 points — any deviation from FIPS is treated as full non-implementation</div>
+        <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> Subtract 1 point — encryption is in use, which qualifies as partial implementation</div>
+        <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> No deduction — FIPS validation is advisory only for contractor systems</div>
+        <div class="pq-explain">✓ <strong>A is correct.</strong> Per CAP Appendix P, SC.L2-3.13.11 has a tiered deduction: if encryption is NOT employed at all → subtract 5 points; if encryption IS employed but NOT FIPS-validated → subtract 3 points. This is the only CMMC practice with a built-in tiered scoring structure. FIPS validation requires the cryptographic MODULE itself to be NIST-validated under FIPS 140 — simply using an approved algorithm (e.g., AES) is NOT sufficient.</div>
+      </div>
+    </div>
+
+    <div class="pq" data-correct="D">
+      <div class="pq-q" onclick="toggleQ(this)">
+        <div class="pq-num">Q12</div>
+        <div class="pq-text">During a CMMC assessment, the OSC does not have a System Security Plan (SSP). Practice CA.L2-3.12.4 requires an SSP. What is the correct assessment outcome?</div>
+        <div class="pq-chevron">▼</div>
+      </div>
+      <div class="pq-options">
+        <div class="pq-opt" onclick="answerQ(this,'A')"><span class="opt-letter">A.</span> CA.L2-3.12.4 is scored NOT MET with a 1-point deduction; assessment continues for all other practices.</div>
+        <div class="pq-opt" onclick="answerQ(this,'B')"><span class="opt-letter">B.</span> CA.L2-3.12.4 is scored NOT MET with a 5-point deduction; assessment continues.</div>
+        <div class="pq-opt" onclick="answerQ(this,'C')"><span class="opt-letter">C.</span> The OSC receives 30 days to produce an SSP before the assessment proceeds.</div>
+        <div class="pq-opt" onclick="answerQ(this,'D')"><span class="opt-letter">D.</span> The assessment cannot be completed — absence of an SSP results in a finding that the assessment could not be completed due to noncompliance with DFARS 252.204-7012.</div>
+        <div class="pq-explain">✓ <strong>D is correct.</strong> Per CAP Appendix P and the scoring table, CA.L2-3.12.4 is marked "N/A" for point deduction — but not because it's optional. Rather, the absence of an SSP means "it is not possible to conduct the assessment if the information is not available" and results in a finding that "an assessment could not be completed due to incomplete information and noncompliance with DFARS clause 252.204-7012." The SSP is a prerequisite to assessment, not just another scoreable practice.</div>
       </div>
     </div>
   </div>
 </div>
+
 
 <!-- ═══════════ DOMAIN 6 ═══════════ -->
 <div class="section" id="d6">
