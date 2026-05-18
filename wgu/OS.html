@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D686 — OS Zero to Hero Study Guide</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --bg2: #161b27;
+    --bg3: #1e2535;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --text: #e2e8f0;
+    --muted: #8892a4;
+    --accent: #38bdf8;
+    --accent2: #34d399;
+    --accent3: #fb923c;
+    --accent4: #f472b6;
+    --accent5: #a78bfa;
+    --danger: #f87171;
+    --warn: #fbbf24;
+    --card: #1a2030;
+    --mono: 'Courier New', Courier, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 15px; line-height: 1.7; }
+
+  /* HEADER */
+  .site-header { background: var(--bg2); border-bottom: 1px solid var(--border2); padding: 1.25rem 2rem; display: flex; align-items: center; gap: 1rem; position: sticky; top: 0; z-index: 100; }
+  .logo { font-size: 1.25rem; font-weight: 700; color: var(--accent); letter-spacing: -0.5px; }
+  .logo span { color: var(--text); font-weight: 400; font-size: 0.9rem; }
+  .badge { background: rgba(56,189,248,0.15); color: var(--accent); border: 1px solid rgba(56,189,248,0.3); border-radius: 6px; font-size: 11px; font-weight: 600; padding: 2px 8px; letter-spacing: 0.5px; text-transform: uppercase; }
+
+  /* NAV */
+  .nav-bar { background: var(--bg2); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; }
+  .nav-bar::-webkit-scrollbar { display: none; }
+  .nav-btn { background: none; border: none; border-bottom: 2px solid transparent; color: var(--muted); cursor: pointer; padding: 0.75rem 1rem; font-size: 13px; font-family: var(--sans); white-space: nowrap; transition: all 0.15s; }
+  .nav-btn:hover { color: var(--text); }
+  .nav-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* MAIN */
+  .main { max-width: 980px; margin: 0 auto; padding: 2rem; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* SECTION HEADER */
+  .section-title { font-size: 1.6rem; font-weight: 700; color: var(--text); margin-bottom: 0.25rem; }
+  .section-sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 2rem; }
+
+  /* CARDS */
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; }
+  .card-title { font-size: 1rem; font-weight: 600; color: var(--accent); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+  .card-title .icon { font-size: 1rem; }
+
+  /* CALLOUTS */
+  .callout { border-radius: 8px; padding: 1rem 1.25rem; margin: 1rem 0; border-left: 3px solid; }
+  .callout.info { background: rgba(56,189,248,0.08); border-color: var(--accent); }
+  .callout.success { background: rgba(52,211,153,0.08); border-color: var(--accent2); }
+  .callout.warn { background: rgba(251,191,36,0.08); border-color: var(--warn); }
+  .callout.danger { background: rgba(248,113,113,0.08); border-color: var(--danger); }
+  .callout-title { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 0.4rem; }
+  .callout.info .callout-title { color: var(--accent); }
+  .callout.success .callout-title { color: var(--accent2); }
+  .callout.warn .callout-title { color: var(--warn); }
+  .callout.danger .callout-title { color: var(--danger); }
+
+  /* TABLES */
+  .tbl-wrap { overflow-x: auto; margin: 1rem 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th { background: var(--bg3); color: var(--accent); text-align: left; padding: 0.6rem 0.9rem; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--border2); }
+  td { padding: 0.6rem 0.9rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+
+  /* CODE */
+  code { font-family: var(--mono); background: var(--bg3); color: var(--accent2); padding: 1px 6px; border-radius: 4px; font-size: 13px; }
+  .code-block { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.25rem; font-family: var(--mono); font-size: 13px; line-height: 1.6; overflow-x: auto; margin: 0.75rem 0; white-space: pre; color: var(--accent2); }
+  .code-block .cm { color: var(--muted); } /* comments */
+  .code-block .ky { color: var(--accent5); } /* keywords */
+  .code-block .st { color: var(--accent3); } /* strings */
+
+  /* TAGS */
+  .tag { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; margin: 2px; }
+  .tag-blue { background: rgba(56,189,248,0.15); color: var(--accent); border: 1px solid rgba(56,189,248,0.25); }
+  .tag-green { background: rgba(52,211,153,0.15); color: var(--accent2); border: 1px solid rgba(52,211,153,0.25); }
+  .tag-orange { background: rgba(251,146,60,0.15); color: var(--accent3); border: 1px solid rgba(251,146,60,0.25); }
+  .tag-purple { background: rgba(167,139,250,0.15); color: var(--accent5); border: 1px solid rgba(167,139,250,0.25); }
+  .tag-red { background: rgba(248,113,113,0.15); color: var(--danger); border: 1px solid rgba(248,113,113,0.25); }
+
+  /* GRID */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 1rem 0; }
+  @media (max-width: 700px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+
+  /* MINI CARD */
+  .mini-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; }
+  .mini-card h4 { color: var(--accent3); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem; }
+
+  /* STEPS */
+  .steps { margin: 1rem 0; }
+  .step { display: flex; gap: 1rem; margin-bottom: 1rem; align-items: flex-start; }
+  .step-num { background: var(--accent); color: #000; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; margin-top: 2px; }
+  .step-content strong { color: var(--text); display: block; margin-bottom: 0.2rem; }
+  .step-content p { color: var(--muted); font-size: 14px; }
+
+  /* DIAGRAM - ASCII art style */
+  .diagram { background: var(--bg3); border: 1px solid var(--border2); border-radius: 8px; padding: 1.25rem; font-family: var(--mono); font-size: 12.5px; line-height: 1.8; color: var(--text); margin: 1rem 0; overflow-x: auto; white-space: pre; }
+
+  /* LIST */
+  ul.styled, ol.styled { padding-left: 1.5rem; color: var(--muted); margin: 0.5rem 0; }
+  ul.styled li, ol.styled li { margin-bottom: 0.35rem; font-size: 14px; }
+  ul.styled li strong, ol.styled li strong { color: var(--text); }
+
+  p.body { color: var(--muted); font-size: 14.5px; margin-bottom: 0.75rem; }
+
+  /* ALGORITHM BOX */
+  .algo { background: rgba(167,139,250,0.06); border: 1px solid rgba(167,139,250,0.2); border-radius: 8px; padding: 1rem 1.25rem; margin: 1rem 0; }
+  .algo-title { color: var(--accent5); font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem; }
+
+  /* PROGRESS indicator */
+  .toc-pill { display: inline-flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .toc-pill a { font-size: 12px; color: var(--muted); text-decoration: none; border: 1px solid var(--border); border-radius: 4px; padding: 3px 10px; transition: all 0.15s; }
+  .toc-pill a:hover { color: var(--accent); border-color: rgba(56,189,248,0.4); }
+
+  h3.sub { font-size: 1rem; font-weight: 600; color: var(--text); margin: 1.5rem 0 0.5rem; }
+  .sep { border: none; border-top: 1px solid var(--border); margin: 1.75rem 0; }
+</style>
+</head>
+<body>
+
+<div class="site-header">
+  <div class="logo">D686 <span>Operating Systems</span></div>
+  <div class="badge">Zero → Hero</div>
+</div>
+
+<div class="nav-bar" id="navBar">
+  <button class="nav-btn active" data-sec="streams">UNIX Streams</button>
+  <button class="nav-btn" data-sec="filesystems">File Systems</button>
+  <button class="nav-btn" data-sec="sync">Synchronization</button>
+  <button class="nav-btn" data-sec="processes">Process Mgmt</button>
+  <button class="nav-btn" data-sec="deadlocks">Deadlocks</button>
+  <button class="nav-btn" data-sec="classics">Classic Problems</button>
+  <button class="nav-btn" data-sec="rag">RAG & Wait-For</button>
+  <button class="nav-btn" data-sec="io">I/O Operations</button>
+  <button class="nav-btn" data-sec="security">Security</button>
+  <button class="nav-btn" data-sec="linux">Linux Commands</button>
+  <button class="nav-btn" data-sec="ostech">OS Technologies</button>
+  <button class="nav-btn" data-sec="mounting">Mounting</button>
+</div>
+
+<div class="main">
+
+<!-- ===================== UNIX STREAMS ===================== -->
+<div class="section active" id="sec-streams">
+  <div class="section-title">UNIX STREAMS</div>
+  <div class="section-sub">A full-duplex I/O interface for character device drivers in UNIX System V</div>
+
+  <div class="card">
+    <div class="card-title">What is STREAMS?</div>
+    <p class="body">STREAMS is a UNIX kernel framework that provides a standard, modular way to implement character-device I/O and network protocols. It creates a full-duplex communication channel between a user-space process and a device driver, with optional processing modules stacked in between.</p>
+    <div class="callout info">
+      <div class="callout-title">Key Insight</div>
+      A STREAM is like a pipeline of data transformers — raw data enters one end, gets processed by each module in sequence, and exits the other end transformed. Unlike a pipe (one-way), STREAMS are full-duplex (data flows both ways simultaneously).
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">The 3-Part Architecture</div>
+    <div class="diagram">User Space
+    ┌─────────────────────────────────────────┐
+    │          User Process (app)             │
+    │    read() / write() / ioctl()           │
+    └──────────────────┬──────────────────────┘
+                       │
+    ┌──────────────────▼──────────────────────┐  ← STREAM HEAD
+    │         Stream Head (sth)               │     Interface between user & kernel
+    │    Manages user ↔ kernel boundary       │     Handles read/write system calls
+    └──────────────────┬──────────────────────┘
+                       │
+    ┌──────────────────▼──────────────────────┐  ← MODULE (optional, stackable)
+    │         Module (e.g., TTY)              │     Transforms data in both directions
+    │    push() / pop() to add/remove         │     Example: encryption, protocol layer
+    └──────────────────┬──────────────────────┘
+                       │
+    ┌──────────────────▼──────────────────────┐  ← STREAM DRIVER
+    │         Stream Driver                   │     Actual hardware interface
+    │    Communicates with the device         │     Bottom of the stream
+    └─────────────────────────────────────────┘
+    Kernel Space                              Device (e.g., serial port, NIC)</div>
+    <div class="grid-2" style="margin-top:1rem;">
+      <div class="mini-card">
+        <h4>Stream Head</h4>
+        Topmost component. Interfaces with user-space. Handles <code>read()</code>, <code>write()</code>, <code>ioctl()</code> system calls. Converts between user and kernel data formats.
+      </div>
+      <div class="mini-card">
+        <h4>Modules</h4>
+        Middleware layers that transform data passing through. They can be <strong>pushed</strong> onto or <strong>popped</strong> off the stream at runtime. Examples: error correction, protocol processing.
+      </div>
+      <div class="mini-card">
+        <h4>Stream Driver</h4>
+        The bottommost component. Directly communicates with the hardware device. Like a regular device driver but STREAMS-compatible.
+      </div>
+      <div class="mini-card">
+        <h4>Message Queues</h4>
+        Data flows as <strong>messages</strong>, not raw bytes. Each component has a read queue and write queue. Enables flow control and priority messaging.
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">STREAMS vs Pipes</div>
+    <div class="tbl-wrap">
+    <table>
+      <tr><th>Feature</th><th>STREAMS</th><th>Pipes</th></tr>
+      <tr><td>Direction</td><td><span class="tag tag-green">Full-duplex (bidirectional)</span></td><td><span class="tag tag-orange">Unidirectional</span></td></tr>
+      <tr><td>Data format</td><td>Structured messages with type/priority</td><td>Raw byte stream</td></tr>
+      <tr><td>Modularity</td><td>Modules can be pushed/popped dynamically</td><td>Fixed — no middleware</td></tr>
+      <tr><td>Flow control</td><td>Built-in (back-pressure on queues)</td><td>Kernel buffer only</td></tr>
+      <tr><td>Use case</td><td>Device drivers, network protocols</td><td>Inter-process communication</td></tr>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Key System Calls</div>
+    <div class="tbl-wrap">
+    <table>
+      <tr><th>Call</th><th>Purpose</th></tr>
+      <tr><td><code>open()</code></td><td>Opens a STREAM device, creating the stream</td></tr>
+      <tr><td><code>close()</code></td><td>Dismantles the stream and frees resources</td></tr>
+      <tr><td><code>read() / write()</code></td><td>Transfer data through the stream head</td></tr>
+      <tr><td><code>ioctl(I_PUSH)</code></td><td>Push a module onto the stream (add layer)</td></tr>
+      <tr><td><code>ioctl(I_POP)</code></td><td>Remove the topmost module</td></tr>
+      <tr><td><code>putmsg()</code></td><td>Send a structured message with control info</td></tr>
+      <tr><td><code>getmsg()</code></td><td>Receive a structured message</td></tr>
+    </table>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <div class="callout-title">Exam Tip</div>
+    Know the 3 components (stream head, module, driver) and that STREAMS is <strong>full-duplex</strong> while pipes are <strong>unidirectional</strong>. Know that modules can be dynamically <strong>pushed</strong> and <strong>popped</strong>.
+  </div>
+</div>
+
+<!-- ===================== FILE SYSTEMS ===================== -->
+<div class="section" id="sec-filesystems">
+  <div class="section-title">File Systems</div>
+  <div class="section-sub">How operating systems organize, store, and retrieve data on disk</div>
+
+  <div class="card">
+    <div class="card-title">Virtual File System (VFS)</div>
+    <p class="body">VFS is an abstraction layer in the kernel that provides a <strong>uniform interface</strong> for all file system types. Applications call generic functions like <code>open()</code>, <code>read()</code>, <code>write()</code> — VFS routes them to the correct underlying file system (ext4, NTFS, FAT32, etc.).</p>
+    <div class="diagram">Application
+       │ open(), read(), write(), close()
+       ▼
+    ┌─────────────────────────────────┐
+    │   Virtual File System (VFS)     │  ← Uniform interface
+    └──────┬──────────┬──────────┬───┘
+           ▼          ▼          ▼
+        ext4        NTFS       FAT32     ← Concrete file systems
+           │          │          │
+           └──────────┴──────────┘
+                      │
+                 Block Device Layer (disk driver)</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Inodes — The Heart of UNIX File Systems</div>
+    <p class="body">An <strong>inode</strong> (index node) stores all metadata about a file EXCEPT its name. The directory maps filename → inode number.</p>
+    <div class="grid-2">
+      <div>
+        <h3 class="sub">What an inode stores:</h3>
+        <ul class="styled">
+          <li>File type (regular, directory, symlink)</li>
+          <li>Permissions (rwxrwxrwx)</li>
+          <li>Owner (UID) and group (GID)</li>
+          <li>File size in bytes</li>
+          <li>Timestamps (created, modified, accessed)</li>
+          <li>Link count (hard links pointing to this inode)</li>
+          <li>Pointers to data blocks</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="sub">What an inode does NOT store:</h3>
+        <ul class="styled">
+          <li><strong>The filename</strong> (stored in the directory)</li>
+          <li>The actual file content (stored in data blocks)</li>
+        </ul>
+        <div class="callout info" style="margin-top:0.5rem;">
+          <div class="callout-title">Memory Hook</div>
+          Directory = Phone book (name → number). Inode = the person (all their info). Data blocks = what they actually say.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">File Allocation Methods</div>
+    <div class="grid-2">
+      <div class="mini-card">
+        <h4>Contiguous</h4>
+        All blocks stored consecutively on disk. Fast sequential access. Suffers from <strong>external fragmentation</strong>. Hard to grow files.
+        <div class="diagram" style="font-size:11px;padding:0.5rem;margin-top:0.5rem;">[ A | A | A | B | B | _ | C | C | C ]</div>
+      </div>
+      <div class="mini-card">
+        <h4>Linked</h4>
+        Each block has a pointer to the next. No external fragmentation. Poor random access. Unreliable if a pointer breaks.
+        <div class="diagram" style="font-size:11px;padding:0.5rem;margin-top:0.5rem;">[A1|→4] [A2|→7] [A3|→0] scattered blocks</div>
+      </div>
+      <div class="mini-card">
+        <h4>Indexed (FAT)</h4>
+        An index block holds all data block pointers. Supports random access. Index block overhead. FAT32 uses a global file allocation table.
+        <div class="diagram" style="font-size:11px;padding:0.5rem;margin-top:0.5rem;">Index: [4][7][12] → actual data blocks</div>
+      </div>
+      <div class="mini-card">
+        <h4>Extents (ext4/APFS)</h4>
+        Stores (start block, length) pairs instead of individual block pointers. Efficient for large files. Reduces fragmentation.
+        <div class="diagram" style="font-size:11px;padding:0.5rem;margin-top:0.5rem;">Extent: start=100, len=50 → 50 contiguous blocks</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Journaling</div>
+    <p class="body">Journaling records intended changes to a <strong>log (journal)</strong> before writing them to disk. If the system crashes mid-write, the journal is replayed on recovery — preventing corruption.</p>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><div class="step-content"><strong>Write to journal (log)</strong><p>Metadata (and optionally data) is written to the journal first</p></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-content"><strong>Commit</strong><p>A commit record marks the journal entry as complete</p></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-content"><strong>Write to disk</strong><p>Changes are written to their final location on disk</p></div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-content"><strong>Clear journal</strong><p>Journal entry is freed after successful write</p></div></div>
+    </div>
+    <div class="tbl-wrap">
+    <table>
+      <tr><th>File System</th><th>Journaled?</th><th>OS</th></tr>
+      <tr><td>ext2</td><td><span class="tag tag-red">No</span></td><td>Linux (legacy)</td></tr>
+      <tr><td>ext3</td><td><span class="tag tag-green">Yes — metadata</span></td><td>Linux</td></tr>
+      <tr><td>ext4</td><td><span class="tag tag-green">Yes — metadata + extents</span></td><td>Linux (modern)</td></tr>
+      <tr><td>NTFS</td><td><span class="tag tag-green">Yes — $LogFile</span></td><td>Windows</td></tr>
+      <tr><td>APFS</td><td><span class="tag tag-green">Yes — copy-on-write</span></td><td>macOS/iOS</td></tr>
+      <tr><td>FAT32</td><td><span class="tag tag-red">No</span></td><td>Windows (legacy/flash)</td></tr>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Free Space Management</div>
+    <div class="grid-2">
+      <div class="mini-card">
+        <h4>Bit Vector (Bitmap)</h4>
+        One bit per disk block. 0 = free, 1 = used. Fast to find contiguous free blocks. Requires extra space for the bitmap itself.
+      </div>
+      <div class="mini-card">
+        <h4>Linked Free List</h4>
+        Free blocks are linked together. No extra space needed (uses the free blocks themselves). Slow — must traverse the list to find contiguous space.
+      </div>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <div class="callout-title">Exam Tips</div>
+    ext2 = no journal (good for USB/flash). ext3 added journaling to ext2. ext4 added extents + multiblock allocation. NTFS uses $LogFile for journaling. FAT32 = no journal, 4GB file size limit.
+  </div>
+</div>
+
+<!-- ===================== SYNCHRONIZATION ===================== -->
+<div class="section" id="sec-sync">
+  <div class="section-title">Synchronization</div>
+  <div class="section-sub">Coordinating concurrent access to shared resources to prevent data corruption</div>
+
+  <div class="card">
+    <div class="card-title">The Problem: Race Conditions</div>
+    <p class="body">A <strong>race condition</strong> occurs when two or more processes access and manipulate shared data concurrently, and the final result depends on the order of execution — which is unpredictable.</p>
+    <div class="code-block"><span class="cm">// Two threads both execute: counter++</span>
+<span class="cm">// counter++ is actually 3 operations:</span>
+LOAD  R1, counter    <span class="cm">// read value</span>
+ADD   R1, #1         <span class="cm">// increment</span>
+STORE counter, R1    <span class="cm">// write back</span>
+
+<span class="cm">// If two threads interleave → counter ends up as 1 instead of 2!</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Critical Section Requirements</div>
+    <p class="body">A <strong>critical section</strong> is a code segment that accesses shared resources. Any correct solution must satisfy ALL three:</p>
+    <div class="grid-3">
+      <div class="mini-card">
+        <h4>1. Mutual Exclusion</h4>
+        Only ONE process can be inside the critical section at a time.
+      </div>
+      <div class="mini-card">
+        <h4>2. Progress</h4>
+        If no one is in the CS and someone wants in, a decision must be made in finite time (no endless deferral).
+      </div>
+      <div class="mini-card">
+        <h4>3. Bounded Waiting</h4>
+        There is a limit on how many times other processes enter the CS before a waiting process gets in (no starvation).
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Mutex (Mutual Exclusion Lock)</div>
+    <p class="body">The simplest synchronization tool. A mutex has two states: <strong>locked</strong> and <strong>unlocked</strong>. Only the thread that locked it can unlock it.</p>
+    <div class="code-block">mutex.acquire()   <span class="cm">// lock — blocks if already locked</span>
+  <span class="cm">// ← critical section →</span>
+  shared_data++
+mutex.release()   <span class="cm">// unlock — wakes a waiting thread</span></div>
+    <div class="callout danger">
+      <div class="callout-title">Pitfall: Deadlock</div>
+      If thread A holds mutex1 and waits for mutex2, while thread B holds mutex2 and waits for mutex1 → deadlock.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Semaphores</div>
+    <p class="body">A semaphore is an integer variable accessed only via two atomic operations:</p>
+    <div class="grid-2">
+      <div class="mini-card">
+        <h4>wait() — also called P() or down()</h4>
+        Decrements the value. If value &lt; 0, the process blocks (goes to sleep). Conceptually: "try to acquire a resource."
+        <div class="code-block" style="margin-top:0.5rem;">wait(S):
+  S = S - 1
+  if S &lt; 0: block()</div>
+      </div>
+      <div class="mini-card">
+        <h4>signal() — also called V() or up()</h4>
+        Increments the value. If there are blocked processes, wakes one. Conceptually: "release a resource."
+        <div class="code-block" style="margin-top:0.5rem;">signal(S):
+  S = S + 1
+  if S &lt;= 0: wakeup()</div>
+      </div>
+    </div>
+    <div class="tbl-wrap" style="margin-top:1rem;">
+    <table>
+      <tr><th>Type</th><th>Initial Value</th><th>Use Case</th></tr>
+      <tr><td>Binary Semaphore</td><td>1</td><td>Acts like a mutex — mutual exclusion</td></tr>
+      <tr><td>Counting Semaphore</td><td>N (pool size)</td><td>Control access to N identical resources (e.g., 5 printers)</td></tr>
+      <tr><td>Signaling Semaphore</td><td>0</td><td>Force ordering — A does something, then signals B to proceed</td></tr>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Monitors</div>
+    <p class="body">A high-level synchronization construct. A monitor is a class/module where:</p>
+    <ul class="styled">
+      <li><strong>Only one process</strong> can be executing inside the monitor at any time (mutual exclusion is automatic)</li>
+      <li><strong>Condition variables</strong> allow processes to wait inside the monitor without holding the lock</li>
+      <li><code>wait()</code> on a condition variable releases the monitor lock and suspends the process</li>
+      <li><code>signal()</code> wakes exactly one waiting process on that condition variable</li>
+    </ul>
+    <div class="code-block"><span class="ky">monitor</span> BoundedBuffer:
+  condition not_full, not_empty
+  
+  <span class="ky">procedure</span> insert(item):
+    <span class="ky">if</span> buffer.full(): wait(not_full)
+    buffer.add(item)
+    signal(not_empty)
+  
+  <span class="ky">procedure</span> remove():
+    <span class="ky">if</span> buffer.empty(): wait(not_empty)
+    item = buffer.get()
+    signal(not_full)
+    return item</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Spinlock vs Blocking Lock</div>
+    <div class="tbl-wrap">
+    <table>
+      <tr><th>Feature</th><th>Spinlock</th><th>Blocking (Mutex/Semaphore)</th></tr>
+      <tr><td>Waiting behavior</td><td>CPU keeps looping ("spinning") checking the lock</td><td>Process goes to sleep, yields the CPU</td></tr>
+      <tr><td>CPU usage while waiting</td><td><span class="tag tag-red">100% (busy waiting)</span></td><td><span class="tag tag-green">0% (blocked)</span></td></tr>
+      <tr><td>Best for</td><td>Very short waits on multi-core systems</td><td>Longer waits or single-core systems</td></tr>
+      <tr><td>Context switch needed?</td><td>No</td><td>Yes (overhead)</td></tr>
+    </table>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== PROCESS MANAGEMENT ===================== -->
+<div class="section" id="sec-processes">
+  <div class="section-title">Process Management</div>
+  <div class="section-sub">How the OS creates, schedules, and manages running programs</div>
+
+  <div class="card">
+    <div class="card-title">Process States (The 5-State Model)</div>
+    <div class="diagram">         ┌─────────┐
+         │   New   │  process created
+         └────┬────┘
+              │ admitted
+         ┌────▼────┐      scheduler dispatch     ┌──────────┐
+         │  Ready  │ ─────────────────────────→  │ Running  │
+         │ (queue) │ ←─────────────────────────  │ (on CPU) │
+         └─────────┘      interrupt / timeout    └────┬─────┘
+              ▲                                       │
+              │ I/O complete                          │ I/O request / event wait
+              │                                       ▼
+         ┌────┴──────┐                          ┌──────────┐
+         │ Terminated│ ← exit()                 │ Waiting  │
+         └───────────┘                          └──────────┘</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>State</th><th>Meaning</th></tr>
+      <tr><td><span class="tag tag-blue">New</span></td><td>Process is being created</td></tr>
+      <tr><td><span class="tag tag-green">Ready</span></td><td>Loaded in memory, waiting for CPU time</td></tr>
+      <tr><td><span class="tag tag-orange">Running</span></td><td>Currently executing on the CPU</td></tr>
+      <tr><td><span class="tag tag-purple">Waiting</span></td><td>Blocked waiting for I/O or an event</td></tr>
+      <tr><td><span class="tag tag-red">Terminated</span></td><td>Finished execution, being cleaned up</td></tr>
+    </table></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Process Control Block (PCB)</div>
+    <p class="body">The OS's complete record of a process. Every process has exactly one PCB. Saved/restored on every context switch.</p>
+    <div class="grid-2">
+      <ul class="styled">
+        <li><strong>Process ID (PID)</strong> — unique identifier</li>
+        <li><strong>Process state</strong> — ready/running/waiting/etc.</li>
+        <li><strong>Program counter</strong> — next instruction address</li>
+        <li><strong>CPU registers</strong> — all register values saved here</li>
+      </ul>
+      <ul class="styled">
+        <li><strong>Scheduling info</strong> — priority, time used</li>
+        <li><strong>Memory info</strong> — page tables, base/limit registers</li>
+        <li><strong>I/O status</strong> — open files, pending I/O</li>
+        <li><strong>Accounting info</strong> — CPU time used, start time</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">CPU Scheduling Algorithms</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>Algorithm</th><th>How it works</th><th>Pros</th><th>Cons</th></tr>
+      <tr><td><strong>FCFS</strong> (First-Come First-Served)</td><td>Run processes in arrival order</td><td>Simple, no starvation</td><td>Convoy effect — short jobs wait behind long ones</td></tr>
+      <tr><td><strong>SJF</strong> (Shortest Job First)</td><td>Run the process with shortest burst time next</td><td>Optimal average wait time</td><td>Starvation of long jobs; burst time hard to know</td></tr>
+      <tr><td><strong>Priority</strong></td><td>Run highest-priority process next</td><td>Important jobs run first</td><td>Starvation of low-priority jobs (fix: aging)</td></tr>
+      <tr><td><strong>Round Robin</strong></td><td>Each process gets a fixed time quantum, then preempted</td><td>Fair, good for interactive systems</td><td>High context switch overhead if quantum too small</td></tr>
+      <tr><td><strong>Multilevel Queue</strong></td><td>Multiple queues with different scheduling each (e.g., foreground/background)</td><td>Flexible for different process types</td><td>Complex; lower queues may starve</td></tr>
+    </table></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Context Switch</div>
+    <p class="body">When the CPU switches from one process to another:</p>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><div class="step-content"><strong>Save state of current process into its PCB</strong><p>Registers, program counter, stack pointer, memory mappings</p></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-content"><strong>Select next process</strong><p>Scheduler picks the next process from the ready queue</p></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-content"><strong>Restore state of new process from its PCB</strong><p>Load its registers, PC, memory context — resumes exactly where it left off</p></div></div>
+    </div>
+    <div class="callout warn"><div class="callout-title">Key Point</div>Context switch time is pure overhead — no useful work is done during it. This is why too-small time quanta in Round Robin hurts performance.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">fork(), exec(), and wait()</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>Call</th><th>What it does</th><th>Return value</th></tr>
+      <tr><td><code>fork()</code></td><td>Creates a new process (child) that is a copy of the parent. Both continue from the same point.</td><td>Child gets 0; Parent gets child's PID; -1 on error</td></tr>
+      <tr><td><code>exec()</code></td><td>Replaces the current process's memory image with a new program. Does not create a new process.</td><td>No return on success (process image replaced)</td></tr>
+      <tr><td><code>wait()</code></td><td>Parent blocks until a child process terminates. Reaps the child's exit status.</td><td>PID of the terminated child</td></tr>
+      <tr><td><code>exit()</code></td><td>Terminates the current process, sends exit status to parent</td><td>Never returns</td></tr>
+    </table></div>
+    <div class="callout info"><div class="callout-title">Zombie vs Orphan</div>
+      <strong>Zombie:</strong> Child has exited but parent hasn't called wait() yet — PCB still held in memory. | <strong>Orphan:</strong> Child is still running but parent has exited — inherited by init/systemd (PID 1).
+    </div>
+  </div>
+</div>
+
+<!-- ===================== DEADLOCKS ===================== -->
+<div class="section" id="sec-deadlocks">
+  <div class="section-title">Deadlocks, Starvation & Resource Allocation</div>
+  <div class="section-sub">When processes get permanently stuck waiting for each other</div>
+
+  <div class="card">
+    <div class="card-title">The 4 Coffman Conditions (ALL must hold for deadlock)</div>
+    <div class="callout danger"><div class="callout-title">Memorize These</div>If even one condition is broken, deadlock CANNOT occur.</div>
+    <div class="grid-2">
+      <div class="mini-card"><h4>1. Mutual Exclusion</h4>At least one resource must be non-shareable — only one process can use it at a time. (e.g., a printer)</div>
+      <div class="mini-card"><h4>2. Hold and Wait</h4>A process holds at least one resource AND is waiting to acquire additional resources held by others.</div>
+      <div class="mini-card"><h4>3. No Preemption</h4>Resources cannot be forcibly taken from a process — they must be voluntarily released.</div>
+      <div class="mini-card"><h4>4. Circular Wait</h4>A set of processes {P0, P1, …, Pn} exists where P0 waits for P1, P1 waits for P2, …, Pn waits for P0.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Handling Deadlocks: 4 Strategies</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>Strategy</th><th>How</th><th>Cost</th></tr>
+      <tr><td><span class="tag tag-red">Prevention</span></td><td>Design the system so that at least one Coffman condition can NEVER hold (e.g., require processes request all resources at once → eliminates Hold &amp; Wait)</td><td>Low resource utilization, may be impractical</td></tr>
+      <tr><td><span class="tag tag-orange">Avoidance</span></td><td>Dynamically check if granting a request keeps the system in a <em>safe state</em> (Banker's Algorithm). Only grant if safe.</td><td>Must know max resource needs in advance</td></tr>
+      <tr><td><span class="tag tag-purple">Detection &amp; Recovery</span></td><td>Allow deadlocks to occur. Periodically run detection (wait-for graph cycle check). When found, recover by killing processes or preempting resources.</td><td>Recovery overhead; partial work lost</td></tr>
+      <tr><td><span class="tag tag-blue">Ignore (Ostrich)</span></td><td>Pretend deadlocks don't happen and just reboot. Used by most consumer OSes (Windows, Linux) because deadlocks are rare enough that prevention overhead isn't worth it.</td><td>Inconvenience when it does happen</td></tr>
+    </table></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Prevention: Eliminating Each Condition</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>Condition to Eliminate</th><th>How to Eliminate It</th></tr>
+      <tr><td>Mutual Exclusion</td><td>Make resources shareable (only works for read-only resources like files opened for reading)</td></tr>
+      <tr><td>Hold and Wait</td><td>Require processes to request ALL resources before starting, or release all before requesting more</td></tr>
+      <tr><td>No Preemption</td><td>If a process requests a resource that can't be allocated, preempt all its held resources (save state, restore later)</td></tr>
+      <tr><td>Circular Wait</td><td>Impose total ordering on resource types; processes must request resources in increasing order only</td></tr>
+    </table></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Safe State vs Unsafe State</div>
+    <div class="grid-2">
+      <div class="mini-card">
+        <h4>Safe State</h4>
+        A sequence exists where every process can eventually obtain its needed resources, execute, and release them — allowing the next process to proceed. A safe state guarantees deadlock-free execution.
+      </div>
+      <div class="mini-card">
+        <h4>Unsafe State</h4>
+        No such safe sequence exists. This doesn't mean deadlock IS happening, but deadlock CAN happen depending on future requests. Avoidance algorithms refuse requests that would lead here.
+      </div>
+    </div>
+    <div class="diagram">Safe State → Unsafe State → Deadlock
+   (avoidance prevents crossing the Safe→Unsafe line)</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Starvation vs Deadlock vs Livelock</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>Term</th><th>Definition</th><th>Example</th></tr>
+      <tr><td><span class="tag tag-red">Deadlock</span></td><td>All involved processes are permanently blocked, each waiting for another in a cycle. No progress possible.</td><td>P1 holds R1, wants R2. P2 holds R2, wants R1.</td></tr>
+      <tr><td><span class="tag tag-orange">Starvation</span></td><td>A process is perpetually denied resources even though they become available — always losing to higher-priority processes.</td><td>Low-priority job never runs because high-priority jobs keep arriving. Fix: aging (increase priority over time).</td></tr>
+      <tr><td><span class="tag tag-purple">Livelock</span></td><td>Processes keep changing state in response to each other but make no useful progress. They're "active" but stuck.</td><td>Two people in a hallway each step aside to let the other pass, then step the same way, repeat forever.</td></tr>
+    </table></div>
+  </div>
+</div>
+
+<!-- ===================== CLASSIC PROBLEMS ===================== -->
+<div class="section" id="sec-classics">
+  <div class="section-title">Classic Concurrency Problems</div>
+  <div class="section-sub">Foundational problems that model real-world synchronization challenges</div>
+
+  <div class="card">
+    <div class="card-title">🍝 Dining Philosophers Problem</div>
+    <p class="body"><strong>Setup:</strong> 5 philosophers sit at a round table. There are 5 forks, one between each pair. To eat, a philosopher needs BOTH adjacent forks. They alternate between thinking and eating.</p>
+    <div class="diagram">         [P0]
+        /    \
+   fork4      fork0
+      /          \
+   [P4]          [P1]
+      \          /
+   fork3      fork1
+        \    /
+         [P3]─fork2─[P2]</div>
+    <div class="callout danger"><div class="callout-title">The Deadlock Scenario</div>If all 5 philosophers pick up their LEFT fork simultaneously, each holds one fork and waits for the right fork (held by their neighbor) → circular wait → deadlock.</div>
+    <h3 class="sub">Solutions:</h3>
+    <div class="grid-3">
+      <div class="mini-card"><h4>Solution 1: Max N-1 Diners</h4>Allow at most 4 philosophers at the table at once. At least one can always eat. Simple but wasteful.</div>
+      <div class="mini-card"><h4>Solution 2: Asymmetric</h4>Odd philosophers pick left-then-right. Even philosophers pick right-then-left. Breaks circular wait.</div>
+      <div class="mini-card"><h4>Solution 3: Monitor/Waiter</h4>A monitor or "waiter" semaphore grants permission to pick up BOTH forks atomically. Only pick up if both are available.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📦 Producer-Consumer Problem (Bounded Buffer)</div>
+    <p class="body"><strong>Setup:</strong> Producers generate data and add to a shared buffer of size N. Consumers remove data. Producers must wait when buffer is full; consumers must wait when buffer is empty.</p>
+    <div class="tbl-wrap"><table>
+      <tr><th>Semaphore</th><th>Initial Value</th><th>Purpose</th></tr>
+      <tr><td><code>mutex</code></td><td>1</td><td>Mutual exclusion for buffer access</td></tr>
+      <tr><td><code>empty</code></td><td>N (buffer size)</td><td>Count of empty slots — producer waits on this</td></tr>
+      <tr><td><code>full</code></td><td>0</td><td>Count of filled slots — consumer waits on this</td></tr>
+    </table></div>
+    <div class="grid-2">
+      <div>
+        <h3 class="sub">Producer:</h3>
+        <div class="code-block">wait(empty)     <span class="cm">// wait for a slot</span>
+wait(mutex)     <span class="cm">// lock buffer</span>
+  add item to buffer
+signal(mutex)   <span class="cm">// unlock</span>
+signal(full)    <span class="cm">// notify consumer</span></div>
+      </div>
+      <div>
+        <h3 class="sub">Consumer:</h3>
+        <div class="code-block">wait(full)      <span class="cm">// wait for an item</span>
+wait(mutex)     <span class="cm">// lock buffer</span>
+  remove item from buffer
+signal(mutex)   <span class="cm">// unlock</span>
+signal(empty)   <span class="cm">// notify producer</span></div>
+      </div>
+    </div>
+    <div class="callout warn"><div class="callout-title">Order Matters!</div>Always wait on the counting semaphore (empty/full) BEFORE waiting on mutex. Reversing the order causes deadlock.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📖 Readers-Writers Problem</div>
+    <p class="body"><strong>Setup:</strong> A shared database. Multiple readers can read simultaneously (no conflict). A writer needs exclusive access — no readers or other writers while writing.</p>
+    <div class="tbl-wrap"><table>
+      <tr><th>Semaphore/Variable</th><th>Initial</th><th>Purpose</th></tr>
+      <tr><td><code>rw_mutex</code></td><td>1</td><td>Exclusive access for writers (and the first/last reader)</td></tr>
+      <tr><td><code>mutex</code></td><td>1</td><td>Protects the <code>read_count</code> variable</td></tr>
+      <tr><td><code>read_count</code></td><td>0</td><td>Number of readers currently reading</td></tr>
+    </table></div>
+    <div class="grid-2">
+      <div>
+        <h3 class="sub">Reader:</h3>
+        <div class="code-block">wait(mutex)
+  read_count++
+  <span class="ky">if</span> read_count == 1:
+    wait(rw_mutex)  <span class="cm">// first reader blocks writers</span>
+signal(mutex)
+
+  <span class="cm">// ← read data →</span>
+
+wait(mutex)
+  read_count--
+  <span class="ky">if</span> read_count == 0:
+    signal(rw_mutex) <span class="cm">// last reader releases</span>
+signal(mutex)</div>
+      </div>
+      <div>
+        <h3 class="sub">Writer:</h3>
+        <div class="code-block">wait(rw_mutex)   <span class="cm">// exclusive access</span>
+  <span class="cm">// ← write data →</span>
+signal(rw_mutex) <span class="cm">// release</span></div>
+        <div class="callout info" style="margin-top:0.5rem;"><div class="callout-title">Two Variants</div>
+          <strong>1st problem:</strong> Readers have priority — writers may starve.<br>
+          <strong>2nd problem:</strong> Writers have priority — readers may starve.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏦 Banker's Algorithm</div>
+    <p class="body">A deadlock <strong>avoidance</strong> algorithm. Before granting a resource request, the OS checks if the resulting state is <strong>safe</strong>. Named after a bank that only loans money if it can still satisfy all potential future withdrawals.</p>
+
+    <h3 class="sub">Key Data Structures (for n processes, m resource types):</h3>
+    <div class="tbl-wrap"><table>
+      <tr><th>Structure</th><th>Size</th><th>Meaning</th></tr>
+      <tr><td><code>Available[m]</code></td><td>m</td><td>How many of each resource are currently free</td></tr>
+      <tr><td><code>Max[n][m]</code></td><td>n×m</td><td>Maximum resources each process may ever need</td></tr>
+      <tr><td><code>Allocation[n][m]</code></td><td>n×m</td><td>Resources currently allocated to each process</td></tr>
+      <tr><td><code>Need[n][m]</code></td><td>n×m</td><td>Remaining resources each process may still request: <strong>Need = Max − Allocation</strong></td></tr>
+    </table></div>
+
+    <h3 class="sub">Safety Algorithm (find a safe sequence):</h3>
+    <div class="algo">
+      <div class="algo-title">Safety Check</div>
+      <div class="code-block">Work = Available.copy()
+Finish = [False] * n
+
+<span class="ky">repeat</span>:
+  find i where: Finish[i] == False AND Need[i] &lt;= Work
+  <span class="ky">if</span> found:
+    Work += Allocation[i]   <span class="cm">// process finishes, releases resources</span>
+    Finish[i] = True
+  <span class="ky">else</span>:
+    <span class="ky">break</span>
+
+<span class="ky">if</span> all Finish[i] == True: <span class="cm">→ SAFE STATE ✓</span>
+<span class="ky">else</span>: <span class="cm">→ UNSAFE STATE ✗</span></div>
+    </div>
+
+    <div class="callout success"><div class="callout-title">Worked Example</div>
+      3 processes (P0, P1, P2), 1 resource type. Available = 2.<br>
+      Allocation: P0=1, P1=2, P2=0. Max: P0=3, P1=3, P2=2.<br>
+      Need: P0=2, P1=1, P2=2.<br><br>
+      Try P1: Need[P1]=1 ≤ Work=2 ✓ → Work = 2+2 = 4, Finish[P1]=true<br>
+      Try P0: Need[P0]=2 ≤ Work=4 ✓ → Work = 4+1 = 5, Finish[P0]=true<br>
+      Try P2: Need[P2]=2 ≤ Work=5 ✓ → Work = 5+0 = 5, Finish[P2]=true<br>
+      All finished → Safe sequence: &lt;P1, P0, P2&gt; ✓
+    </div>
+  </div>
+</div>
+
+<!-- ===================== RAG ===================== -->
+<div class="section" id="sec-rag">
+  <div class="section-title">Resource Allocation Graph & Wait-For Graph</div>
+  <div class="section-sub">Visual tools to detect and analyze deadlocks</div>
+
+  <div class="card">
+    <div class="card-title">Resource Allocation Graph (RAG)</div>
+    <div class="grid-2">
+      <div>
+        <p class="body">A directed graph with two types of nodes:</p>
+        <ul class="styled">
+          <li><strong>Process nodes:</strong> Circles (○) — represent processes</li>
+          <li><strong>Resource nodes:</strong> Rectangles with dots (▣) — each dot = one instance</li>
+        </ul>
+        <p class="body" style="margin-top:0.75rem;">Two types of edges:</p>
+        <ul class="styled">
+          <li><strong>Request edge P→R:</strong> Process P is <em>waiting</em> for resource R</li>
+          <li><strong>Assignment edge R→P:</strong> Resource R is <em>held</em> by process P</li>
+        </ul>
+      </div>
+      <div class="diagram">  (P1) ──request──→ [R1•]
+                                ↓ assign
+  (P2) ←─assign── [R2••]
+    │
+    └──request──→ [R1•]
+    
+  ○ = Process
+  [•] = Resource (dots = instances)</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Deadlock Detection via RAG</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>Condition</th><th>Deadlock?</th></tr>
+      <tr><td>Cycle in RAG, <strong>single-instance</strong> resources</td><td><span class="tag tag-red">YES — definitely deadlock</span></td></tr>
+      <tr><td>Cycle in RAG, <strong>multi-instance</strong> resources</td><td><span class="tag tag-orange">MAYBE — possible but not guaranteed</span></td></tr>
+      <tr><td>No cycle in RAG</td><td><span class="tag tag-green">NO deadlock</span></td></tr>
+    </table></div>
+    <div class="diagram">Deadlock example:
+  (P1)──→[R1]──→(P2)──→[R2]──→(P1)
+   Cycle with single instances = DEADLOCK ✗
+
+No deadlock example:
+  (P1)──→[R1]    [R1]──→(P2)
+   No cycle → SAFE ✓</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Wait-For Graph</div>
+    <p class="body">A simplified version of the RAG — <strong>only processes</strong>, no resource nodes. Used when all resources have single instances.</p>
+    <ul class="styled">
+      <li>An edge <strong>Pi → Pj</strong> means "Pi is waiting for Pj to release a resource"</li>
+      <li>A <strong>cycle in the wait-for graph = deadlock</strong></li>
+      <li>The OS periodically runs a cycle-detection algorithm on this graph</li>
+    </ul>
+    <div class="diagram">RAG:                     Wait-For Graph:
+(P1)──→[R]──→(P2)   →    (P1)──→(P2)
+
+If P1 waits for R, and R is held by P2,
+then P1 is "waiting for" P2.</div>
+    <div class="callout info"><div class="callout-title">RAG vs Wait-For Summary</div>
+      RAG: processes + resources, two edge types, works with multi-instance resources.<br>
+      Wait-For: processes only, simpler, only valid for single-instance resources — cycle = deadlock.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Deadlock Recovery Options</div>
+    <div class="grid-2">
+      <div class="mini-card"><h4>Process Termination</h4>Kill one or more processes in the deadlock cycle. Either abort all (safe but costly) or abort one at a time and re-check (more targeted).</div>
+      <div class="mini-card"><h4>Resource Preemption</h4>Forcibly take a resource away from a process (roll back to a safe state). Must handle: which process to preempt, rollback, and starvation prevention.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== I/O ===================== -->
+<div class="section" id="sec-io">
+  <div class="section-title">I/O Operations</div>
+  <div class="section-sub">How the OS communicates with hardware devices</div>
+
+  <div class="card">
+    <div class="card-title">Three Methods of I/O</div>
+    <div class="grid-3">
+      <div class="mini-card">
+        <h4>Polling (Busy Waiting)</h4>
+        CPU continuously checks the device status register in a loop until the device is ready. Simple but wastes CPU cycles. Good only for very fast devices.
+        <div class="code-block" style="margin-top:0.5rem;font-size:11px;">while (device.status != READY)
+  ; // spin</div>
+      </div>
+      <div class="mini-card">
+        <h4>Interrupts</h4>
+        CPU starts I/O and continues other work. Device interrupts the CPU when done. CPU saves state, runs interrupt handler, resumes. Efficient for slow devices.
+        <div class="code-block" style="margin-top:0.5rem;font-size:11px;">start_io()
+// do other work...
+// interrupt fires:
+  handle_interrupt()</div>
+      </div>
+      <div class="mini-card">
+        <h4>DMA (Direct Memory Access)</h4>
+        A DMA controller transfers data directly between device and memory without CPU involvement per byte. CPU only involved at start and end (interrupt). Best for bulk transfers.
+        <div class="code-block" style="margin-top:0.5rem;font-size:11px;">setup_dma(src, dst, len)
+// CPU does other work
+// DMA interrupt when done</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Interrupt Handling</div>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><div class="step-content"><strong>Device asserts interrupt request line (IRQ)</strong><p>Device signals it needs attention on the interrupt bus</p></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-content"><strong>CPU detects interrupt after current instruction</strong><p>Checks interrupt request line after each instruction completes</p></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-content"><strong>CPU saves state</strong><p>Pushes registers and program counter onto the kernel stack</p></div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-content"><strong>Looks up interrupt vector</strong><p>Uses the interrupt number as index into the interrupt vector table to find the handler address</p></div></div>
+      <div class="step"><div class="step-num">5</div><div class="step-content"><strong>Executes interrupt handler (ISR)</strong><p>The device-specific handler runs, processes the event, clears the interrupt</p></div></div>
+      <div class="step"><div class="step-num">6</div><div class="step-content"><strong>Restores state and resumes</strong><p>Pops state off stack, returns to interrupted process</p></div></div>
+    </div>
+    <div class="callout info"><div class="callout-title">Maskable vs Non-Maskable</div>
+      <strong>Maskable:</strong> Can be temporarily disabled (ignored) during critical code sections. Most device interrupts are maskable.<br>
+      <strong>Non-maskable (NMI):</strong> Cannot be disabled. Used for critical hardware failures, memory errors.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Disk Scheduling Algorithms</div>
+    <p class="body">The disk arm must move to different tracks to service read/write requests. The order in which requests are serviced affects total arm movement (and thus speed).</p>
+    <p class="body"><strong>Assume:</strong> Head starts at track 50. Requests: 0, 10, 55, 70, 100, 105.</p>
+    <div class="tbl-wrap"><table>
+      <tr><th>Algorithm</th><th>Head Movement</th><th>Definition</th><th>Problem</th></tr>
+      <tr><td><strong>FCFS</strong></td><td>Service in order received</td><td>First-come, first-served. Simple but inefficient.</td><td>High seek times — arm may bounce wildly</td></tr>
+      <tr><td><strong>SSTF</strong></td><td>50→55→70→100→105→10→0</td><td>Shortest Seek Time First — always go to nearest request.</td><td>Starvation of far requests</td></tr>
+      <tr><td><strong>SCAN (Elevator)</strong></td><td>50→55→70→100→105→0→10</td><td>Head sweeps in one direction, services all requests, then reverses.</td><td>Requests just behind head wait longest</td></tr>
+      <tr><td><strong>C-SCAN</strong></td><td>50→55→70→100→105→[jump to 0]→10</td><td>Like SCAN but only services requests in ONE direction. Jumps back to start without servicing on return.</td><td>More uniform wait times than SCAN</td></tr>
+      <tr><td><strong>LOOK / C-LOOK</strong></td><td>Like SCAN/C-SCAN but stops at last request (doesn't go all the way to end)</td><td>Optimization of SCAN/C-SCAN — doesn't waste time going past last request.</td><td>Best practical choice</td></tr>
+    </table></div>
+  </div>
+</div>
+
+<!-- ===================== SECURITY ===================== -->
+<div class="section" id="sec-security">
+  <div class="section-title">Security</div>
+  <div class="section-sub">Protecting systems, data, and users from threats</div>
+
+  <div class="card">
+    <div class="card-title">Cryptography Quick Reference</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>Type</th><th>Also Known As</th><th>Encrypt With</th><th>Decrypt With</th><th>Algorithm</th><th>Speed</th></tr>
+      <tr><td><strong>Symmetric</strong></td><td>Secret-key / Private-key</td><td>Private (shared secret)</td><td>Same private key</td><td>DES, AES</td><td><span class="tag tag-green">Fast</span></td></tr>
+      <tr><td><strong>Asymmetric</strong></td><td>Public-key</td><td>Public key</td><td>Private key</td><td>RSA</td><td><span class="tag tag-orange">Slower</span></td></tr>
+    </table></div>
+    <div class="callout info"><div class="callout-title">Real-World Usage</div>
+      HTTPS uses <strong>asymmetric</strong> encryption to securely exchange a <strong>symmetric</strong> key. Then all actual data is encrypted with the faster symmetric key. Best of both worlds.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Stream Cipher vs Block Cipher</div>
+    <div class="grid-2">
+      <div class="mini-card"><h4>Stream Cipher</h4>Encrypts data one bit or byte at a time continuously. Good for real-time communication (phone calls, streaming). Example: RC4.</div>
+      <div class="mini-card"><h4>Block Cipher</h4>Encrypts data in fixed-size chunks (e.g., 128-bit blocks). Each block is encrypted independently or with chaining. Example: AES (128/192/256-bit blocks).</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Security Threats — Quick Definitions</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>Threat</th><th>What it is</th></tr>
+      <tr><td><strong>Man-in-the-Middle</strong></td><td>Attacker intercepts communication between two parties, can read or alter messages without either party knowing</td></tr>
+      <tr><td><strong>Phishing / Social Engineering</strong></td><td>Tricking humans into revealing credentials or performing actions — exploits people, not software vulnerabilities</td></tr>
+      <tr><td><strong>DoS (Denial of Service)</strong></td><td>Overwhelm a system with requests to make it unavailable to legitimate users</td></tr>
+      <tr><td><strong>DDoS</strong></td><td>DoS from many distributed sources (botnet) simultaneously — much harder to block</td></tr>
+      <tr><td><strong>Session Hijacking</strong></td><td>Stealing a valid session token to impersonate an authenticated user</td></tr>
+      <tr><td><strong>Ransomware</strong></td><td>Encrypts victim's files, demands payment for decryption key</td></tr>
+      <tr><td><strong>Spyware</strong></td><td>Secretly monitors user activity and sends data to attacker (no ransom)</td></tr>
+      <tr><td><strong>Logic Bomb</strong></td><td>Malicious code that lies dormant until a trigger condition is met (date, event)</td></tr>
+      <tr><td><strong>Back Door</strong></td><td>Hidden entry point bypassing normal authentication, installed by devs or attackers</td></tr>
+      <tr><td><strong>Trojan Horse</strong></td><td>Malware disguised as legitimate software; doesn't self-replicate</td></tr>
+      <tr><td><strong>Virus</strong></td><td>Attaches to host file, spreads when file is executed (requires user action)</td></tr>
+      <tr><td><strong>Worm</strong></td><td>Self-replicating, spreads autonomously across networks without user action</td></tr>
+      <tr><td><strong>Rootkit</strong></td><td>Hides itself deep in the OS, gives persistent privileged access while concealing presence</td></tr>
+      <tr><td><strong>Boot Virus</strong></td><td>Infects the Master Boot Record (MBR), executes before OS loads</td></tr>
+      <tr><td><strong>Code Injection</strong></td><td>Malicious code inserted into a vulnerable application and executed (SQL injection, XSS)</td></tr>
+    </table></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Authentication Factors</div>
+    <div class="grid-3">
+      <div class="mini-card"><h4>Something You Know</h4>A secret in your memory. Password, PIN, security question answer, passphrase.</div>
+      <div class="mini-card"><h4>Something You Have</h4>A physical object. Smart card, hardware token, phone (SMS code), authenticator app.</div>
+      <div class="mini-card"><h4>Something You Are (Biometrics)</h4>A physical trait. Fingerprint, face recognition, retinal scan, voice pattern.</div>
+    </div>
+    <div class="callout info"><div class="callout-title">Two-Factor Authentication (2FA)</div>Requires ANY two factors from DIFFERENT categories. Password + SMS code = 2FA. Password + security question = NOT 2FA (both are "something you know").</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Defense in Depth</div>
+    <p class="body">A layered security strategy where multiple independent controls protect a system. If one layer fails, others remain. Like an onion — attacker must break through multiple layers.</p>
+    <div class="diagram">Layer 1: Physical security (locked server room)
+Layer 2: Network perimeter (firewall, IDS)
+Layer 3: Host-based (antivirus, host firewall)
+Layer 4: Application (input validation, auth)
+Layer 5: Data (encryption, access control)
+                ↓
+       Data at the center</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Hash Functions</div>
+    <p class="body">A hash function takes input of any size and produces a fixed-size output (digest). Properties:</p>
+    <ul class="styled">
+      <li><strong>One-way:</strong> Cannot reverse a hash to get the original input</li>
+      <li><strong>Deterministic:</strong> Same input always produces same output</li>
+      <li><strong>Avalanche effect:</strong> Tiny change in input → completely different hash</li>
+      <li><strong>Collision resistant:</strong> Extremely hard to find two inputs with the same hash</li>
+    </ul>
+    <p class="body" style="margin-top:0.5rem;">Examples: MD5 (broken, don't use), SHA-256 (secure), SHA-3. Uses: password storage, file integrity checks, digital signatures.</p>
+  </div>
+</div>
+
+<!-- ===================== LINUX COMMANDS ===================== -->
+<div class="section" id="sec-linux">
+  <div class="section-title">Basic Linux Commands</div>
+  <div class="section-sub">You already know this — here's your quick-reference cheat sheet</div>
+
+  <div class="card">
+    <div class="card-title">Navigation & Files</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>Command</th><th>What it does</th><th>Example</th></tr>
+      <tr><td><code>pwd</code></td><td>Print working directory (where am I?)</td><td><code>pwd</code> → /home/torx</td></tr>
+      <tr><td><code>ls</code></td><td>List files. <code>-l</code> = long format, <code>-a</code> = show hidden</td><td><code>ls -la</code></td></tr>
+      <tr><td><code>cd</code></td><td>Change directory. <code>cd ..</code> = go up one level, <code>cd ~</code> = home</td><td><code>cd /etc</code></td></tr>
+      <tr><td><code>mkdir</code></td><td>Make a new directory. <code>-p</code> = create parent dirs too</td><td><code>mkdir -p a/b/c</code></td></tr>
+      <tr><td><code>rm</code></td><td>Remove file. <code>-r</code> = recursive (directories), <code>-f</code> = force</td><td><code>rm -rf folder/</code></td></tr>
+      <tr><td><code>cp</code></td><td>Copy file or directory. <code>-r</code> for directories</td><td><code>cp file.txt backup/</code></td></tr>
+      <tr><td><code>mv</code></td><td>Move OR rename a file/directory</td><td><code>mv old.txt new.txt</code></td></tr>
+      <tr><td><code>touch</code></td><td>Create an empty file or update timestamps</td><td><code>touch file.txt</code></td></tr>
+      <tr><td><code>find</code></td><td>Search for files by name, type, size, etc.</td><td><code>find / -name "*.log"</code></td></tr>
+      <tr><td><code>locate</code></td><td>Fast search using pre-built index database</td><td><code>locate passwd</code></td></tr>
+    </table></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Viewing & Editing Files</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>Command</th><th>What it does</th><th>Example</th></tr>
+      <tr><td><code>cat</code></td><td>Display entire file contents to screen</td><td><code>cat file.txt</code></td></tr>
+      <tr><td><code>more</code></td><td>Display file one page at a time (forward only)</td><td><code>more bigfile.txt</code></td></tr>
+      <tr><td><code>less</code></td><td>Like more but also backwards. Better.</td><td><code>less bigfile.txt</code></td></tr>
+      <tr><td><code>head</code></td><td>Show first N lines (default 10)</td><td><code>head -20 file.txt</code></td></tr>
+      <tr><td><code>tail</code></td><td>Show last N lines. <code>-f</code> = follow (live log)</td><td><code>tail -f /var/log/syslog</code></td></tr>
+      <tr><td><code>grep</code></td><td>Search for pattern in file(s). <code>-r</code> = recursive</td><td><code>grep "error" log.txt</code></td></tr>
+      <tr><td><code>sed</code></td><td>Stream editor — find/replace text in files</td><td><code>sed 's/foo/bar/g' file.txt</code></td></tr>
+      <tr><td><code>wc</code></td><td>Word count. <code>-l</code> = lines, <code>-w</code> = words, <code>-c</code> = bytes</td><td><code>wc -l file.txt</code></td></tr>
+      <tr><td><code>diff</code></td><td>Show differences between two files</td><td><code>diff file1.txt file2.txt</code></td></tr>
+      <tr><td><code>cmp</code></td><td>Compare two files byte-by-byte, show first difference</td><td><code>cmp file1 file2</code></td></tr>
+    </table></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Permissions & Ownership</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>Command</th><th>What it does</th><th>Example</th></tr>
+      <tr><td><code>chmod</code></td><td>Change file permissions (numeric or symbolic)</td><td><code>chmod 755 script.sh</code></td></tr>
+      <tr><td><code>chown</code></td><td>Change file owner (and optionally group)</td><td><code>chown user:group file</code></td></tr>
+      <tr><td><code>sudo</code></td><td>Run command as superuser/root</td><td><code>sudo apt update</code></td></tr>
+    </table></div>
+    <div class="callout info"><div class="callout-title">chmod Numbers</div>
+      Each digit = permissions for Owner / Group / Others.<br>
+      4=read, 2=write, 1=execute. Add them up:<br>
+      <code>chmod 755</code> = Owner(rwx=7) Group(r-x=5) Others(r-x=5)
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Processes & System</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>Command</th><th>What it does</th><th>Example</th></tr>
+      <tr><td><code>ps</code></td><td>List running processes. <code>aux</code> = all processes with detail</td><td><code>ps aux</code></td></tr>
+      <tr><td><code>top</code></td><td>Live view of processes and resource usage (CPU, memory)</td><td><code>top</code></td></tr>
+      <tr><td><code>kill</code></td><td>Send a signal to a process by PID. <code>-9</code> = force kill</td><td><code>kill -9 1234</code></td></tr>
+      <tr><td><code>killall</code></td><td>Kill all processes by name</td><td><code>killall firefox</code></td></tr>
+      <tr><td><code>bg / fg</code></td><td>Move job to background / foreground</td><td><code>bg %1</code></td></tr>
+      <tr><td><code>jobs</code></td><td>List current background/suspended jobs</td><td><code>jobs</code></td></tr>
+    </table></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Networking</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>Command</th><th>What it does</th><th>Example</th></tr>
+      <tr><td><code>ping</code></td><td>Test network connectivity to a host</td><td><code>ping google.com</code></td></tr>
+      <tr><td><code>ifconfig</code></td><td>View/configure network interfaces (older systems)</td><td><code>ifconfig eth0</code></td></tr>
+      <tr><td><code>ip addr</code></td><td>Modern replacement for ifconfig</td><td><code>ip addr show</code></td></tr>
+      <tr><td><code>ssh</code></td><td>Securely connect to a remote machine</td><td><code>ssh user@192.168.1.1</code></td></tr>
+      <tr><td><code>scp</code></td><td>Securely copy files over SSH</td><td><code>scp file.txt user@host:/path</code></td></tr>
+      <tr><td><code>curl</code></td><td>Transfer data from URLs; test APIs</td><td><code>curl https://api.example.com</code></td></tr>
+    </table></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Archives & Compression</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>Command</th><th>What it does</th><th>Example</th></tr>
+      <tr><td><code>tar</code></td><td>Archive/extract files. <code>-czf</code>=create gzip, <code>-xzf</code>=extract</td><td><code>tar -czf out.tar.gz folder/</code></td></tr>
+      <tr><td><code>gzip</code></td><td>Compress a file to .gz format</td><td><code>gzip file.txt</code></td></tr>
+      <tr><td><code>gunzip</code></td><td>Decompress a .gz file</td><td><code>gunzip file.txt.gz</code></td></tr>
+      <tr><td><code>zip / unzip</code></td><td>Create/extract .zip archives</td><td><code>zip archive.zip file1 file2</code></td></tr>
+      <tr><td><code>sort</code></td><td>Sort lines of text files</td><td><code>sort names.txt</code></td></tr>
+      <tr><td><code>whoami</code></td><td>Print currently logged-in username</td><td><code>whoami</code></td></tr>
+      <tr><td><code>man</code></td><td>Open manual page for any command</td><td><code>man chmod</code></td></tr>
+      <tr><td><code>mount / umount</code></td><td>Mount / unmount a file system</td><td><code>mount /dev/sdb1 /mnt</code></td></tr>
+    </table></div>
+  </div>
+</div>
+
+<!-- ===================== OS TECHNOLOGIES ===================== -->
+<div class="section" id="sec-ostech">
+  <div class="section-title">OS-Specific Technologies</div>
+  <div class="section-sub">What's unique to each operating system — know these cold</div>
+
+  <div class="card">
+    <div class="card-title">File Systems by OS</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>OS</th><th>Native File System</th><th>Also Supports</th><th>Key Features</th></tr>
+      <tr><td><strong>Linux</strong></td><td>ext4 (modern default)</td><td>ext2, ext3, Btrfs, XFS, ZFS, NTFS (read/write), FAT32</td><td>Journaling, extents, multiblock allocation, 1EB volume limit</td></tr>
+      <tr><td><strong>Windows</strong></td><td>NTFS</td><td>FAT32, exFAT, ReFS</td><td>Journaling ($LogFile), MFT, ACLs, encryption (EFS), compression</td></tr>
+      <tr><td><strong>macOS</strong></td><td>APFS (2017+)</td><td>HFS+ (legacy), FAT32, exFAT</td><td>Copy-on-write, snapshots, cloning, native encryption, SSD-optimized</td></tr>
+      <tr><td><strong>UNIX (legacy)</strong></td><td>UFS / FFS</td><td>NFS, ZFS</td><td>Fast File System layout (cylinder groups), inodes</td></tr>
+      <tr><td><strong>Flash/USB drives</strong></td><td>FAT32 / exFAT</td><td>ext2 (Linux)</td><td>FAT32: universal compatibility, 4GB file limit. exFAT: no file size limit</td></tr>
+    </table></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">ext2 vs ext3 vs ext4 — Know the Differences</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>Feature</th><th>ext2</th><th>ext3</th><th>ext4</th></tr>
+      <tr><td>Journaling</td><td><span class="tag tag-red">No</span></td><td><span class="tag tag-green">Yes (metadata)</span></td><td><span class="tag tag-green">Yes (metadata + data opt.)</span></td></tr>
+      <tr><td>Max file size</td><td>2 TB</td><td>2 TB</td><td><strong>16 TB</strong></td></tr>
+      <tr><td>Max volume size</td><td>4 TB</td><td>32 TB</td><td><strong>1 EB</strong></td></tr>
+      <tr><td>Extents</td><td>No</td><td>No</td><td><span class="tag tag-green">Yes</span></td></tr>
+      <tr><td>Best use</td><td>Flash/USB (no journal = less write wear)</td><td>Older Linux systems</td><td>Modern Linux systems</td></tr>
+    </table></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Unique Technologies by OS</div>
+    <div class="grid-2">
+      <div class="mini-card">
+        <h4>Linux / UNIX</h4>
+        <ul class="styled">
+          <li><strong>VFS</strong> — Virtual File System layer (abstracts all FS types)</li>
+          <li><strong>/proc filesystem</strong> — virtual FS exposing kernel/process info as files</li>
+          <li><strong>POSIX</strong> — standard API (fork, exec, signals, semaphores)</li>
+          <li><strong>inode-based</strong> file systems</li>
+          <li><strong>Everything is a file</strong> — devices, sockets, pipes all appear as files</li>
+          <li><strong>GRUB</strong> — common Linux bootloader</li>
+          <li><strong>systemd / init</strong> — PID 1, manages services</li>
+        </ul>
+      </div>
+      <div class="mini-card">
+        <h4>Windows</h4>
+        <ul class="styled">
+          <li><strong>NTFS</strong> — MFT, journaling, ACLs, EFS encryption</li>
+          <li><strong>Win32 API / WinAPI</strong> — common interface for system calls</li>
+          <li><strong>Registry</strong> — hierarchical config database (unique to Windows)</li>
+          <li><strong>Active Directory</strong> — centralized auth/policy management</li>
+          <li><strong>NTLM / Kerberos</strong> — Windows authentication protocols</li>
+          <li><strong>DLL (Dynamic Link Library)</strong> — Windows equivalent of .so files</li>
+          <li><strong>NTFS Alternate Data Streams</strong> — hidden data attached to files</li>
+        </ul>
+      </div>
+      <div class="mini-card">
+        <h4>macOS</h4>
+        <ul class="styled">
+          <li><strong>APFS</strong> — copy-on-write, snapshots, native encryption</li>
+          <li><strong>Mach kernel</strong> — microkernel at the core (part of XNU kernel)</li>
+          <li><strong>launchd</strong> — macOS init system (replaces both init and cron)</li>
+          <li><strong>Gatekeeper</strong> — app signing/notarization enforcement</li>
+          <li><strong>Keychain</strong> — secure credential storage system</li>
+          <li><strong>Spotlight</strong> — system-wide search (indexing daemon)</li>
+        </ul>
+      </div>
+      <div class="mini-card">
+        <h4>General OS Concepts</h4>
+        <ul class="styled">
+          <li><strong>FAT32</strong> — universal compatibility; 4GB max file size</li>
+          <li><strong>exFAT</strong> — FAT replacement for flash; no file size limit; no journaling</li>
+          <li><strong>NFS</strong> — Network File System (UNIX/Linux network FS)</li>
+          <li><strong>Swap partition</strong> — Linux's virtual memory overflow area on disk</li>
+          <li><strong>Page file</strong> — Windows' equivalent of swap space</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <div class="callout-title">Quick OS Memory Tricks</div>
+    NTFS = Windows. ext4 = Linux (modern). APFS = macOS. UFS = UNIX. FAT32 = anywhere (flash drives, cross-platform). exFAT = flash drives without 4GB limit. ext2 = USB drives on Linux (no journaling = less wear).
+  </div>
+</div>
+
+<!-- ===================== MOUNTING ===================== -->
+<div class="section" id="sec-mounting">
+  <div class="section-title">Mounting — The 3 Steps</div>
+  <div class="section-sub">How the OS makes a file system accessible in the directory tree</div>
+
+  <div class="card">
+    <div class="card-title">What is Mounting?</div>
+    <p class="body">Mounting attaches an external file system (on a USB drive, partition, network share, etc.) to a directory in the existing file system tree — called the <strong>mount point</strong>. After mounting, the contents of the device appear at that directory path.</p>
+    <div class="diagram">Before mounting:
+/
+├── home/
+├── etc/
+└── mnt/           ← empty mount point
+
+After: mount /dev/sdb1 /mnt
+
+/
+├── home/
+├── etc/
+└── mnt/           ← now shows USB drive contents
+    ├── photos/
+    └── readme.txt</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">The 3 Steps of Mounting</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <strong>Verify the device contains a valid file system</strong>
+          <p>The OS reads and validates the device's superblock (or volume control block). It checks that the file system type is recognized, the magic number is correct, and the volume is not corrupted. This confirms there is actually a mountable file system on the device.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <strong>Create an entry in the OS mount table</strong>
+          <p>The OS adds a record to its internal mount table linking the device to the chosen mount point. This entry records the device path, the mount point directory, the file system type, and mount options (read-only, permissions, etc.).</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <strong>Attach the file system to the directory tree at the mount point</strong>
+          <p>The mount point directory's inode is updated to point to the root of the newly mounted file system. All path lookups that reach the mount point are transparently redirected into the new file system. The device is now accessible.</p>
+        </div>
+      </div>
+    </div>
+    <div class="callout success"><div class="callout-title">Unmounting (Reverse)</div>
+      Unmounting reverses this: flush all cached writes to disk, remove the mount table entry, and detach the file system from the directory tree. The mount point directory returns to its original (usually empty) state.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Linux Mounting Commands</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>Command</th><th>Purpose</th><th>Example</th></tr>
+      <tr><td><code>mount</code></td><td>Mount a device to a directory</td><td><code>mount /dev/sdb1 /mnt/usb</code></td></tr>
+      <tr><td><code>mount -t</code></td><td>Specify file system type explicitly</td><td><code>mount -t ext4 /dev/sdb1 /mnt</code></td></tr>
+      <tr><td><code>umount</code></td><td>Unmount a device (by device or mount point)</td><td><code>umount /mnt/usb</code></td></tr>
+      <tr><td><code>mount -a</code></td><td>Mount all file systems listed in /etc/fstab</td><td><code>sudo mount -a</code></td></tr>
+      <tr><td><code>df -h</code></td><td>Show currently mounted file systems and disk usage</td><td><code>df -h</code></td></tr>
+      <tr><td><code>cat /proc/mounts</code></td><td>View the current mount table in the kernel</td><td><code>cat /proc/mounts</code></td></tr>
+    </table></div>
+    <div class="callout info"><div class="callout-title">/etc/fstab</div>
+      The file <code>/etc/fstab</code> lists all file systems to automatically mount at boot. Each line specifies: device, mount point, FS type, options, dump, and fsck order.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Key Terms Related to Mounting</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>Term</th><th>Definition</th></tr>
+      <tr><td><strong>Mount Point</strong></td><td>The directory in the existing tree where a new file system is attached (e.g., /mnt, /media/usb)</td></tr>
+      <tr><td><strong>Mount Table</strong></td><td>OS data structure listing all currently mounted file systems, their devices, mount points, and options</td></tr>
+      <tr><td><strong>Superblock</strong></td><td>The first block of a file system containing metadata about the volume (size, block count, free block list, FS type)</td></tr>
+      <tr><td><strong>Volume Control Block</strong></td><td>Same as superblock — the "volume descriptor" checked in Step 1 to validate the file system</td></tr>
+      <tr><td><strong>/proc/mounts</strong></td><td>Linux virtual file showing the kernel's current mount table (live view)</td></tr>
+      <tr><td><strong>Bind mount</strong></td><td>Mount a directory (not device) onto another directory path — makes the same content appear in two places</td></tr>
+    </table></div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<script>
+const btns = document.querySelectorAll('.nav-btn');
+const sections = document.querySelectorAll('.section');
+btns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = btn.dataset.sec;
+    btns.forEach(b => b.classList.remove('active'));
+    sections.forEach(s => s.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('sec-' + target).classList.add('active');
+    window.scrollTo(0, 0);
+  });
+});
+</script>
+</body>
+</html>
