@@ -534,13 +534,19 @@ mutex.release()   <span class="cm">// unlock — wakes a waiting thread</span></
   <div class="card">
     <div class="card-title">CPU Scheduling Algorithms</div>
     <div class="tbl-wrap"><table>
-      <tr><th>Algorithm</th><th>How it works</th><th>Pros</th><th>Cons</th></tr>
-      <tr><td><strong>FCFS</strong> (First-Come First-Served)</td><td>Run processes in arrival order</td><td>Simple, no starvation</td><td>Convoy effect — short jobs wait behind long ones</td></tr>
-      <tr><td><strong>SJF</strong> (Shortest Job First)</td><td>Run the process with shortest burst time next</td><td>Optimal average wait time</td><td>Starvation of long jobs; burst time hard to know</td></tr>
-      <tr><td><strong>Priority</strong></td><td>Run highest-priority process next</td><td>Important jobs run first</td><td>Starvation of low-priority jobs (fix: aging)</td></tr>
-      <tr><td><strong>Round Robin</strong></td><td>Each process gets a fixed time quantum, then preempted</td><td>Fair, good for interactive systems</td><td>High context switch overhead if quantum too small</td></tr>
-      <tr><td><strong>Multilevel Queue</strong></td><td>Multiple queues with different scheduling each (e.g., foreground/background)</td><td>Flexible for different process types</td><td>Complex; lower queues may starve</td></tr>
+      <tr><th>Algorithm</th><th>Preemptive?</th><th>How it works</th><th>Pros</th><th>Cons</th></tr>
+      <tr><td><strong>FCFS</strong> (First-Come First-Served)</td><td><span class="tag tag-red">Non-preemptive</span></td><td>Run processes in arrival order; once running, a process holds the CPU until it finishes or blocks</td><td>Simple, no starvation</td><td>Convoy effect — short jobs wait behind long ones</td></tr>
+      <tr><td><strong>SJF</strong> (Shortest Job First)</td><td><span class="tag tag-red">Non-preemptive</span></td><td>Run the process with the shortest burst time next; once started, it runs to completion</td><td>Optimal average wait time</td><td>Starvation of long jobs; burst time hard to know in advance</td></tr>
+      <tr><td><strong>SRTF</strong> (Shortest Remaining Time First)</td><td><span class="tag tag-green">Preemptive</span></td><td>Preemptive version of SJF — if a new process arrives with a shorter remaining time than the current process, it preempts it</td><td>Minimizes average waiting time even more than SJF</td><td>High context switch overhead; starvation of long jobs</td></tr>
+      <tr><td><strong>Priority</strong></td><td><span class="tag tag-orange">Either</span></td><td>Run highest-priority process next. Preemptive variant: a higher-priority arrival immediately preempts the running process</td><td>Important jobs run first</td><td>Starvation of low-priority jobs (fix: aging — raise priority over time)</td></tr>
+      <tr><td><strong>Round Robin</strong></td><td><span class="tag tag-green">Preemptive</span></td><td>Each process gets a fixed time quantum; when the quantum expires it is preempted and moved to the back of the ready queue</td><td>Fair, good for interactive/time-sharing systems</td><td>High context switch overhead if quantum too small; larger quantum → behaves like FCFS</td></tr>
+      <tr><td><strong>Multilevel Queue</strong></td><td><span class="tag tag-orange">Either</span></td><td>Multiple queues with different scheduling algorithms each (e.g., foreground uses RR, background uses FCFS); processes are permanently assigned to a queue</td><td>Flexible for different process types</td><td>Complex; lower queues may starve without inter-queue preemption</td></tr>
     </table></div>
+    <div class="callout info">
+      <div class="callout-title">Preemptive vs Non-Preemptive</div>
+      <strong>Non-preemptive:</strong> Once a process starts running, it keeps the CPU until it voluntarily gives it up (finishes, or blocks on I/O). The OS cannot forcibly take the CPU away.<br>
+      <strong>Preemptive:</strong> The OS can forcibly remove a process from the CPU mid-execution — typically when a higher-priority process arrives or a time quantum expires. Requires saving/restoring state (context switch overhead) but gives better responsiveness.
+    </div>
   </div>
 
   <div class="card">
