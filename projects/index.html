@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - Glen Larkin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body class="antialiased">
+
+    <header class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white shadow-lg py-6 px-4 md:px-8 rounded-b-xl">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
+            <div class="text-center md:text-left mb-4 md:mb-0">
+                <h1 class="text-4xl font-bold mb-1">Glen Larkin</h1>
+                <p class="text-xl font-light opacity-90">Projects</p>
+            </div>
+            <nav>
+                <ul class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-lg font-medium">
+                    <li><a href="../index.html" class="hover:text-blue-200 transition duration-300">Home</a></li>
+                    <li><a href="#security" class="hover:text-blue-200 transition duration-300">Security</a></li>
+                    <li><a href="#study" class="hover:text-blue-200 transition duration-300">Study Tools</a></li>
+                    <li><a href="#data" class="hover:text-blue-200 transition duration-300">Data</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-10 md:py-16">
+
+        <!-- Intro -->
+        <section class="bg-white p-8 rounded-lg shadow-md mb-10 scroll-reveal">
+            <h2 class="text-3xl font-semibold text-blue-700 mb-4 border-b-2 border-blue-200 pb-2">All Projects</h2>
+            <p class="text-lg text-gray-700">A collection of projects spanning cybersecurity tooling, certification study resources, and data analysis — built to demonstrate practical skills in IT security, automation, and data visualization.</p>
+            <div class="mt-4 flex flex-wrap gap-3">
+                <span class="bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium shadow-sm">Python</span>
+                <span class="bg-purple-100 text-purple-800 px-4 py-2 rounded-full text-sm font-medium shadow-sm">Cybersecurity</span>
+                <span class="bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-medium shadow-sm">Study Tools</span>
+                <span class="bg-orange-100 text-orange-800 px-4 py-2 rounded-full text-sm font-medium shadow-sm">Data Visualization</span>
+            </div>
+        </section>
+
+        <!-- Security Tools -->
+        <section id="security" class="mb-10 scroll-reveal">
+            <h2 class="text-2xl font-semibold text-gray-700 mb-5 flex items-center gap-2">
+                <span class="w-1 h-7 bg-blue-600 rounded inline-block"></span> Security Tools
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                <!-- Network Scanner -->
+                <div class="bg-white p-8 rounded-lg shadow-md border-t-4 border-blue-500 flex flex-col">
+                    <div class="flex items-start justify-between mb-3">
+                        <h3 class="text-2xl font-semibold text-gray-800">Network Scanner</h3>
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-semibold">Python</span>
+                    </div>
+                    <p class="text-gray-600 mb-4 flex-grow">Discovers live hosts across a network and identifies open TCP ports. Accepts individual IPs, hostnames, or CIDR ranges. Outputs a timestamped CSV of all resources and their exposed ports using concurrent threading — no external dependencies.</p>
+                    <div class="flex flex-wrap gap-2 mb-5">
+                        <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">TCP Scanning</span>
+                        <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">CIDR Support</span>
+                        <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">CSV Export</span>
+                        <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">Multithreaded</span>
+                    </div>
+                    <div class="flex gap-3">
+                        <a href="security/netscan" class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition duration-300">View Project</a>
+                        <a href="https://github.com/glenlarkin/glenlarkin.github.io/tree/main/projects/security/netscan" target="_blank" class="bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-semibold px-4 py-2 rounded-lg transition duration-300">GitHub →</a>
+                    </div>
+                </div>
+
+                <!-- Log Anomaly Detector -->
+                <div class="bg-white p-8 rounded-lg shadow-md border-t-4 border-indigo-500 flex flex-col">
+                    <div class="flex items-start justify-between mb-3">
+                        <h3 class="text-2xl font-semibold text-gray-800">Log Anomaly Detector</h3>
+                        <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-xs font-semibold">Python</span>
+                    </div>
+                    <p class="text-gray-600 mb-4 flex-grow">Parses Linux authentication logs and flags suspicious activity using regex-based detection rules. Identifies brute force attempts, off-hours logins, and privilege escalation events. Outputs a severity-sorted CSV report ready for incident response workflows.</p>
+                    <div class="flex flex-wrap gap-2 mb-5">
+                        <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">Threat Detection</span>
+                        <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">MITRE ATT&CK</span>
+                        <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">Log Analysis</span>
+                        <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">CSV Report</span>
+                    </div>
+                    <div class="flex gap-3">
+                        <a href="security/Log-analyzer" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition duration-300">View Project</a>
+                        <a href="https://github.com/glenlarkin/glenlarkin.github.io/tree/main/projects/security/Log-analyzer" target="_blank" class="bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-semibold px-4 py-2 rounded-lg transition duration-300">GitHub →</a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Study Tools -->
+        <section id="study" class="mb-10 scroll-reveal">
+            <h2 class="text-2xl font-semibold text-gray-700 mb-5 flex items-center gap-2">
+                <span class="w-1 h-7 bg-green-500 rounded inline-block"></span> Study Tools
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                <!-- Security+ -->
+                <div class="bg-white p-8 rounded-lg shadow-md border-t-4 border-green-500 flex flex-col">
+                    <div class="flex items-start justify-between mb-3">
+                        <h3 class="text-2xl font-semibold text-gray-800">Security+ Study Hub</h3>
+                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold">Web App</span>
+                    </div>
+                    <p class="text-gray-600 mb-4 flex-grow">Interactive study resource for the CompTIA Security+ SY0-701 exam. Includes concise reference notes across all 5 domains and a 40-question practice quiz with instant feedback, detailed explanations, and per-domain score breakdown.</p>
+                    <div class="flex flex-wrap gap-2 mb-5">
+                        <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">SY0-701</span>
+                        <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">Practice Quiz</span>
+                        <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">5 Domains</span>
+                        <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">40 Questions</span>
+                    </div>
+                    <div class="flex gap-3">
+                        <a href="study/security-plus" class="bg-green-600 hover:bg-green-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition duration-300">View Project</a>
+                        <a href="https://github.com/glenlarkin/glenlarkin.github.io/tree/main/projects/study/security-plus" target="_blank" class="bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-semibold px-4 py-2 rounded-lg transition duration-300">GitHub →</a>
+                    </div>
+                </div>
+
+                <!-- CMMC CCP -->
+                <div class="bg-white p-8 rounded-lg shadow-md border-t-4 border-purple-500 flex flex-col">
+                    <div class="flex items-start justify-between mb-3">
+                        <h3 class="text-2xl font-semibold text-gray-800">CMMC CCP Prep</h3>
+                        <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-xs font-semibold">Web App</span>
+                    </div>
+                    <p class="text-gray-600 mb-4 flex-grow">Study resource for the Certified CMMC Professional (CCP) exam. Covers the Cybersecurity Maturity Model Certification framework, NIST SP 800-171 controls, and the DoD's requirements for protecting Controlled Unclassified Information (CUI).</p>
+                    <div class="flex flex-wrap gap-2 mb-5">
+                        <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">CMMC 2.0</span>
+                        <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">NIST 800-171</span>
+                        <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">CUI</span>
+                        <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">DoD Compliance</span>
+                    </div>
+                    <div class="flex gap-3">
+                        <a href="study/cmmc/ccp_prep.html" class="bg-purple-600 hover:bg-purple-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition duration-300">View Project</a>
+                        <a href="https://github.com/glenlarkin/glenlarkin.github.io/tree/main/projects/study/cmmc" target="_blank" class="bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-semibold px-4 py-2 rounded-lg transition duration-300">GitHub →</a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Data Visualization -->
+        <section id="data" class="mb-10 scroll-reveal">
+            <h2 class="text-2xl font-semibold text-gray-700 mb-5 flex items-center gap-2">
+                <span class="w-1 h-7 bg-orange-500 rounded inline-block"></span> Data Visualization
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                <div class="bg-white p-8 rounded-lg shadow-md border-t-4 border-orange-500 flex flex-col">
+                    <div class="flex items-start justify-between mb-3">
+                        <h3 class="text-2xl font-semibold text-gray-800">Diabetic Readmission Analysis</h3>
+                        <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-xs font-semibold">Data Analysis</span>
+                    </div>
+                    <p class="text-gray-600 mb-4 flex-grow">Data visualization project analyzing hospital readmission rates for diabetic patients. Explores patterns in patient demographics, treatment outcomes, and readmission risk factors using visual data analysis techniques.</p>
+                    <div class="flex flex-wrap gap-2 mb-5">
+                        <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">Data Analysis</span>
+                        <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">Healthcare</span>
+                        <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">Visualization</span>
+                    </div>
+                    <div class="flex gap-3">
+                        <a href="data_visualization/diabetic-readmission-project.html" class="bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold px-4 py-2 rounded-lg transition duration-300">View Project</a>
+                        <a href="https://github.com/glenlarkin/glenlarkin.github.io/tree/main/projects/data_visualization" target="_blank" class="bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-semibold px-4 py-2 rounded-lg transition duration-300">GitHub →</a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-white text-center py-6 mt-10 rounded-t-xl">
+        <p class="text-sm">© 2025 Glen Larkin. All rights reserved.</p>
+        <p class="text-sm mt-1">Built with ♥ and Tailwind CSS.</p>
+    </footer>
+
+    <a href="#" class="fixed bottom-6 right-6 bg-blue-600 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg hover:bg-blue-700 transition duration-300" title="Back to top">▲</a>
+
+</body>
+</html>
