@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CMMC Level 2 — Weighted Assessment Points by Domain</title>
+<style>
+  body {
+    margin: 0;
+    padding: 2rem;
+    background: #fcfcfb;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    color: #0b0b0b;
+  }
+  h1 {
+    font-size: 20px;
+    font-weight: 500;
+    margin: 0 0 0.25rem;
+  }
+  p.subtitle {
+    color: #52514e;
+    font-size: 14px;
+    margin: 0 0 1.5rem;
+  }
+  .chart-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    height: 520px;
+    margin: 0 auto;
+  }
+  footer {
+    max-width: 900px;
+    margin: 1.5rem auto 0;
+    font-size: 12px;
+    color: #898781;
+  }
+</style>
+</head>
+<body>
+  <h1>CMMC Level 2 — weighted assessment points by domain</h1>
+  <p class="subtitle">Based on the DoD Assessment Methodology 1/3/5-point weighting, aggregated across all 14 NIST SP 800-171 Rev 2 domains (110 controls, 313 max weighted points)</p>
+
+  <div class="chart-wrap">
+    <canvas id="domainChart" role="img" aria-label="Horizontal bar chart of CMMC Level 2 weighted assessment points by domain, from Access Control at 54 points down to Personnel Security at 8 points">Weighted points by domain: AC 54, SC 42, CM 33, SI 31, IA 27, MP 23, AU 19, MA 18, PE 14, CA 13, AT 11, IR 11, RA 9, PS 8.</canvas>
+  </div>
+
+  <footer>
+    3.5.3 (MFA) and 3.13.11 (FIPS crypto) shown at max weight (5 pts); 3.12.4 (SSP) carries no point value.
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+  <script>
+    const rows = [
+      {code:'AC', name:'Access Control', points:54, controls:22},
+      {code:'SC', name:'System & Comm. Protection', points:42, controls:16},
+      {code:'CM', name:'Configuration Management', points:33, controls:9},
+      {code:'SI', name:'System & Info. Integrity', points:31, controls:7},
+      {code:'IA', name:'Identification & Auth.', points:27, controls:11},
+      {code:'MP', name:'Media Protection', points:23, controls:9},
+      {code:'AU', name:'Audit & Accountability', points:19, controls:9},
+      {code:'MA', name:'Maintenance', points:18, controls:6},
+      {code:'PE', name:'Physical Protection', points:14, controls:6},
+      {code:'CA', name:'Security Assessment', points:13, controls:4},
+      {code:'AT', name:'Awareness & Training', points:11, controls:3},
+      {code:'IR', name:'Incident Response', points:11, controls:3},
+      {code:'RA', name:'Risk Assessment', points:9, controls:3},
+      {code:'PS', name:'Personnel Security', points:8, controls:2}
+    ];
+    new Chart(document.getElementById('domainChart'), {
+      type: 'bar',
+      data: {
+        labels: rows.map(r => r.code + ' — ' + r.name),
+        datasets: [{
+          label: 'Weighted points',
+          data: rows.map(r => r.points),
+          backgroundColor: '#2a78d6',
+          borderRadius: 4,
+          barThickness: 20
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => {
+                const r = rows[ctx.dataIndex];
+                return r.points + ' pts across ' + r.controls + ' controls';
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            title: { display: true, text: 'Max weighted points at risk (of 313 total)', color: '#898781' },
+            grid: { color: '#e1e0d9' },
+            ticks: { color: '#898781' }
+          },
+          y: {
+            grid: { display: false },
+            ticks: { color: '#52514e', font: { size: 12 } }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
