@@ -20,7 +20,25 @@
   p.subtitle {
     color: #52514e;
     font-size: 14px;
-    margin: 0 0 1.5rem;
+    margin: 0 0 1rem;
+  }
+  .legend {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 1.5rem;
+    font-size: 13px;
+    color: #52514e;
+  }
+  .legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .swatch {
+    width: 11px;
+    height: 11px;
+    border-radius: 2px;
+    display: inline-block;
   }
   .chart-wrap {
     position: relative;
@@ -39,45 +57,61 @@
 </head>
 <body>
   <h1>CMMC Level 2 — weighted assessment points by domain</h1>
-  <p class="subtitle">Based on the DoD Assessment Methodology 1/3/5-point weighting, aggregated across all 14 NIST SP 800-171 Rev 2 domains (110 controls, 313 max weighted points)</p>
+  <p class="subtitle">DoD Assessment Methodology 1/3/5-point weighting, aggregated across all 14 NIST SP 800-171 Rev 2 domains (110 controls, 313 max weighted points). Green segments mark the points that also fall under CMMC Level 1's 17 practices (FAR 52.204-21 basic safeguarding).</p>
+
+  <div class="legend">
+    <span><span class="swatch" style="background:#639922"></span>Also a CMMC Level 1 objective</span>
+    <span><span class="swatch" style="background:#2a78d6"></span>Level 2 only</span>
+  </div>
 
   <div class="chart-wrap">
-    <canvas id="domainChart" role="img" aria-label="Horizontal bar chart of CMMC Level 2 weighted assessment points by domain, from Access Control at 54 points down to Personnel Security at 8 points">Weighted points by domain: AC 54, SC 42, CM 33, SI 31, IA 27, MP 23, AU 19, MA 18, PE 14, CA 13, AT 11, IR 11, RA 9, PS 8.</canvas>
+    <canvas id="domainChart" role="img" aria-label="Stacked horizontal bar chart of CMMC Level 2 weighted assessment points by domain, with the portion that overlaps CMMC Level 1 shown in green and the Level 2-only portion in blue">Weighted points by domain, Level 1 overlap in parentheses: AC 54 (12), SC 42 (10), CM 33 (0), SI 31 (18), IA 27 (10), MP 23 (5), AU 19 (0), MA 18 (0), PE 14 (8), CA 13 (0), AT 11 (0), IR 11 (0), RA 9 (0), PS 8 (0).</canvas>
   </div>
 
   <footer>
-    3.5.3 (MFA) and 3.13.11 (FIPS crypto) shown at max weight (5 pts); 3.12.4 (SSP) carries no point value.
+    CMMC Level 1's 17 practices span 6 domains: AC (3.1.1, 3.1.2, 3.1.20, 3.1.22), IA (3.5.1, 3.5.2), MP (3.8.3), PE (3.10.1, 3.10.3–3.10.5), SC (3.13.1, 3.13.5), SI (3.14.1, 3.14.2, 3.14.4, 3.14.5) — 63 of the 313 weighted points. 3.5.3 and 3.13.11 shown at max weight (5 pts); 3.12.4 (SSP) carries no point value.
   </footer>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
   <script>
     const rows = [
-      {code:'AC', name:'Access Control', points:54, controls:22},
-      {code:'SC', name:'System & Comm. Protection', points:42, controls:16},
-      {code:'CM', name:'Configuration Management', points:33, controls:9},
-      {code:'SI', name:'System & Info. Integrity', points:31, controls:7},
-      {code:'IA', name:'Identification & Auth.', points:27, controls:11},
-      {code:'MP', name:'Media Protection', points:23, controls:9},
-      {code:'AU', name:'Audit & Accountability', points:19, controls:9},
-      {code:'MA', name:'Maintenance', points:18, controls:6},
-      {code:'PE', name:'Physical Protection', points:14, controls:6},
-      {code:'CA', name:'Security Assessment', points:13, controls:4},
-      {code:'AT', name:'Awareness & Training', points:11, controls:3},
-      {code:'IR', name:'Incident Response', points:11, controls:3},
-      {code:'RA', name:'Risk Assessment', points:9, controls:3},
-      {code:'PS', name:'Personnel Security', points:8, controls:2}
+      {code:'AC', name:'Access Control', l1:12, l2only:42},
+      {code:'SC', name:'System & Comm. Protection', l1:10, l2only:32},
+      {code:'CM', name:'Configuration Management', l1:0, l2only:33},
+      {code:'SI', name:'System & Info. Integrity', l1:18, l2only:13},
+      {code:'IA', name:'Identification & Auth.', l1:10, l2only:17},
+      {code:'MP', name:'Media Protection', l1:5, l2only:18},
+      {code:'AU', name:'Audit & Accountability', l1:0, l2only:19},
+      {code:'MA', name:'Maintenance', l1:0, l2only:18},
+      {code:'PE', name:'Physical Protection', l1:8, l2only:6},
+      {code:'CA', name:'Security Assessment', l1:0, l2only:13},
+      {code:'AT', name:'Awareness & Training', l1:0, l2only:11},
+      {code:'IR', name:'Incident Response', l1:0, l2only:11},
+      {code:'RA', name:'Risk Assessment', l1:0, l2only:9},
+      {code:'PS', name:'Personnel Security', l1:0, l2only:8}
     ];
     new Chart(document.getElementById('domainChart'), {
       type: 'bar',
       data: {
         labels: rows.map(r => r.code + ' — ' + r.name),
-        datasets: [{
-          label: 'Weighted points',
-          data: rows.map(r => r.points),
-          backgroundColor: '#2a78d6',
-          borderRadius: 4,
-          barThickness: 20
-        }]
+        datasets: [
+          {
+            label: 'Also a CMMC Level 1 objective',
+            data: rows.map(r => r.l1),
+            backgroundColor: '#639922',
+            borderRadius: 4,
+            barThickness: 20,
+            stack: 'points'
+          },
+          {
+            label: 'Level 2 only',
+            data: rows.map(r => r.l2only),
+            backgroundColor: '#2a78d6',
+            borderRadius: 4,
+            barThickness: 20,
+            stack: 'points'
+          }
+        ]
       },
       options: {
         indexAxis: 'y',
@@ -89,18 +123,21 @@
             callbacks: {
               label: (ctx) => {
                 const r = rows[ctx.dataIndex];
-                return r.points + ' pts across ' + r.controls + ' controls';
+                const val = ctx.dataset.label === 'Also a CMMC Level 1 objective' ? r.l1 : r.l2only;
+                return ctx.dataset.label + ': ' + val + ' pts (domain total ' + (r.l1 + r.l2only) + ')';
               }
             }
           }
         },
         scales: {
           x: {
+            stacked: true,
             title: { display: true, text: 'Max weighted points at risk (of 313 total)', color: '#898781' },
             grid: { color: '#e1e0d9' },
             ticks: { color: '#898781' }
           },
           y: {
+            stacked: true,
             grid: { display: false },
             ticks: { color: '#52514e', font: { size: 12 } }
           }
