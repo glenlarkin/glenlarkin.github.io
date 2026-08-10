@@ -17,10 +17,22 @@
     font-weight: 500;
     margin: 0 0 0.25rem;
   }
+  h2 {
+    font-size: 17px;
+    font-weight: 500;
+    margin: 0 0 0.25rem;
+  }
   p.subtitle {
     color: #52514e;
     font-size: 14px;
     margin: 0 0 1rem;
+  }
+  section {
+    max-width: 900px;
+    margin: 0 auto 3rem;
+  }
+  section:last-of-type {
+    margin-bottom: 1.5rem;
   }
   .legend {
     display: flex;
@@ -43,57 +55,84 @@
   .chart-wrap {
     position: relative;
     width: 100%;
-    max-width: 900px;
     height: 520px;
-    margin: 0 auto;
   }
   footer {
-    max-width: 900px;
-    margin: 1.5rem auto 0;
     font-size: 12px;
     color: #898781;
+  }
+  hr {
+    max-width: 900px;
+    margin: 0 auto 3rem;
+    border: none;
+    border-top: 0.5px solid #d3d1c7;
   }
 </style>
 </head>
 <body>
-  <h1>CMMC Level 2 — weighted assessment points by domain</h1>
-  <p class="subtitle">DoD Assessment Methodology 1/3/5-point weighting, aggregated across all 14 NIST SP 800-171 Rev 2 domains (110 controls, 313 max weighted points). Green segments mark the points that also fall under CMMC Level 1's 17 practices (FAR 52.204-21 basic safeguarding).</p>
 
-  <div class="legend">
-    <span><span class="swatch" style="background:#639922"></span>Also a CMMC Level 1 objective</span>
-    <span><span class="swatch" style="background:#2a78d6"></span>Level 2 only</span>
-  </div>
+  <section>
+    <h1>CMMC Level 2 — weighted assessment points by domain</h1>
+    <p class="subtitle">DoD Assessment Methodology 1/3/5-point weighting, aggregated across all 14 NIST SP 800-171 Rev 2 domains (110 controls, 313 max weighted points). Green segments mark the points that also fall under CMMC Level 1's 17 practices (FAR 52.204-21 basic safeguarding).</p>
 
-  <div class="chart-wrap">
-    <canvas id="domainChart" role="img" aria-label="Stacked horizontal bar chart of CMMC Level 2 weighted assessment points by domain, with the portion that overlaps CMMC Level 1 shown in green and the Level 2-only portion in blue">Weighted points by domain, Level 1 overlap in parentheses: AC 54 (12), SC 42 (10), CM 33 (0), SI 31 (18), IA 27 (10), MP 23 (5), AU 19 (0), MA 18 (0), PE 14 (8), CA 13 (0), AT 11 (0), IR 11 (0), RA 9 (0), PS 8 (0).</canvas>
-  </div>
+    <div class="legend">
+      <span><span class="swatch" style="background:#639922"></span>Also a CMMC Level 1 objective</span>
+      <span><span class="swatch" style="background:#2a78d6"></span>Level 2 only</span>
+    </div>
 
-  <footer>
-    CMMC Level 1's 17 practices span 6 domains: AC (3.1.1, 3.1.2, 3.1.20, 3.1.22), IA (3.5.1, 3.5.2), MP (3.8.3), PE (3.10.1, 3.10.3–3.10.5), SC (3.13.1, 3.13.5), SI (3.14.1, 3.14.2, 3.14.4, 3.14.5) — 63 of the 313 weighted points. 3.5.3 and 3.13.11 shown at max weight (5 pts); 3.12.4 (SSP) carries no point value.
-  </footer>
+    <div class="chart-wrap">
+      <canvas id="l1Chart" role="img" aria-label="Stacked horizontal bar chart of CMMC Level 2 weighted assessment points by domain, with the portion that overlaps CMMC Level 1 shown in green and the Level 2-only portion in blue">Weighted points by domain, Level 1 overlap in parentheses: AC 54 (12), SC 42 (10), CM 33 (0), SI 31 (18), IA 27 (10), MP 23 (5), AU 19 (0), MA 18 (0), PE 14 (8), CA 13 (0), AT 11 (0), IR 11 (0), RA 9 (0), PS 8 (0).</canvas>
+    </div>
+
+    <footer>
+      CMMC Level 1's 17 practices span 6 domains: AC (3.1.1, 3.1.2, 3.1.20, 3.1.22), IA (3.5.1, 3.5.2), MP (3.8.3), PE (3.10.1, 3.10.3–3.10.5), SC (3.13.1, 3.13.5), SI (3.14.1, 3.14.2, 3.14.4, 3.14.5) — 63 of the 313 weighted points. 3.5.3 and 3.13.11 shown at max weight (5 pts); 3.12.4 (SSP) carries no point value.
+    </footer>
+  </section>
+
+  <hr>
+
+  <section>
+    <h2>CMMC Level 2 — points barred from a POA&amp;M by domain</h2>
+    <p class="subtitle">Red segments mark points that can never appear on a CMMC Level 2 POA&amp;M under 32 CFR 170.21(a)(2) — every requirement worth more than 1 point, plus six named 1-point/NA requirements that are barred regardless of weight.</p>
+
+    <div class="legend">
+      <span><span class="swatch" style="background:#c0392b"></span>Not allowed on a POA&amp;M</span>
+      <span><span class="swatch" style="background:#2a78d6"></span>POA&amp;M-eligible</span>
+    </div>
+
+    <div class="chart-wrap">
+      <canvas id="poamChart" role="img" aria-label="Stacked horizontal bar chart of CMMC Level 2 weighted assessment points by domain, with points that cannot appear on a POA&amp;M shown in red and POA&amp;M-eligible points shown in blue">Weighted points by domain, points barred from POA&amp;M in parentheses: AC 54 (43), SC 42 (28), CM 33 (30), SI 31 (31), IA 27 (20), MP 23 (19), AU 19 (13), MA 18 (16), PE 14 (13), CA 13 (13), AT 11 (10), IR 11 (10), RA 9 (8), PS 8 (8).</canvas>
+    </div>
+
+    <footer>
+      Barred from POA&amp;M under 32 CFR 170.21(a)(2): every requirement with a point value greater than 1 (SC.L2-3.13.11 is the one exception — POA&amp;M-eligible at its 3-point value if encryption is employed but not FIPS-validated), plus six named requirements regardless of weight: AC.L2-3.1.20, AC.L2-3.1.22, CA.L2-3.12.4 (no point value — SSP itself), PE.L2-3.10.3, PE.L2-3.10.4, PE.L2-3.10.5. Notably, every one of CMMC Level 1's 17 practices falls inside the red set — Level 1 doesn't permit POA&amp;Ms at all, and the requirements DoD chose to overlap with Level 2 are the same ones it also decided can never be deferred.
+    </footer>
+  </section>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
   <script>
     const rows = [
-      {code:'AC', name:'Access Control', l1:12, l2only:42},
-      {code:'SC', name:'System & Comm. Protection', l1:10, l2only:32},
-      {code:'CM', name:'Configuration Management', l1:0, l2only:33},
-      {code:'SI', name:'System & Info. Integrity', l1:18, l2only:13},
-      {code:'IA', name:'Identification & Auth.', l1:10, l2only:17},
-      {code:'MP', name:'Media Protection', l1:5, l2only:18},
-      {code:'AU', name:'Audit & Accountability', l1:0, l2only:19},
-      {code:'MA', name:'Maintenance', l1:0, l2only:18},
-      {code:'PE', name:'Physical Protection', l1:8, l2only:6},
-      {code:'CA', name:'Security Assessment', l1:0, l2only:13},
-      {code:'AT', name:'Awareness & Training', l1:0, l2only:11},
-      {code:'IR', name:'Incident Response', l1:0, l2only:11},
-      {code:'RA', name:'Risk Assessment', l1:0, l2only:9},
-      {code:'PS', name:'Personnel Security', l1:0, l2only:8}
+      {code:'AC', name:'Access Control', l1:12, l2only:42, notPoam:43, poamOk:11},
+      {code:'SC', name:'System & Comm. Protection', l1:10, l2only:32, notPoam:28, poamOk:14},
+      {code:'CM', name:'Configuration Management', l1:0, l2only:33, notPoam:30, poamOk:3},
+      {code:'SI', name:'System & Info. Integrity', l1:18, l2only:13, notPoam:31, poamOk:0},
+      {code:'IA', name:'Identification & Auth.', l1:10, l2only:17, notPoam:20, poamOk:7},
+      {code:'MP', name:'Media Protection', l1:5, l2only:18, notPoam:19, poamOk:4},
+      {code:'AU', name:'Audit & Accountability', l1:0, l2only:19, notPoam:13, poamOk:6},
+      {code:'MA', name:'Maintenance', l1:0, l2only:18, notPoam:16, poamOk:2},
+      {code:'PE', name:'Physical Protection', l1:8, l2only:6, notPoam:13, poamOk:1},
+      {code:'CA', name:'Security Assessment', l1:0, l2only:13, notPoam:13, poamOk:0},
+      {code:'AT', name:'Awareness & Training', l1:0, l2only:11, notPoam:10, poamOk:1},
+      {code:'IR', name:'Incident Response', l1:0, l2only:11, notPoam:10, poamOk:1},
+      {code:'RA', name:'Risk Assessment', l1:0, l2only:9, notPoam:8, poamOk:1},
+      {code:'PS', name:'Personnel Security', l1:0, l2only:8, notPoam:8, poamOk:0}
     ];
-    new Chart(document.getElementById('domainChart'), {
+    const labels = rows.map(r => r.code + ' — ' + r.name);
+
+    new Chart(document.getElementById('l1Chart'), {
       type: 'bar',
       data: {
-        labels: rows.map(r => r.code + ' — ' + r.name),
+        labels: labels,
         datasets: [
           {
             label: 'Also a CMMC Level 1 objective',
@@ -133,6 +172,63 @@
           x: {
             stacked: true,
             title: { display: true, text: 'Max weighted points at risk (of 313 total)', color: '#898781' },
+            grid: { color: '#e1e0d9' },
+            ticks: { color: '#898781' }
+          },
+          y: {
+            stacked: true,
+            grid: { display: false },
+            ticks: { color: '#52514e', font: { size: 12 } }
+          }
+        }
+      }
+    });
+
+    new Chart(document.getElementById('poamChart'), {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Not allowed on a POA&M',
+            data: rows.map(r => r.notPoam),
+            backgroundColor: '#c0392b',
+            borderRadius: 4,
+            barThickness: 20,
+            stack: 'points'
+          },
+          {
+            label: 'POA&M-eligible',
+            data: rows.map(r => r.poamOk),
+            backgroundColor: '#2a78d6',
+            borderRadius: 4,
+            barThickness: 20,
+            stack: 'points'
+          }
+        ]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => {
+                const r = rows[ctx.dataIndex];
+                if (ctx.dataset.label === 'Not allowed on a POA&M') {
+                  return 'Not allowed on a POA&M: ' + r.notPoam + ' pts (' + r.l1 + ' of which are also CMMC L1)';
+                }
+                return 'POA&M-eligible: ' + r.poamOk + ' pts (domain total ' + (r.notPoam + r.poamOk) + ')';
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            stacked: true,
+            title: { display: true, text: 'Max weighted points at risk (of 313 total) — 262 barred from POA&M, 51 eligible', color: '#898781' },
             grid: { color: '#e1e0d9' },
             ticks: { color: '#898781' }
           },
