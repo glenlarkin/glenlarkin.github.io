@@ -58,6 +58,37 @@
   @media(max-width:900px){.shell{grid-template-columns:1fr}.rail{display:none}.mobile-top{display:flex}main{padding:28px 18px 80px}.hero-stats{grid-template-columns:repeat(2,1fr)}.result-top{grid-template-columns:1fr}.rules{grid-template-columns:1fr}}
   @media(max-width:520px){.hero h2{font-size:22px}.question-card{padding:18px 15px}.question-text{font-size:16px}.option{grid-template-columns:28px 1fr;padding:11px 10px}.hero-stats{grid-template-columns:1fr 1fr}.stat .v{font-size:15px}}
   @media print{.rail,.mobile-top,.question-actions,.submit-strip,.actions,.start-card,.hero{display:none!important}.shell{display:block}main{max-width:none;padding:0}.results,.review-list{display:block!important}.review-item{break-inside:avoid;color:#000;background:#fff}.review-e{background:#eee;color:#222}body{background:#fff;color:#000}}
+
+
+  /* ---------- shared cross-page navigation ---------- */
+  .site-nav{
+    display:flex; align-items:center; gap:8px; margin:0 0 22px 0; padding:0 0 16px 0;
+    border-bottom:1px solid var(--border); overflow-x:auto; scrollbar-width:thin;
+  }
+  .site-nav-label{
+    margin-right:auto; flex:0 0 auto; font-family:var(--mono); font-size:10px;
+    color:var(--text-faint); letter-spacing:.09em; text-transform:uppercase;
+  }
+  .site-nav a{
+    flex:0 0 auto; display:inline-flex; align-items:center; gap:7px; text-decoration:none;
+    font-family:var(--mono); font-size:11px; color:var(--text-dim); background:var(--surface);
+    border:1px solid var(--border); border-radius:7px; padding:8px 11px; transition:.15s ease;
+  }
+  .site-nav a:hover{ color:var(--text); border-color:var(--blue); text-decoration:none; }
+  .site-nav a.active{
+    color:var(--accent); border-color:var(--accent); background:rgba(95,217,138,.07);
+  }
+  .site-nav-dot{
+    width:7px; height:7px; border-radius:50%; background:var(--text-faint); flex:0 0 7px;
+  }
+  .site-nav a.active .site-nav-dot{ background:var(--accent); box-shadow:0 0 7px rgba(95,217,138,.55); }
+  @media(max-width:650px){
+    .site-nav{ margin-left:-2px; margin-right:-2px; padding-bottom:12px; }
+    .site-nav-label{ display:none; }
+    .site-nav a{ padding:8px 10px; }
+  }
+  @media print{ .site-nav{ display:none !important; } }
+
 </style>
 </head>
 <body>
@@ -93,6 +124,15 @@
   </aside>
 
   <main>
+
+  <nav class="site-nav" aria-label="ITIL Foundation study pages">
+    <span class="site-nav-label">ITIL // TRAINING</span>
+    <a href="study-guide.html"><span class="site-nav-dot"></span>Study guide</a>
+    <a class="active" href="practice-test.html" aria-current="page"><span class="site-nav-dot"></span>Practice test</a>
+    <a href="flash-cards.html"><span class="site-nav-dot"></span>Flash cards</a>
+  </nav>
+
+
     <div class="hero">
       <div class="hero-top">
         <div>

@@ -46,6 +46,37 @@ footer{border-top:1px solid var(--border);margin-top:44px;padding-top:18px;color
 @media(max-width:900px){.shell{grid-template-columns:1fr}.rail{display:none}.mobile-top{display:flex}main{padding:28px 18px 80px}.hero-stats{grid-template-columns:repeat(2,1fr)}.face{padding:28px 22px}.face h3{font-size:23px}}
 @media(max-width:560px){.hero h2{font-size:22px}.flash-wrap,.flash-card{min-height:360px}.face h3{font-size:21px}.face.back h3{font-size:17px}.card-actions{grid-template-columns:1fr 1fr}.card-actions .prev,.card-actions .next{justify-self:stretch}.card-actions .next{grid-column:2}.grade{min-width:0}.session-line,.summary-grid{grid-template-columns:1fr}.hero-stats{grid-template-columns:1fr 1fr}.btn{width:100%}.toolbar-group{width:100%}.toolbar-group .btn{flex:1}.select-wrap{width:100%;justify-content:space-between}select{flex:1}}
 @media print{.rail,.mobile-top,.toolbar,.card-actions,.kbd,.flip-hint{display:none!important}.shell{display:block}main{max-width:none;padding:0}.flash-card{transform:none!important}.face{position:relative;min-height:0;margin-bottom:10px;box-shadow:none}.face.back{transform:none}.study-panel{border:none}.hero{display:none}}
+
+
+  /* ---------- shared cross-page navigation ---------- */
+  .site-nav{
+    display:flex; align-items:center; gap:8px; margin:0 0 22px 0; padding:0 0 16px 0;
+    border-bottom:1px solid var(--border); overflow-x:auto; scrollbar-width:thin;
+  }
+  .site-nav-label{
+    margin-right:auto; flex:0 0 auto; font-family:var(--mono); font-size:10px;
+    color:var(--text-faint); letter-spacing:.09em; text-transform:uppercase;
+  }
+  .site-nav a{
+    flex:0 0 auto; display:inline-flex; align-items:center; gap:7px; text-decoration:none;
+    font-family:var(--mono); font-size:11px; color:var(--text-dim); background:var(--surface);
+    border:1px solid var(--border); border-radius:7px; padding:8px 11px; transition:.15s ease;
+  }
+  .site-nav a:hover{ color:var(--text); border-color:var(--blue); text-decoration:none; }
+  .site-nav a.active{
+    color:var(--accent); border-color:var(--accent); background:rgba(95,217,138,.07);
+  }
+  .site-nav-dot{
+    width:7px; height:7px; border-radius:50%; background:var(--text-faint); flex:0 0 7px;
+  }
+  .site-nav a.active .site-nav-dot{ background:var(--accent); box-shadow:0 0 7px rgba(95,217,138,.55); }
+  @media(max-width:650px){
+    .site-nav{ margin-left:-2px; margin-right:-2px; padding-bottom:12px; }
+    .site-nav-label{ display:none; }
+    .site-nav a{ padding:8px 10px; }
+  }
+  @media print{ .site-nav{ display:none !important; } }
+
 </style>
 </head>
 <body>
@@ -56,9 +87,18 @@ footer{border-top:1px solid var(--border);margin-top:44px;padding-top:18px;color
   <div class="rail-block"><div class="rail-label">Deck progress</div><div class="rail-value ok" id="railProgress">0 / 0</div><div class="progress-track"><div class="progress-fill" id="railFill"></div></div><div class="rail-note" id="railNote">Choose a category or study everything.</div></div>
   <div class="rail-block"><div class="rail-label">Focus areas</div><div class="filter-list" id="filterList"></div></div>
   <div class="rail-block"><div class="rail-label">Mastery</div><div class="rail-note"><span style="color:var(--accent)">● Got it</span> <span id="masteredCount">0</span><br><span style="color:var(--amber)">● Review again</span> <span id="reviewCount">0</span><br><span style="color:var(--text-faint)">● Unseen</span> <span id="unseenCount">0</span></div></div>
-  <div class="rail-block"><div class="rail-label">Other pages</div><div class="rail-links"><a href="itil4-study-guide-finished.html">↗ Study guide</a><a href="itil4-foundation-practice-test.html">↗ Practice test</a></div></div>
+  <div class="rail-block"><div class="rail-label">Other pages</div><div class="rail-links"><a href="study-guide.html">↗ Study guide</a><a href="practice-test.html">↗ Practice test</a></div></div>
 </aside>
 <main>
+
+  <nav class="site-nav" aria-label="ITIL Foundation study pages">
+    <span class="site-nav-label">ITIL // TRAINING</span>
+    <a href="study-guide.html"><span class="site-nav-dot"></span>Study guide</a>
+    <a href="practice-test.html"><span class="site-nav-dot"></span>Practice test</a>
+    <a class="active" href="flash-cards.html" aria-current="page"><span class="site-nav-dot"></span>Flash cards</a>
+  </nav>
+
+
   <section class="hero">
     <div class="hero-top"><div><div class="ticket-id">DECK-001 · ACTIVE RECALL</div><h2>ITIL 4 Foundation — Flash Cards</h2><div class="sub">A focused deck for the eight topics you called out originally. Flip the card, grade your recall, and keep drilling the cards marked for review.</div></div><div class="status-pill">● FOCUSED DECK</div></div>
     <div class="hero-stats"><div class="stat"><div class="k">Cards</div><div class="v" id="totalStat">0</div></div><div class="stat"><div class="k">Categories</div><div class="v">8</div></div><div class="stat"><div class="k">Got it</div><div class="v ok" id="gotStat">0</div></div><div class="stat"><div class="k">Review</div><div class="v warn" id="reviewStat">0</div></div></div>

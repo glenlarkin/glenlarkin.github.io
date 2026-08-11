@@ -229,6 +229,37 @@
     h1,h2,h4,strong,.practice-row .name{ color:#111; }
   }
 
+
+
+  /* ---------- shared cross-page navigation ---------- */
+  .site-nav{
+    display:flex; align-items:center; gap:8px; margin:0 0 22px 0; padding:0 0 16px 0;
+    border-bottom:1px solid var(--border); overflow-x:auto; scrollbar-width:thin;
+  }
+  .site-nav-label{
+    margin-right:auto; flex:0 0 auto; font-family:var(--mono); font-size:10px;
+    color:var(--text-faint); letter-spacing:.09em; text-transform:uppercase;
+  }
+  .site-nav a{
+    flex:0 0 auto; display:inline-flex; align-items:center; gap:7px; text-decoration:none;
+    font-family:var(--mono); font-size:11px; color:var(--text-dim); background:var(--surface);
+    border:1px solid var(--border); border-radius:7px; padding:8px 11px; transition:.15s ease;
+  }
+  .site-nav a:hover{ color:var(--text); border-color:var(--blue); text-decoration:none; }
+  .site-nav a.active{
+    color:var(--accent); border-color:var(--accent); background:rgba(95,217,138,.07);
+  }
+  .site-nav-dot{
+    width:7px; height:7px; border-radius:50%; background:var(--text-faint); flex:0 0 7px;
+  }
+  .site-nav a.active .site-nav-dot{ background:var(--accent); box-shadow:0 0 7px rgba(95,217,138,.55); }
+  @media(max-width:650px){
+    .site-nav{ margin-left:-2px; margin-right:-2px; padding-bottom:12px; }
+    .site-nav-label{ display:none; }
+    .site-nav a{ padding:8px 10px; }
+  }
+  @media print{ .site-nav{ display:none !important; } }
+
 </style>
 </head>
 <body>
@@ -239,7 +270,7 @@
     <div class="rail-brand">
       <div class="tag">● SVS-DASH</div>
       <h1>ITIL 4 Foundation</h1>
-      <p>Study guide</p>
+      <p>Study guide · hashdevil</p>
     </div>
     <div class="stream" id="stream">
       <a href="#exam-basics" data-id="exam-basics">Exam basics</a>
@@ -291,12 +322,21 @@
   <!-- ============ MAIN ============ -->
   <main>
 
+  <nav class="site-nav" aria-label="ITIL Foundation study pages">
+    <span class="site-nav-label">ITIL // TRAINING</span>
+    <a class="active" href="study-guide.html" aria-current="page"><span class="site-nav-dot"></span>Study guide</a>
+    <a href="practice-test.html"><span class="site-nav-dot"></span>Practice test</a>
+    <a href="flash-cards.html"><span class="site-nav-dot"></span>Flash cards</a>
+  </nav>
+
+
+
     <div class="hero">
       <div class="hero-top">
         <div>
           <div class="ticket-id">STUDY-001 · OPENED 2026-08-10</div>
           <h1>ITIL 4 Foundation — Exam Prep</h1>
-          <div class="sub">Designed for · People with 10 yrs IT experience and no formal ITSM training</div>
+          <div class="sub">Assigned to: hashdevil · ~10 yrs IT experience, no formal ITSM training</div>
         </div>
         <div class="status-pill">● PRE-TEST: 60%</div>
       </div>
