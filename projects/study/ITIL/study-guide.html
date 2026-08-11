@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STUDY-001 · ITIL 4 Foundation</title>
+<title>ITIL 4 Foundation · Exam Study Guide</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -167,6 +167,68 @@
   footer{ border-top:1px solid var(--border); margin-top:60px; padding-top:20px; color:var(--text-faint); font-size:12px; font-family:var(--mono); }
 
   code{ font-family:var(--mono); background:var(--surface-alt); padding:1px 6px; border-radius:4px; font-size:12.5px; color:var(--accent); }
+
+
+  /* ---------- exam blueprint / chips ---------- */
+  .version-note{ margin-top:14px; padding:10px 12px; border:1px solid var(--blue); background:rgba(111,168,220,.06); border-radius:7px; color:#C7D9E8; font-size:12.5px; }
+  .version-note b{ color:var(--blue); }
+  .blueprint{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:18px 0; }
+  @media (max-width:760px){ .blueprint{ grid-template-columns:repeat(2,1fr); } }
+  .bp{ background:var(--surface); border:1px solid var(--border); border-radius:9px; padding:13px 14px; }
+  .bp .q{ font-family:var(--mono); color:var(--accent); font-size:19px; font-weight:700; }
+  .bp .topic{ font-size:12px; color:var(--text-dim); margin-top:3px; }
+  .bp.hot{ border-color:var(--amber); }
+  .bp.hot .q{ color:var(--amber); }
+  .chip{ display:inline-block; font-family:var(--mono); font-size:10px; padding:2px 7px; border:1px solid var(--border); color:var(--text-dim); border-radius:20px; margin:2px 3px 2px 0; }
+  .chip.exam{ border-color:var(--accent-dim); color:var(--accent); }
+  .chip.detail{ border-color:var(--amber-dim); color:var(--amber); }
+  .scope-note{ display:flex; gap:12px; align-items:flex-start; background:var(--surface-alt); border:1px solid var(--border); padding:12px 14px; border-radius:8px; margin:14px 0; }
+  .scope-note .big{ font-family:var(--mono); font-size:22px; color:var(--accent); line-height:1; }
+  .scope-note p{ margin:0; font-size:13px; }
+
+  /* ---------- detail cards ---------- */
+  .detail-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:14px; }
+  @media (max-width:760px){ .detail-grid{ grid-template-columns:1fr; } }
+  .detail-card{ background:var(--surface); border:1px solid var(--border); border-radius:9px; padding:15px 16px; }
+  .detail-card h4{ margin:0 0 7px 0; font-size:14px; }
+  .detail-card ul{ margin:7px 0 0 18px; padding:0; color:var(--text-dim); font-size:13px; }
+  .detail-card li{ margin:5px 0; }
+
+  /* ---------- quiz ---------- */
+  .quiz-shell{ background:var(--surface); border:1px solid var(--border); border-radius:10px; overflow:hidden; }
+  .quiz-head{ padding:16px 18px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; gap:12px; align-items:center; flex-wrap:wrap; }
+  .quiz-progress{ font-family:var(--mono); font-size:11px; color:var(--text-dim); }
+  .quiz-score{ font-family:var(--mono); font-size:12px; color:var(--accent); }
+  .quiz-body{ padding:18px; }
+  .quiz-question{ font-size:16px; font-weight:600; margin-bottom:14px; }
+  .quiz-options{ display:grid; gap:9px; }
+  .quiz-option{ width:100%; text-align:left; background:var(--surface-alt); color:var(--text); border:1px solid var(--border); border-radius:8px; padding:11px 13px; cursor:pointer; font-family:var(--sans); font-size:13.5px; }
+  .quiz-option:hover:not(:disabled){ border-color:var(--blue); }
+  .quiz-option:disabled{ cursor:default; opacity:.88; }
+  .quiz-option.correct{ border-color:var(--accent); background:rgba(95,217,138,.08); }
+  .quiz-option.wrong{ border-color:var(--red); background:rgba(224,114,90,.08); }
+  .quiz-feedback{ display:none; margin-top:14px; padding:11px 13px; border-left:3px solid var(--blue); background:rgba(111,168,220,.06); font-size:13px; color:#CAD6DC; }
+  .quiz-feedback.show{ display:block; }
+  .quiz-actions{ margin-top:14px; display:flex; gap:8px; }
+  .btn{ font-family:var(--mono); font-size:11px; border-radius:7px; border:1px solid var(--border); background:var(--surface-alt); color:var(--text); padding:8px 12px; cursor:pointer; }
+  .btn.primary{ border-color:var(--accent); color:var(--accent); }
+  .btn:disabled{ opacity:.4; cursor:not-allowed; }
+
+  /* ---------- mobile navigation ---------- */
+  .mobile-jump{ display:none; position:sticky; top:0; z-index:20; background:rgba(15,20,23,.96); backdrop-filter:blur(8px); border-bottom:1px solid var(--border); padding:10px 18px; }
+  .mobile-jump select{ width:100%; background:var(--surface); color:var(--text); border:1px solid var(--border); border-radius:7px; padding:8px 10px; font-family:var(--mono); font-size:11px; }
+  @media (max-width:880px){ .mobile-jump{ display:block; } }
+
+  @media print{
+    body{ background:#fff; color:#111; }
+    .rail,.mobile-jump,.tabs,.quiz-actions{ display:none !important; }
+    .shell{ display:block; }
+    main{ max-width:none; padding:20px; }
+    .hero,.card,.detail-card,.quiz-shell,.bp{ break-inside:avoid; border-color:#bbb; background:#fff; }
+    p,.practice-row .purpose,.glossary dd{ color:#333; }
+    h1,h2,h4,strong,.practice-row .name{ color:#111; }
+  }
+
 </style>
 </head>
 <body>
@@ -177,10 +239,11 @@
     <div class="rail-brand">
       <div class="tag">● SVS-DASH</div>
       <h1>ITIL 4 Foundation</h1>
-      <p>Study guide · hashdevil</p>
+      <p>Study guide</p>
     </div>
     <div class="stream" id="stream">
       <a href="#exam-basics" data-id="exam-basics">Exam basics</a>
+      <a href="#exam-blueprint" data-id="exam-blueprint">Exam blueprint</a>
       <a href="#guiding-principles" data-id="guiding-principles">Guiding principles</a>
       <a href="#four-dimensions" data-id="four-dimensions">Four dimensions</a>
       <a href="#svs" data-id="svs">Service value system</a>
@@ -194,11 +257,36 @@
       <a href="#change-types" data-id="change-types">Change types</a>
       <a href="#cim" data-id="cim">Continual improvement model</a>
       <div class="grp-label">Reference</div>
-      <a href="#practices" data-id="practices">34 practices</a>
+      <a href="#practices" data-id="practices">15 practice purposes</a>
+      <a href="#seven-practices" data-id="seven-practices">7 practices in detail</a>
+      <a href="#distinctions" data-id="distinctions">Extra distinctions</a>
+      <a href="#quiz" data-id="quiz">Practice quiz</a>
       <a href="#exam-tips" data-id="exam-tips">Exam tips &amp; traps</a>
       <a href="#checklist" data-id="checklist">Your checklist</a>
     </div>
   </nav>
+
+
+  <div class="mobile-jump">
+    <select id="mobile-jump-select" aria-label="Jump to study section">
+      <option value="">Jump to section...</option>
+      <option value="exam-basics">Exam basics</option>
+      <option value="exam-blueprint">Exam blueprint</option>
+      <option value="guiding-principles">Guiding principles</option>
+      <option value="four-dimensions">Four dimensions</option>
+      <option value="svs">Service value system</option>
+      <option value="svc-streams">Value chain & streams</option>
+      <option value="utility-warranty">Utility vs warranty</option>
+      <option value="desk-slm">Service desk vs SLM</option>
+      <option value="incident-problem">Incident / problem / change</option>
+      <option value="problem-phases">Problem management phases</option>
+      <option value="practices">15 practice purposes</option>
+      <option value="seven-practices">7 practices in detail</option>
+      <option value="distinctions">Extra distinctions</option>
+      <option value="quiz">Practice quiz</option>
+      <option value="checklist">Checklist</option>
+    </select>
+  </div>
 
   <!-- ============ MAIN ============ -->
   <main>
@@ -208,7 +296,7 @@
         <div>
           <div class="ticket-id">STUDY-001 · OPENED 2026-08-10</div>
           <h1>ITIL 4 Foundation — Exam Prep</h1>
-          <div class="sub">Assigned to: hashdevil · ~10 yrs IT experience, no formal ITSM training</div>
+          <div class="sub">Designed for · People with 10 yrs IT experience and no formal ITSM training</div>
         </div>
         <div class="status-pill">● PRE-TEST: 60%</div>
       </div>
@@ -218,15 +306,34 @@
         <div class="stat"><div class="k">Duration</div><div class="v">60 min*</div></div>
         <div class="stat"><div class="k">Format</div><div class="v warn">Closed book, MCQ</div></div>
       </div>
-      <p style="margin-top:14px; font-size:12.5px;">*60 minutes for native English speakers; PeopleCert grants +25% time (≈75 min) if English isn't your first language. Single best-answer multiple choice — no negative marking, so never leave a question blank. Confirm current specifics when you book, format details occasionally shift.</p>
+      <p style="margin-top:14px; font-size:12.5px;">*60 minutes standard duration; eligible candidates taking the exam in a language that is not their native or working language may receive 25% extra time. There is no negative marking, so never leave a question blank.</p>
+      <div class="version-note"><b>Version check for 2026:</b> PeopleCert currently lists both <strong>ITIL 4 Foundation</strong> and the newer <strong>ITIL Foundation (Version 5)</strong>. This guide is intentionally scoped to <strong>ITIL 4 Foundation</strong>. Make sure the exam voucher you booked says ITIL 4 Foundation before using this as your final review.</div>
     </div>
 
     <!-- ============ EXAM BASICS ============ -->
     <section id="exam-basics">
       <div class="eyebrow">[ SVS-01 ]</div>
-      <h2>How the exam is put together</h2>
-      <p>ITIL 4 Foundation isn't testing whether you can run a service desk — it tests whether you know the <em>vocabulary and model</em> AXELOS/PeopleCert built. You already know how incidents, changes, and problems work from a decade of doing the job. The 40% you're missing is almost certainly terminology that has a very specific "textbook" meaning that differs subtly from how your team actually talks. That gap is exactly what this guide targets.</p>
-      <div class="callout info"><b>How to use this page</b> — Skim top to bottom once for the model (Guiding Principles → Dimensions → SVS → Value Chain), then spend most of your remaining time in the "Core definitions" block below. That's where foundation exams hide their trickiest distractor questions.</div>
+      <h2>How to approach this exam</h2>
+      <p>ITIL 4 Foundation is primarily a <strong>recall-and-understanding</strong> exam, not a test of whether you can run production operations. Your experience is a real advantage, but it can also create traps when your team's everyday wording differs from ITIL's definitions. For this exam, prefer the <strong>ITIL meaning</strong> over local process habits.</p>
+      <div class="callout info"><b>Best use of your 60% cold score</b> — You are already close to the 65% pass mark. The biggest return is not reading all 34 practices. It is mastering the exact syllabus: the 7 guiding principles, the 4 dimensions, the SVS/SVC/value-stream distinction, core service-management definitions, the <strong>purpose of 15 practices</strong>, and the <strong>7 practices tested in detail</strong>.</div>
+      <div class="callout"><b>Question styles</b> — Expect standard multiple choice, missing-word items, list questions where two statements are correct, and occasional negative questions. All are still worth one point each.</div>
+    </section>
+
+    <!-- ============ EXAM BLUEPRINT ============ -->
+    <section id="exam-blueprint">
+      <div class="eyebrow">[ SVS-01A ]</div>
+      <h2>Exam blueprint — where the 40 points come from <span class="priority p-high">STUDY BY WEIGHT</span></h2>
+      <p>The official ITIL 4 Foundation exam specification assigns the 40 questions across seven learning outcomes. This is the most useful way to decide what deserves your study time.</p>
+      <div class="blueprint">
+        <div class="bp"><div class="q">5 Q</div><div class="topic">Key service-management concepts<br><strong>12.5%</strong></div></div>
+        <div class="bp"><div class="q">6 Q</div><div class="topic">Guiding principles<br><strong>15%</strong></div></div>
+        <div class="bp"><div class="q">2 Q</div><div class="topic">Four dimensions<br><strong>5%</strong></div></div>
+        <div class="bp"><div class="q">1 Q</div><div class="topic">Service value system<br><strong>2.5%</strong></div></div>
+        <div class="bp"><div class="q">2 Q</div><div class="topic">Service value chain<br><strong>5%</strong></div></div>
+        <div class="bp hot"><div class="q">7 Q</div><div class="topic">Purpose + key terms of 15 practices<br><strong>17.5%</strong></div></div>
+        <div class="bp hot" style="grid-column:span 2;"><div class="q">17 Q</div><div class="topic">7 practices in detail<br><strong>42.5% — biggest block on the exam</strong></div></div>
+      </div>
+      <div class="scope-note"><div class="big">24</div><p><strong>24 of 40 questions</strong> come from practices (the 15 purpose/key-term block plus the 7-practice detail block). If you are time-constrained, practice knowledge should get the largest share of your review.</p></div>
     </section>
 
     <!-- ============ GUIDING PRINCIPLES ============ -->
@@ -378,11 +485,11 @@
       <div class="grid2">
         <div class="card"><b style="color:var(--red);">Incident</b><p style="margin:6px 0 0 0;">An <strong>unplanned interruption</strong> to a service, or <strong>reduction in the quality</strong> of a service. Something is broken <em>right now</em>. Goal: restore service ASAP.</p></div>
         <div class="card"><b style="color:var(--amber);">Problem</b><p style="margin:6px 0 0 0;">A <strong>cause, or potential cause,</strong> of one or more incidents. You investigate problems to stop incidents from recurring — this is proactive/root-cause work.</p></div>
-        <div class="card"><b style="color:var(--blue);">Known Error</b><p style="margin:6px 0 0 0;">A problem that has been <strong>analyzed but not resolved</strong>. Root cause is understood (or partly understood); a workaround may exist while a permanent fix is pending.</p></div>
+        <div class="card"><b style="color:var(--blue);">Known Error</b><p style="margin:6px 0 0 0;">A problem that has been <strong>analyzed but not resolved</strong>. A workaround may exist while a permanent resolution is still pending.</p></div>
         <div class="card"><b style="color:var(--accent);">Change</b><p style="margin:6px 0 0 0;">The addition, modification, or removal of anything that could have a <strong>direct or indirect effect</strong> on services — this is how you actually fix the known error permanently.</p></div>
       </div>
       <div class="callout"><b>The chain</b> — Incident happens → repeated/related incidents suggest a <em>Problem</em> → investigation identifies root cause but no fix yet = <em>Known Error</em> → a <em>Change</em> is raised and implemented to permanently resolve the known error.</div>
-      <div class="callout trap"><b>Exam trap</b> — A known error is NOT the same as a problem. A problem becomes a known error <em>only after</em> it's been analyzed (i.e., diagnosis is complete, even if the fix isn't). Also: raising a workaround doesn't close the problem record — the underlying problem stays open until a permanent fix (usually via change) is deployed.</div>
+      <div class="callout trap"><b>Exam trap</b> — A known error is NOT the same as a problem. A problem becomes a known error after it has been analyzed and remains unresolved. Do not add extra conditions the definition does not require. A workaround can reduce impact without resolving the underlying problem.</div>
     </section>
 
     <!-- ============ PROBLEM MANAGEMENT PHASES ============ -->
@@ -408,10 +515,10 @@
       <table>
         <tr><th style="width:16%;">Type</th><th>Description</th><th>Authorization</th></tr>
         <tr><td><strong>Standard</strong></td><td>Low-risk, pre-authorized, well-understood, and well-documented. Done frequently (e.g. routine password reset, standard laptop provisioning).</td><td>Pre-authorized — no per-instance CAB approval needed.</td></tr>
-        <tr><td><strong>Normal</strong></td><td>Needs to be scheduled, assessed, and authorized through a defined process — usually by a change authority or Change Advisory Board (CAB).</td><td>Assessed and authorized case-by-case.</td></tr>
-        <tr><td><strong>Emergency</strong></td><td>Must be implemented as soon as possible (e.g. to resolve a major incident or apply a critical security patch). Still assessed, but on an expedited path.</td><td>Expedited authorization — fastest testing/approval process available, not "skip approval entirely."</td></tr>
+        <tr><td><strong>Normal</strong></td><td>Needs assessment and authorization according to its risk and the organization's change model. The appropriate change authority is defined for the type of change; a CAB is not automatically required for every normal change.</td><td>Assessed and authorized using the appropriate change authority.</td></tr>
+        <tr><td><strong>Emergency</strong></td><td>Must be implemented as soon as possible (e.g. to resolve a major incident or apply a critical security patch). Still assessed, but on an expedited path.</td><td>Expedited assessment and authorization by the appropriate change authority — not "skip approval entirely."</td></tr>
       </table>
-      <div class="callout trap"><b>Exam trap</b> — Emergency changes are NOT unauthorized changes. They still go through assessment and authorization — just faster, often by a smaller emergency-CAB.</div>
+      <div class="callout trap"><b>Exam trap</b> — Emergency changes are NOT unauthorized changes. They still require assessment and authorization, but the route is expedited. Do not assume an emergency CAB is mandatory unless the scenario says so.</div>
     </section>
 
     <!-- ============ CONTINUAL IMPROVEMENT MODEL ============ -->
@@ -429,65 +536,118 @@
       </ul>
     </section>
 
-    <!-- ============ 34 PRACTICES ============ -->
+    <!-- ============ 15 PRACTICES ============ -->
     <section id="practices">
       <div class="eyebrow">[ REF-01 ]</div>
-      <h2>The 34 Practices — purpose statements <span class="priority p-med">KNOW ALL PURPOSES</span>
-        <span class="sub">Know the purpose of all 34. The starred (★) practices are the ones the official syllabus expects you to know in more operational detail — don't skip those even if pressed for time. Verify the exact "know in detail" list against your course book, as PeopleCert has adjusted this list between syllabus versions.</span>
+      <h2>The 15 practice purposes you actually need <span class="priority p-high">7 QUESTIONS</span>
+        <span class="sub">ITIL 4 has 34 practices, but the Foundation syllabus asks you to recall the purpose of these 15. Do not spend equal memorization time on all 34.</span>
       </h2>
+      <div class="scope-note"><div class="big">15</div><p><strong>Foundation scope:</strong> memorize the purpose of the 15 practices below. The seven marked <span class="chip detail">DETAIL</span> are also tested at a deeper understanding level in the next section.</p></div>
 
       <div class="tabs">
-        <button class="tab-btn active" data-tab="general">General Management (14)</button>
-        <button class="tab-btn" data-tab="service">Service Management (17)</button>
-        <button class="tab-btn" data-tab="technical">Technical Management (3)</button>
+        <button class="tab-btn active" data-tab="purpose-all">All 15</button>
+        <button class="tab-btn" data-tab="purpose-detail">7 in detail</button>
+        <button class="tab-btn" data-tab="purpose-other">8 purpose-only</button>
       </div>
 
-      <div class="tab-panel active" id="tab-general">
+      <div class="tab-panel active" id="tab-purpose-all">
         <div class="card">
-          <div class="practice-row"><div class="name">Continual Improvement<span class="star">★</span></div><div class="purpose">Align the organization's practices and services with changing business needs through ongoing incremental improvement.</div></div>
-          <div class="practice-row"><div class="name">Information Security Management<span class="star">★</span></div><div class="purpose">Protect the information the organization needs to conduct business — confidentiality, integrity, and availability.</div></div>
-          <div class="practice-row"><div class="name">Knowledge Management</div><div class="purpose">Maintain and improve the effective use of information and knowledge across the organization.</div></div>
-          <div class="practice-row"><div class="name">Measurement and Reporting</div><div class="purpose">Support good decision-making and continual improvement by reducing uncertainty through valid data collection and analysis.</div></div>
-          <div class="practice-row"><div class="name">Organizational Change Management</div><div class="purpose">Ensure changes are smoothly and successfully implemented with lasting benefit, by managing the human side of change.</div></div>
-          <div class="practice-row"><div class="name">Portfolio Management</div><div class="purpose">Ensure the organization has the right mix of programs, projects, products, and services within funding and resource constraints.</div></div>
-          <div class="practice-row"><div class="name">Project Management</div><div class="purpose">Ensure all projects are successfully delivered — on time, on budget, and meeting objectives.</div></div>
-          <div class="practice-row"><div class="name">Relationship Management<span class="star">★</span></div><div class="purpose">Establish and nurture links between the organization and its stakeholders at strategic and tactical levels.</div></div>
-          <div class="practice-row"><div class="name">Risk Management</div><div class="purpose">Ensure the organization understands and effectively handles risks that could impact its objectives.</div></div>
-          <div class="practice-row"><div class="name">Service Financial Management</div><div class="purpose">Support strategies and plans for service management by ensuring financial resources and investments are used effectively.</div></div>
-          <div class="practice-row"><div class="name">Strategy Management</div><div class="purpose">Formulate the organization's goals and adopt courses of action and resource allocation to achieve them.</div></div>
-          <div class="practice-row"><div class="name">Supplier Management<span class="star">★</span></div><div class="purpose">Ensure suppliers and their performance are managed appropriately to support seamless delivery of quality products/services.</div></div>
-          <div class="practice-row"><div class="name">Workforce and Talent Management</div><div class="purpose">Ensure the organization has the right people, with the right skills, in the right roles, supporting its objectives.</div></div>
-          <div class="practice-row"><div class="name">Architecture Management</div><div class="purpose">Provide understanding of the different elements of the organization and how they interrelate, enabling effective change.</div></div>
+          <div class="practice-row"><div class="name">Continual Improvement <span class="chip detail">DETAIL</span></div><div class="purpose">Keep services and practices aligned with changing business needs through ongoing improvement.</div></div>
+          <div class="practice-row"><div class="name">Change Enablement <span class="chip detail">DETAIL</span></div><div class="purpose">Increase successful changes by assessing risk, authorizing changes, and managing the change schedule.</div></div>
+          <div class="practice-row"><div class="name">Incident Management <span class="chip detail">DETAIL</span></div><div class="purpose">Reduce the negative impact of incidents by restoring normal service operation as quickly as possible.</div></div>
+          <div class="practice-row"><div class="name">Problem Management <span class="chip detail">DETAIL</span></div><div class="purpose">Reduce incident likelihood and impact by identifying causes and managing workarounds and known errors.</div></div>
+          <div class="practice-row"><div class="name">Service Request Management <span class="chip detail">DETAIL</span></div><div class="purpose">Handle predefined, user-initiated requests effectively and in a user-friendly way.</div></div>
+          <div class="practice-row"><div class="name">Service Desk <span class="chip detail">DETAIL</span></div><div class="purpose">Capture demand for incident resolution and service requests and act as the entry point / single point of contact for users.</div></div>
+          <div class="practice-row"><div class="name">Service Level Management <span class="chip detail">DETAIL</span></div><div class="purpose">Set clear business-based service targets and ensure delivery is assessed, monitored, and managed against them.</div></div>
+          <div class="practice-row"><div class="name">Information Security Management <span class="chip exam">PURPOSE</span></div><div class="purpose">Protect the information the organization needs to conduct business, including confidentiality, integrity, and availability.</div></div>
+          <div class="practice-row"><div class="name">Relationship Management <span class="chip exam">PURPOSE</span></div><div class="purpose">Establish and nurture links between the organization and its stakeholders at strategic and tactical levels.</div></div>
+          <div class="practice-row"><div class="name">Supplier Management <span class="chip exam">PURPOSE</span></div><div class="purpose">Manage suppliers and supplier performance so quality products and services are provided seamlessly.</div></div>
+          <div class="practice-row"><div class="name">IT Asset Management <span class="chip exam">PURPOSE</span></div><div class="purpose">Plan and manage IT assets across their lifecycle to maximize value, control cost, manage risk, and support decisions.</div></div>
+          <div class="practice-row"><div class="name">Monitoring &amp; Event Management <span class="chip exam">PURPOSE</span></div><div class="purpose">Observe services and components and record/report selected changes of state identified as events.</div></div>
+          <div class="practice-row"><div class="name">Release Management <span class="chip exam">PURPOSE</span></div><div class="purpose">Make new and changed services and features available for use.</div></div>
+          <div class="practice-row"><div class="name">Service Configuration Management <span class="chip exam">PURPOSE</span></div><div class="purpose">Make accurate, reliable information about configuration items and their relationships available when needed.</div></div>
+          <div class="practice-row"><div class="name">Deployment Management <span class="chip exam">PURPOSE</span></div><div class="purpose">Move new or changed components to live or other environments.</div></div>
         </div>
       </div>
 
-      <div class="tab-panel" id="tab-service">
+      <div class="tab-panel" id="tab-purpose-detail">
         <div class="card">
-          <div class="practice-row"><div class="name">Availability Management<span class="star">★</span></div><div class="purpose">Ensure services deliver agreed levels of availability to meet customer and business needs.</div></div>
-          <div class="practice-row"><div class="name">Business Analysis</div><div class="purpose">Analyze a business or part of it, define its needs, and recommend solutions that address those needs or solve a business problem.</div></div>
-          <div class="practice-row"><div class="name">Capacity and Performance Management<span class="star">★</span></div><div class="purpose">Ensure services achieve agreed and expected performance, satisfying current and future demand cost-effectively.</div></div>
-          <div class="practice-row"><div class="name">Change Enablement<span class="star">★</span></div><div class="purpose">Maximize the number of successful service/product changes by properly assessing risk, authorizing changes, and managing a change schedule.</div></div>
-          <div class="practice-row"><div class="name">Incident Management<span class="star">★</span></div><div class="purpose">Minimize the negative impact of incidents by restoring normal service operation as quickly as possible.</div></div>
-          <div class="practice-row"><div class="name">IT Asset Management<span class="star">★</span></div><div class="purpose">Plan and manage the full lifecycle of IT assets to maximize value, control cost, manage risk, support decisions, and meet requirements.</div></div>
-          <div class="practice-row"><div class="name">Monitoring and Event Management<span class="star">★</span></div><div class="purpose">Systematically observe services and components, and record/report significant state changes (events).</div></div>
-          <div class="practice-row"><div class="name">Problem Management<span class="star">★</span></div><div class="purpose">Reduce the likelihood and impact of incidents by identifying actual and potential causes, and managing workarounds and known errors.</div></div>
-          <div class="practice-row"><div class="name">Release Management<span class="star">★</span></div><div class="purpose">Make new and changed services and features available for use.</div></div>
-          <div class="practice-row"><div class="name">Service Catalogue Management</div><div class="purpose">Provide a single, consistent source of information on all services and offerings, available to the relevant audience.</div></div>
-          <div class="practice-row"><div class="name">Service Configuration Management<span class="star">★</span></div><div class="purpose">Ensure accurate, reliable information about configuration items (CIs) and their relationships is available when needed.</div></div>
-          <div class="practice-row"><div class="name">Service Continuity Management<span class="star">★</span></div><div class="purpose">Ensure the availability and performance of services is maintained at a sufficient level in the event of a disaster.</div></div>
-          <div class="practice-row"><div class="name">Service Design</div><div class="purpose">Design products and services that are fit for purpose, fit for use, and deliverable by the organization and its ecosystem.</div></div>
-          <div class="practice-row"><div class="name">Service Desk<span class="star">★</span></div><div class="purpose">Capture demand for incident resolution and service requests; the single point of contact for the IT organization.</div></div>
-          <div class="practice-row"><div class="name">Service Level Management<span class="star">★</span></div><div class="purpose">Set clear, business-based targets for service levels, and ensure delivery is properly assessed, monitored, and managed.</div></div>
-          <div class="practice-row"><div class="name">Service Request Management<span class="star">★</span></div><div class="purpose">Support the agreed quality of a service by handling all predefined, user-initiated service requests in an effective, user-friendly manner.</div></div>
-          <div class="practice-row"><div class="name">Service Validation and Testing</div><div class="purpose">Ensure new or changed products and services meet defined requirements.</div></div>
+          <div class="practice-row"><div class="name">Continual Improvement</div><div class="purpose">Align services and practices with changing needs through ongoing improvement.</div></div>
+          <div class="practice-row"><div class="name">Change Enablement</div><div class="purpose">Increase successful changes through risk assessment, authorization, and scheduling.</div></div>
+          <div class="practice-row"><div class="name">Incident Management</div><div class="purpose">Restore normal service as quickly as possible and minimize incident impact.</div></div>
+          <div class="practice-row"><div class="name">Problem Management</div><div class="purpose">Reduce incident likelihood/impact by handling causes, workarounds, and known errors.</div></div>
+          <div class="practice-row"><div class="name">Service Request Management</div><div class="purpose">Fulfil predefined user-initiated requests effectively.</div></div>
+          <div class="practice-row"><div class="name">Service Desk</div><div class="purpose">Provide the user-facing entry point and capture demand for incidents and requests.</div></div>
+          <div class="practice-row"><div class="name">Service Level Management</div><div class="purpose">Set business-based service targets and manage performance against them.</div></div>
         </div>
       </div>
 
-      <div class="tab-panel" id="tab-technical">
+      <div class="tab-panel" id="tab-purpose-other">
         <div class="card">
-          <div class="practice-row"><div class="name">Deployment Management<span class="star">★</span></div><div class="purpose">Move new or changed hardware, software, documentation, processes, or any other component to live/production environments; may also deploy to other environments (test, staging).</div></div>
-          <div class="practice-row"><div class="name">Infrastructure and Platform Management</div><div class="purpose">Oversee the infrastructure and platforms used by the organization, enabling technology strategy through the right architectures.</div></div>
-          <div class="practice-row"><div class="name">Software Development and Management</div><div class="purpose">Ensure applications meet stakeholder needs for functionality, reliability, maintainability, compliance, and auditability.</div></div>
+          <div class="practice-row"><div class="name">Information Security Management</div><div class="purpose">Protect information needed by the organization.</div></div>
+          <div class="practice-row"><div class="name">Relationship Management</div><div class="purpose">Build and nurture stakeholder relationships.</div></div>
+          <div class="practice-row"><div class="name">Supplier Management</div><div class="purpose">Manage suppliers and their performance.</div></div>
+          <div class="practice-row"><div class="name">IT Asset Management</div><div class="purpose">Manage IT assets through their lifecycle for value, cost, risk, and control.</div></div>
+          <div class="practice-row"><div class="name">Monitoring &amp; Event Management</div><div class="purpose">Observe services/components and manage significant state changes.</div></div>
+          <div class="practice-row"><div class="name">Release Management</div><div class="purpose">Make services and features available for use.</div></div>
+          <div class="practice-row"><div class="name">Service Configuration Management</div><div class="purpose">Maintain reliable information about CIs and their relationships.</div></div>
+          <div class="practice-row"><div class="name">Deployment Management</div><div class="purpose">Move components into environments.</div></div>
+        </div>
+      </div>
+      <div class="callout trap"><b>Old study-guide trap</b> — Seeing "34 practices" in ITIL 4 does <em>not</em> mean you must memorize 34 purpose statements for Foundation. The exam specification narrows this to 15 practice purposes, with seven of those examined in detail.</div>
+    </section>
+
+    <!-- ============ 7 PRACTICES IN DETAIL ============ -->
+    <section id="seven-practices">
+      <div class="eyebrow">[ REF-01A ]</div>
+      <h2>The 7 practices tested in detail <span class="priority p-high">17 QUESTIONS</span></h2>
+      <p>This block is about <strong>42.5% of the exam</strong>. Know the purpose plus the operational ideas below. You do not need to memorize how each practice maps to every value-chain activity.</p>
+      <div class="detail-grid">
+        <div class="detail-card"><h4>Continual Improvement</h4><ul><li>Know the 7-step continual improvement model in order.</li><li>Improvements can apply to services, products, practices, and any element of service management.</li><li>Use a continual improvement register/backlog to capture and prioritize ideas.</li><li>Improvement is everyone's responsibility, not one team's job.</li></ul></div>
+        <div class="detail-card"><h4>Change Enablement</h4><ul><li>Change = addition, modification, or removal of anything that could affect services.</li><li>Standard = pre-authorized, low-risk, well understood.</li><li>Normal = assessed and authorized according to risk.</li><li>Emergency = expedited, but still assessed/authorized.</li><li>Each change type/model should have an appropriate change authority.</li></ul></div>
+        <div class="detail-card"><h4>Incident Management</h4><ul><li>Goal is rapid restoration, not root-cause analysis.</li><li>Prioritization is commonly based on impact and urgency.</li><li>Major incidents use special handling because of business impact.</li><li>Incidents may be resolved by support teams, suppliers, or collaborative swarming.</li></ul></div>
+        <div class="detail-card"><h4>Problem Management</h4><ul><li>Problem = cause or potential cause of incidents.</li><li>Three phases: <strong>Problem Identification → Problem Control → Error Control</strong>.</li><li>Known error = analyzed problem that remains unresolved.</li><li>Workaround reduces/eliminates impact without fully resolving the issue.</li></ul></div>
+        <div class="detail-card"><h4>Service Request Management</h4><ul><li>Requests are predefined and user-initiated.</li><li>They are a normal part of service delivery, not a service failure.</li><li>Examples: information, access, standard service action, provision of a resource.</li><li>Request models should be simple, standardized, and automated where practical.</li></ul></div>
+        <div class="detail-card"><h4>Service Desk</h4><ul><li>Single point of contact / entry point for users.</li><li>Captures demand for incident resolution and service requests.</li><li>Communication quality, empathy, and user experience matter.</li><li>A service desk is a practice/function, not just a physical desk or ticket queue.</li></ul></div>
+        <div class="detail-card"><h4>Service Level Management</h4><ul><li>Sets business-based targets for service performance.</li><li>SLAs should relate to defined services and meaningful outcomes, not only technical metrics.</li><li>Service reviews and customer feedback help understand actual experience.</li><li>Beware the "watermelon" effect: green technical metrics can hide a poor user experience.</li></ul></div>
+      </div>
+    </section>
+
+    <!-- ============ EXTRA DISTINCTIONS ============ -->
+    <section id="distinctions">
+      <div class="eyebrow">[ REF-01B ]</div>
+      <h2>Extra distinctions worth easy points</h2>
+      <table>
+        <tr><th style="width:24%;">Pair</th><th>Exam-safe distinction</th></tr>
+        <tr><td><strong>Incident vs. service request</strong></td><td>An incident is an unplanned interruption or reduction in service quality. A service request is a predefined, user-initiated request that is part of normal service delivery.</td></tr>
+        <tr><td><strong>Event vs. incident</strong></td><td>An event is a change of state significant for managing a service or CI. An event may require action, but it is not automatically an incident.</td></tr>
+        <tr><td><strong>Release vs. deployment</strong></td><td><strong>Release management</strong> makes services/features available for use. <strong>Deployment management</strong> moves components into environments. A deployment can occur before a feature is released to users.</td></tr>
+        <tr><td><strong>IT asset vs. configuration item</strong></td><td>An IT asset is financially valuable and managed across its lifecycle. A configuration item is a component that needs to be managed to deliver a service; configuration management emphasizes accurate information and relationships.</td></tr>
+        <tr><td><strong>Customer vs. user vs. sponsor</strong></td><td><strong>Customer</strong> defines requirements and is accountable for outcomes. <strong>User</strong> uses the service. <strong>Sponsor</strong> authorizes budget for service consumption.</td></tr>
+        <tr><td><strong>Output vs. outcome</strong></td><td>Output = deliverable produced by an activity. Outcome = result for a stakeholder enabled by outputs.</td></tr>
+        <tr><td><strong>Service provision vs. consumption</strong></td><td>Provision is what the provider does to supply/manage the service and resources; consumption is what the consumer does to use/manage the service and its resources.</td></tr>
+      </table>
+      <div class="callout"><b>Release/deployment memory hook</b> — Deployment answers "where did the component move?" Release answers "is the service or feature now available for use?"</div>
+    </section>
+
+    <!-- ============ PRACTICE QUIZ ============ -->
+    <section id="quiz">
+      <div class="eyebrow">[ DRILL-01 ]</div>
+      <h2>24-question rapid drill</h2>
+      <p>Original study questions based on the Foundation syllabus — not real PeopleCert exam items. The deck reshuffles whenever you restart.</p>
+      <div class="quiz-shell">
+        <div class="quiz-head">
+          <div class="quiz-progress" id="quiz-progress">Question 1 of 24</div>
+          <div class="quiz-score" id="quiz-score">Score: 0 / 0</div>
+        </div>
+        <div class="quiz-body">
+          <div class="quiz-question" id="quiz-question"></div>
+          <div class="quiz-options" id="quiz-options"></div>
+          <div class="quiz-feedback" id="quiz-feedback"></div>
+          <div class="quiz-actions">
+            <button class="btn primary" id="quiz-next" disabled>Next question</button>
+            <button class="btn" id="quiz-restart">Restart / reshuffle</button>
+          </div>
         </div>
       </div>
     </section>
@@ -504,31 +664,36 @@
         <p><strong>Service consumer roles</strong> — know the difference between <em>customer</em> (defines requirements, is accountable for outcomes), <em>user</em> (uses the service day-to-day), and <em>sponsor</em> (authorizes budget). These can be the same person or different people, and questions love scenarios where they're different.</p>
         <p><strong>The exam is written from a generic-organization view</strong>, not a sysadmin/engineer view. When two answers both sound operationally "correct" to you, pick the one that matches the textbook definition, not the one that matches how your team actually does it.</p>
       </div>
-      <div class="callout trap"><b>Since you're coming in at 60% cold</b> — that score profile (a decade of hands-on ITSM experience, no formal training) usually means you're missing points specifically on: the SVS/SVC/value-stream distinction, utility vs. warranty, the exact purpose-statement wording, and the general-vs-service-vs-technical practice groupings — not on operational scenarios. Prioritize those over re-reading things you already intuitively know.</div>
+      <div class="callout trap"><b>Since you're coming in at 60% cold</b> — that score profile (a decade of hands-on ITSM experience, no formal training) usually means you're missing points specifically on: the SVS/SVC/value-stream distinction, utility vs. warranty, the exact purpose-statement wording, and the exact practice purposes/details — not on operational scenarios. Prioritize those over memorizing practice groupings or re-reading things you already intuitively know.</div>
     </section>
 
     <!-- ============ USER'S CHECKLIST ============ -->
     <section id="checklist">
       <div class="eyebrow">[ REF-03 ]</div>
-      <h2>Your study checklist</h2>
-      <p>Tap an item to mark it reviewed (this resets if you reload the page — it's just here to help you track a single study session).</p>
+      <h2>Your final review checklist</h2>
+      <p>Tap an item to mark it reviewed. Progress is saved in this browser so a reload will not wipe it.</p>
       <ul class="checklist" id="checklist-ul">
-        <li data-key="gp"><div class="checkbox"></div><span>Guiding Principles — all 7, in a rough order</span></li>
-        <li data-key="dim"><div class="checkbox"></div><span>Four Dimensions + PESTLE</span></li>
-        <li data-key="purpose"><div class="checkbox"></div><span>Purpose statements for the Practices (especially starred ones)</span></li>
-        <li data-key="uw"><div class="checkbox"></div><span>Utility vs. Warranty</span></li>
-        <li data-key="dslm"><div class="checkbox"></div><span>Service Desk vs. Service Level Management</span></li>
-        <li data-key="svs"><div class="checkbox"></div><span>Service Value System vs. Service Value Chain vs. Value Stream</span></li>
+        <li data-key="gp"><div class="checkbox"></div><span>Guiding Principles — all 7 names + scenario recognition</span></li>
+        <li data-key="dim"><div class="checkbox"></div><span>Four Dimensions + external PESTLE factors</span></li>
+        <li data-key="svc"><div class="checkbox"></div><span>Six Service Value Chain activities + purposes</span></li>
+        <li data-key="svs"><div class="checkbox"></div><span>SVS vs. SVC vs. Value Stream</span></li>
+        <li data-key="uw"><div class="checkbox"></div><span>Utility = fit for purpose; Warranty = fit for use</span></li>
+        <li data-key="roles"><div class="checkbox"></div><span>Customer vs. User vs. Sponsor</span></li>
+        <li data-key="relationships"><div class="checkbox"></div><span>Service offering / provision / consumption / relationship management</span></li>
+        <li data-key="purpose15"><div class="checkbox"></div><span>Purpose statements for the 15 syllabus practices</span></li>
+        <li data-key="detail7"><div class="checkbox"></div><span>Seven detailed practices: CI, Change, Incident, Problem, Request, Desk, SLM</span></li>
         <li data-key="ipc"><div class="checkbox"></div><span>Incident vs. Problem vs. Change vs. Known Error</span></li>
-        <li data-key="pmp"><div class="checkbox"></div><span>Problem Management phases — order: Identification → Control → Error Control</span></li>
-        <li data-key="extra1"><div class="checkbox"></div><span>Service / Value / Outcome / Output definitions</span></li>
-        <li data-key="extra2"><div class="checkbox"></div><span>Change types — Standard / Normal / Emergency</span></li>
-        <li data-key="extra3"><div class="checkbox"></div><span>Continual Improvement Model — 7 steps in order</span></li>
+        <li data-key="pmp"><div class="checkbox"></div><span>Problem phases: Identification → Problem Control → Error Control</span></li>
+        <li data-key="changes"><div class="checkbox"></div><span>Standard vs. Normal vs. Emergency change</span></li>
+        <li data-key="rd"><div class="checkbox"></div><span>Release vs. Deployment</span></li>
+        <li data-key="event"><div class="checkbox"></div><span>Event vs. Incident; IT Asset vs. CI</span></li>
+        <li data-key="cim"><div class="checkbox"></div><span>Continual Improvement Model — all 7 steps in order</span></li>
+        <li data-key="quiz"><div class="checkbox"></div><span>Score at least 80% on the rapid drill twice</span></li>
       </ul>
     </section>
 
     <footer>
-      STUDY-001 · Generated for exam prep purposes — cross-check purpose statements and current exam format against your official AXELOS/PeopleCert course materials before test day, as syllabus wording is periodically revised.
+      STUDY-001 · ITIL 4 Foundation study aid · Exam scope aligned to the ITIL 4 Foundation exam specification. PeopleCert also offers ITIL Foundation (Version 5), so confirm your booked voucher/version before test day. Purpose statements here are concise study paraphrases; use your official materials for canonical wording.
     </footer>
 
   </main>
@@ -539,31 +704,152 @@
   const links = Array.from(document.querySelectorAll('.stream a'));
   const sections = links.map(l => document.getElementById(l.dataset.id)).filter(Boolean);
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      const link = links.find(l => l.dataset.id === entry.target.id);
-      if (!link) return;
-      if (entry.isIntersecting) {
-        links.forEach(l => l.classList.remove('active'));
-        link.classList.add('active');
-      }
-    });
-  }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+    const visible = entries.filter(e => e.isIntersecting).sort((a,b) => a.boundingClientRect.top - b.boundingClientRect.top);
+    if (!visible.length) return;
+    const link = links.find(l => l.dataset.id === visible[0].target.id);
+    if (!link) return;
+    links.forEach(l => l.classList.remove('active'));
+    link.classList.add('active');
+  }, { rootMargin: '-12% 0px -72% 0px', threshold: 0 });
   sections.forEach(s => observer.observe(s));
 
-  // tabs
+  // tabs (supports the practice-purpose filters)
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      const parentSection = btn.closest('section') || document;
+      parentSection.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      parentSection.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
       btn.classList.add('active');
-      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+      const panel = document.getElementById('tab-' + btn.dataset.tab);
+      if (panel) panel.classList.add('active');
     });
   });
 
-  // checklist toggle
-  document.querySelectorAll('#checklist-ul li').forEach(li => {
-    li.addEventListener('click', () => li.classList.toggle('done'));
+  // mobile jump menu
+  const jump = document.getElementById('mobile-jump-select');
+  if (jump) jump.addEventListener('change', () => {
+    const target = document.getElementById(jump.value);
+    if (target) target.scrollIntoView({behavior:'smooth', block:'start'});
+    jump.value = '';
   });
+
+  // checklist with localStorage persistence
+  const checklistKey = 'itil4-study-checklist-v2';
+  let savedChecks = {};
+  try { savedChecks = JSON.parse(localStorage.getItem(checklistKey) || '{}'); } catch(e) { savedChecks = {}; }
+  document.querySelectorAll('#checklist-ul li').forEach(li => {
+    if (savedChecks[li.dataset.key]) li.classList.add('done');
+    li.addEventListener('click', () => {
+      li.classList.toggle('done');
+      savedChecks[li.dataset.key] = li.classList.contains('done');
+      try { localStorage.setItem(checklistKey, JSON.stringify(savedChecks)); } catch(e) {}
+    });
+  });
+
+  // Original practice question bank. These are study items, not official exam questions.
+  const questionBank = [
+    {q:'A payroll application has all required features, but it is unavailable every afternoon. Which aspect is primarily failing?', a:['Utility','Warranty','Outcome','Service offering'], c:1, e:'Warranty is assurance that the service will meet agreed requirements such as availability, capacity, continuity, and security. The app has utility, but poor warranty.'},
+    {q:'Which guiding principle is most directly applied when a team assesses existing tools and processes before designing a replacement?', a:['Focus on value','Start where you are','Optimize and automate','Think and work holistically'], c:1, e:'Start where you are says to assess the current state and reuse what is useful instead of automatically starting from scratch.'},
+    {q:'A team breaks a large improvement into small releases and adjusts after user feedback. Which guiding principle is the best match?', a:['Keep it simple and practical','Collaborate and promote visibility','Progress iteratively with feedback','Focus on value'], c:2, e:'Small increments plus frequent feedback is the core of progress iteratively with feedback.'},
+    {q:'Which dimension includes organizational culture, roles, responsibilities, and competencies?', a:['Organizations and people','Information and technology','Partners and suppliers','Value streams and processes'], c:0, e:'Those are all part of the Organizations and People dimension.'},
+    {q:'Which term describes the complete ITIL model containing guiding principles, governance, the service value chain, practices, and continual improvement?', a:['Value stream','Service value system','Service value chain','Service relationship'], c:1, e:'The Service Value System (SVS) is the overall model/container.'},
+    {q:'Which term is a specific sequence/combination of activities used to respond to a particular demand or opportunity?', a:['Service value system','Guiding principle','Value stream','Practice'], c:2, e:'A value stream is a specific series of steps used to create and deliver products and services for a particular scenario.'},
+    {q:'Which service value chain activity focuses on stakeholder needs, transparency, and ongoing relationships?', a:['Plan','Engage','Obtain/build','Deliver and support'], c:1, e:'Engage provides understanding of stakeholder needs and supports transparency and good relationships.'},
+    {q:'A monitoring tool reports that disk utilization crossed a threshold, but users have not experienced an interruption. What is this first of all?', a:['Incident','Problem','Event','Known error'], c:2, e:'An event is a change of state significant for management. An event is not automatically an incident.'},
+    {q:'What is the primary purpose of incident management?', a:['Find the root cause of every interruption','Restore normal service operation as quickly as possible','Authorize production changes','Maintain configuration relationships'], c:1, e:'Incident management focuses on minimizing negative impact by restoring service quickly. Root-cause work belongs to problem management.'},
+    {q:'What is a problem in ITIL 4?', a:['Any ticket that remains open too long','A cause or potential cause of one or more incidents','An analyzed issue with no resolution','A pre-authorized change'], c:1, e:'A problem is a cause, or potential cause, of one or more incidents.'},
+    {q:'What is a known error?', a:['An incident with a documented workaround','A problem that has been analyzed but not resolved','A failed emergency change','A problem whose permanent fix has been deployed'], c:1, e:'The exam-safe definition is: a problem that has been analyzed but has not been resolved.'},
+    {q:'Put the problem management phases in the correct order.', a:['Error Control → Problem Control → Identification','Identification → Error Control → Problem Control','Problem Identification → Problem Control → Error Control','Problem Control → Identification → Error Control'], c:2, e:'Memorize ICE: Identification, (Problem) Control, Error Control.'},
+    {q:'Which type of change is low-risk, well understood, documented, and pre-authorized?', a:['Normal','Emergency','Standard','Major'], c:2, e:'Standard changes are pre-authorized and follow an established procedure.'},
+    {q:'Which statement about an emergency change is correct?', a:['It bypasses authorization entirely','It is automatically approved by the service desk','It is expedited but still assessed and authorized','It is always a standard change'], c:2, e:'Emergency means fast handling, not no control.'},
+    {q:'Which practice captures demand for incident resolution and service requests and acts as the user-facing entry point?', a:['Service level management','Service desk','Relationship management','Service request management'], c:1, e:'That is the purpose of the service desk practice.'},
+    {q:'Which practice sets clear, business-based targets for service performance and manages delivery against them?', a:['Service desk','Monitoring and event management','Service level management','Supplier management'], c:2, e:'Service level management establishes business-based targets and monitors/manages performance against them.'},
+    {q:'A user asks for access to a shared mailbox using an established request form. Which practice primarily handles this?', a:['Incident management','Problem management','Service request management','Change enablement'], c:2, e:'A predefined, user-initiated request is handled by service request management.'},
+    {q:'Which practice makes new and changed services and features available for use?', a:['Deployment management','Release management','Change enablement','Service configuration management'], c:1, e:'Release management is about making services/features available for use.'},
+    {q:'Which practice moves new or changed hardware, software, or other components into live or other environments?', a:['Release management','Deployment management','IT asset management','Supplier management'], c:1, e:'Deployment management moves components to environments.'},
+    {q:'Who defines requirements for a service and takes responsibility for outcomes from service consumption?', a:['User','Sponsor','Customer','Supplier'], c:2, e:'The customer defines service requirements and takes responsibility for outcomes.'},
+    {q:'Who authorizes budget for service consumption?', a:['Customer','Sponsor','User','Service desk'], c:1, e:'The sponsor authorizes budget for service consumption.'},
+    {q:'Which is an outcome rather than an output?', a:['A generated availability report','A provisioned virtual machine','Payroll completes on time because the system is available','A closed incident ticket'], c:2, e:'An outcome is a result for a stakeholder. The other choices are deliverables/outputs.'},
+    {q:'Which guiding principle warns against automating a poorly designed process before improving it?', a:['Start where you are','Optimize and automate','Focus on value','Collaborate and promote visibility'], c:1, e:'Optimize and automate means optimize first, then use automation where it adds value.'},
+    {q:'Which block represents the largest share of the ITIL 4 Foundation exam blueprint?', a:['Four dimensions','Guiding principles','Seven practices in detail','Service value system'], c:2, e:'The seven detailed practices account for 17 of 40 questions (42.5%) in the exam specification.'}
+  ];
+
+  let quiz = [];
+  let qi = 0;
+  let correct = 0;
+  let answered = 0;
+
+  function shuffle(arr){
+    const copy = [...arr];
+    for(let i=copy.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [copy[i],copy[j]] = [copy[j],copy[i]];
+    }
+    return copy;
+  }
+
+  function startQuiz(){
+    quiz = shuffle(questionBank).slice(0,24);
+    qi = 0; correct = 0; answered = 0;
+    renderQuestion();
+  }
+
+  function renderQuestion(){
+    const item = quiz[qi];
+    const qEl = document.getElementById('quiz-question');
+    const opts = document.getElementById('quiz-options');
+    const fb = document.getElementById('quiz-feedback');
+    const next = document.getElementById('quiz-next');
+    if(!item || !qEl || !opts) return;
+    document.getElementById('quiz-progress').textContent = `Question ${qi+1} of ${quiz.length}`;
+    document.getElementById('quiz-score').textContent = `Score: ${correct} / ${answered}`;
+    qEl.textContent = item.q;
+    opts.innerHTML = '';
+    fb.className = 'quiz-feedback';
+    fb.textContent = '';
+    next.disabled = true;
+    item.a.forEach((text, idx) => {
+      const b = document.createElement('button');
+      b.className = 'quiz-option';
+      b.textContent = `${String.fromCharCode(65+idx)}. ${text}`;
+      b.addEventListener('click', () => answerQuestion(idx));
+      opts.appendChild(b);
+    });
+  }
+
+  function answerQuestion(choice){
+    const item = quiz[qi];
+    const buttons = Array.from(document.querySelectorAll('#quiz-options .quiz-option'));
+    if(buttons.some(b => b.disabled)) return;
+    answered++;
+    if(choice === item.c) correct++;
+    buttons.forEach((b, idx) => {
+      b.disabled = true;
+      if(idx === item.c) b.classList.add('correct');
+      if(idx === choice && choice !== item.c) b.classList.add('wrong');
+    });
+    const fb = document.getElementById('quiz-feedback');
+    fb.textContent = (choice === item.c ? 'Correct. ' : 'Not quite. ') + item.e;
+    fb.classList.add('show');
+    document.getElementById('quiz-score').textContent = `Score: ${correct} / ${answered}`;
+    const next = document.getElementById('quiz-next');
+    next.disabled = false;
+    next.textContent = qi === quiz.length-1 ? 'Show final score' : 'Next question';
+  }
+
+  document.getElementById('quiz-next')?.addEventListener('click', () => {
+    if(qi < quiz.length-1){ qi++; renderQuestion(); return; }
+    const pct = Math.round((correct/quiz.length)*100);
+    document.getElementById('quiz-question').textContent = `Drill complete: ${correct}/${quiz.length} (${pct}%)`;
+    document.getElementById('quiz-options').innerHTML = '';
+    const fb = document.getElementById('quiz-feedback');
+    fb.textContent = pct >= 80 ? 'Strong result. Review any misses, then run the deck again to make sure the score is repeatable.' : 'Review the explanations for missed topics, especially the 15 practice purposes and seven detailed practices, then rerun the deck.';
+    fb.className = 'quiz-feedback show';
+    document.getElementById('quiz-progress').textContent = 'Complete';
+    document.getElementById('quiz-next').disabled = true;
+  });
+  document.getElementById('quiz-restart')?.addEventListener('click', startQuiz);
+  startQuiz();
 </script>
 </body>
 </html>
