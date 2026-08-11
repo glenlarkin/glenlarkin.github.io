@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TEST-001 · ITIL 4 Foundation Practice Exam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0F1417; --surface:#161C21; --surface-alt:#1D262C; --border:#2A353C;
+    --text:#E9EEEF; --text-dim:#93A3A9; --text-faint:#5E6D73;
+    --accent:#5FD98A; --accent-dim:#2E5B41; --amber:#E0A84E; --amber-dim:#5C4A28;
+    --blue:#6FA8DC; --blue-dim:#29455C; --red:#E0725A; --red-dim:#5A332B;
+    --mono:'IBM Plex Mono',ui-monospace,monospace; --sans:'IBM Plex Sans',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.55}
+  ::selection{background:var(--accent-dim);color:var(--text)}
+  button,input{font:inherit}
+  .shell{display:grid;grid-template-columns:300px minmax(0,1fr);min-height:100vh}
+  .rail{position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--surface);border-right:1px solid var(--border);padding:28px 20px 32px}
+  .rail-brand{padding-bottom:18px;border-bottom:1px solid var(--border)}
+  .tag,.eyebrow{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.08em;text-transform:uppercase}
+  .rail-brand h1{font-size:16px;margin:7px 0 3px;font-weight:600}.rail-brand p{margin:0;font-size:12px;color:var(--text-dim)}
+  .rail-block{padding:16px 0;border-bottom:1px solid var(--border)}
+  .rail-label{font-family:var(--mono);font-size:10px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.08em;margin-bottom:7px}
+  .rail-value{font-family:var(--mono);font-size:22px;font-weight:700}.rail-value.ok{color:var(--accent)}.rail-value.warn{color:var(--amber)}.rail-value.danger{color:var(--red)}
+  .rail-note{font-size:12px;color:var(--text-dim);margin-top:4px}
+  .progress-track{height:6px;border-radius:99px;background:var(--surface-alt);overflow:hidden;margin-top:8px}.progress-fill{height:100%;width:0;background:var(--blue);transition:width .2s ease}
+  .navigator{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:10px}
+  .nav-q{aspect-ratio:1;border:1px solid var(--border);background:var(--surface-alt);color:var(--text-dim);border-radius:6px;font-family:var(--mono);font-size:11px;cursor:pointer;position:relative}
+  .nav-q:hover{border-color:var(--blue);color:var(--text)}.nav-q.current{outline:2px solid var(--accent);outline-offset:1px;color:var(--text)}
+  .nav-q.answered{background:var(--blue-dim);border-color:var(--blue);color:#DDEEFF}.nav-q.flagged::after{content:'';position:absolute;right:3px;top:3px;width:5px;height:5px;border-radius:50%;background:var(--amber)}
+  .nav-q.correct{background:rgba(95,217,138,.12);border-color:var(--accent);color:var(--accent)}.nav-q.incorrect{background:rgba(224,114,90,.12);border-color:var(--red);color:var(--red)}
+  .legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;color:var(--text-faint);font:10px var(--mono)}.legend span::before{content:'';display:inline-block;width:7px;height:7px;border-radius:2px;margin-right:4px}.legend .l-answered::before{background:var(--blue)}.legend .l-flagged::before{background:var(--amber)}
+  main{padding:40px 48px 100px;max-width:1040px;width:100%}
+  .hero,.card,.question-card,.results-card{background:var(--surface);border:1px solid var(--border);border-radius:10px}
+  .hero{padding:24px 26px;margin-bottom:28px}.hero-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}.ticket-id{font:12px var(--mono);color:var(--accent);letter-spacing:.05em}.status-pill{font:11px var(--mono);padding:4px 10px;border-radius:20px;background:var(--amber-dim);color:var(--amber);border:1px solid var(--amber)}
+  .hero h2{font-size:26px;margin:10px 0 6px}.hero .sub{color:var(--text-dim);font-size:14px}.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}.stat{background:var(--surface-alt);border:1px solid var(--border);border-radius:8px;padding:10px 12px}.stat .k{font:11px var(--mono);color:var(--text-faint);text-transform:uppercase;letter-spacing:.05em}.stat .v{font-size:18px;font-weight:600;margin-top:2px}.stat .v.ok{color:var(--accent)}.stat .v.warn{color:var(--amber)}
+  .callout{border-left:3px solid var(--amber);background:rgba(224,168,78,.06);border-radius:0 8px 8px 0;padding:12px 16px;margin:16px 0;font-size:13.5px;color:#DDD4C0}.callout b{color:var(--amber)}.callout.info{border-left-color:var(--blue);background:rgba(111,168,220,.06)}.callout.info b{color:var(--blue)}
+  .start-card{padding:24px;margin-top:20px}.start-card h3{margin:0 0 8px;font-size:20px}.start-card p{color:#CBD5D8;font-size:14px}.rules{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}.rule{background:var(--surface-alt);border:1px solid var(--border);padding:12px 14px;border-radius:8px;font-size:13px;color:var(--text-dim)}.rule b{color:var(--text)}
+  .actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.btn{font:12px var(--mono);border-radius:7px;border:1px solid var(--border);background:var(--surface-alt);color:var(--text);padding:10px 14px;cursor:pointer}.btn:hover{border-color:var(--blue)}.btn.primary{border-color:var(--accent);color:#0F1417;background:var(--accent);font-weight:700}.btn.danger{border-color:var(--red);color:var(--red);background:transparent}.btn.amber{border-color:var(--amber);color:var(--amber)}.btn:disabled{opacity:.4;cursor:not-allowed}
+  .exam-layout{display:none}.exam-layout.active{display:block}.question-card{padding:23px 24px;margin-bottom:16px}.question-meta{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:14px}.category-chip{font:10px var(--mono);padding:3px 8px;border:1px solid var(--blue);color:var(--blue);border-radius:20px;text-transform:uppercase;letter-spacing:.04em}.q-number{font:11px var(--mono);color:var(--text-faint)}.question-text{font-size:18px;font-weight:600;line-height:1.45;margin:0 0 18px}.question-hint{font:11px var(--mono);color:var(--text-faint);margin:-8px 0 14px}
+  .options{display:grid;gap:10px}.option{display:grid;grid-template-columns:32px 1fr;gap:10px;align-items:start;width:100%;text-align:left;background:var(--surface-alt);color:var(--text);border:1px solid var(--border);border-radius:9px;padding:12px 13px;cursor:pointer}.option:hover{border-color:var(--blue)}.option.selected{border-color:var(--blue);background:rgba(111,168,220,.08)}.option-key{width:27px;height:27px;border-radius:6px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font:12px var(--mono);color:var(--text-dim)}.option.selected .option-key{border-color:var(--blue);color:var(--blue)}
+  .option.review-correct{border-color:var(--accent);background:rgba(95,217,138,.08)}.option.review-wrong{border-color:var(--red);background:rgba(224,114,90,.08)}.option.review-correct .option-key{border-color:var(--accent);color:var(--accent)}.option.review-wrong .option-key{border-color:var(--red);color:var(--red)}
+  .question-actions{display:flex;justify-content:space-between;gap:12px;align-items:center;margin:16px 0 28px;flex-wrap:wrap}.left-actions,.right-actions{display:flex;gap:8px;flex-wrap:wrap}
+  .flag-btn.active{border-color:var(--amber);color:var(--amber);background:rgba(224,168,78,.06)}
+  .review-box{display:none;margin-top:16px;padding:13px 15px;border-left:3px solid var(--blue);background:rgba(111,168,220,.06);font-size:13.5px;color:#CBD5D8}.review-box.show{display:block}.review-box strong{color:var(--text)}
+  .submit-strip{background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:14px 16px;display:flex;justify-content:space-between;gap:14px;align-items:center;flex-wrap:wrap}.submit-strip p{margin:0;color:var(--text-dim);font-size:13px}
+  .results{display:none}.results.active{display:block}.results-card{padding:24px;margin-bottom:18px}.result-top{display:grid;grid-template-columns:180px 1fr;gap:24px;align-items:center}.score-ring{width:160px;height:160px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;border:10px solid var(--border);margin:auto}.score-ring.pass{border-color:var(--accent)}.score-ring.fail{border-color:var(--red)}.score-ring .pct{font:32px var(--mono);font-weight:700}.score-ring .raw{font:11px var(--mono);color:var(--text-dim)}.result-copy h3{font-size:24px;margin:0 0 6px}.result-copy p{margin:6px 0;color:var(--text-dim)}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:16px}th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--border)}th{font:11px var(--mono);text-transform:uppercase;letter-spacing:.05em;color:var(--accent);background:var(--surface-alt)}.bar{height:7px;background:var(--surface-alt);border-radius:99px;overflow:hidden}.bar>span{display:block;height:100%;background:var(--blue)}
+  .review-list{display:grid;gap:12px}.review-item{background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:16px}.review-item.correct{border-left:3px solid var(--accent)}.review-item.incorrect{border-left:3px solid var(--red)}.review-head{display:flex;justify-content:space-between;gap:10px;margin-bottom:7px}.review-status{font:10px var(--mono);text-transform:uppercase}.review-item.correct .review-status{color:var(--accent)}.review-item.incorrect .review-status{color:var(--red)}.review-q{font-size:14px;font-weight:600}.review-a{font-size:13px;color:var(--text-dim);margin:8px 0}.review-a b{color:var(--text)}.review-e{font-size:12.5px;color:#BFCACE;background:var(--surface-alt);padding:9px 11px;border-radius:7px}
+  .mobile-top{display:none;position:sticky;top:0;z-index:30;background:rgba(15,20,23,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:9px 14px;justify-content:space-between;align-items:center;font:11px var(--mono)}
+  .kbd{font:10px var(--mono);color:var(--text-faint);margin-top:8px}.kbd code{border:1px solid var(--border);background:var(--surface-alt);padding:1px 5px;border-radius:4px;color:var(--text-dim)}
+  footer{border-top:1px solid var(--border);margin-top:44px;padding-top:18px;color:var(--text-faint);font:11px var(--mono)}
+  @media(max-width:900px){.shell{grid-template-columns:1fr}.rail{display:none}.mobile-top{display:flex}main{padding:28px 18px 80px}.hero-stats{grid-template-columns:repeat(2,1fr)}.result-top{grid-template-columns:1fr}.rules{grid-template-columns:1fr}}
+  @media(max-width:520px){.hero h2{font-size:22px}.question-card{padding:18px 15px}.question-text{font-size:16px}.option{grid-template-columns:28px 1fr;padding:11px 10px}.hero-stats{grid-template-columns:1fr 1fr}.stat .v{font-size:15px}}
+  @media print{.rail,.mobile-top,.question-actions,.submit-strip,.actions,.start-card,.hero{display:none!important}.shell{display:block}main{max-width:none;padding:0}.results,.review-list{display:block!important}.review-item{break-inside:avoid;color:#000;background:#fff}.review-e{background:#eee;color:#222}body{background:#fff;color:#000}}
+</style>
+</head>
+<body>
+<div class="mobile-top"><span id="mobile-progress">TEST-001 · READY</span><span id="mobile-timer">60:00</span></div>
+<div class="shell">
+  <aside class="rail">
+    <div class="rail-brand">
+      <div class="tag">● TEST-CONSOLE</div>
+      <h1>ITIL 4 Foundation</h1>
+      <p>40-question mock exam</p>
+    </div>
+    <div class="rail-block">
+      <div class="rail-label">Time remaining</div>
+      <div class="rail-value" id="timer">60:00</div>
+      <div class="rail-note">Standard exam duration</div>
+    </div>
+    <div class="rail-block">
+      <div class="rail-label">Progress</div>
+      <div class="rail-value" id="answered-count">0 / 40</div>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+      <div class="rail-note" id="flagged-count">0 flagged for review</div>
+    </div>
+    <div class="rail-block" id="navigator-block">
+      <div class="rail-label">Question navigator</div>
+      <div class="navigator" id="navigator"></div>
+      <div class="legend"><span class="l-answered">answered</span><span class="l-flagged">flagged</span></div>
+    </div>
+    <div class="rail-block">
+      <div class="rail-label">Pass threshold</div>
+      <div class="rail-value ok">26 / 40</div>
+      <div class="rail-note">65% — no negative marking</div>
+    </div>
+  </aside>
+
+  <main>
+    <div class="hero">
+      <div class="hero-top">
+        <div>
+          <div class="ticket-id">TEST-001 · ITIL 4 FOUNDATION</div>
+          <h2>Practice Certification Exam</h2>
+          <div class="sub">Built from your ITIL 4 Foundation study guide. Questions are original practice items, not official PeopleCert exam questions.</div>
+        </div>
+        <div class="status-pill" id="hero-status">● READY</div>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><div class="k">Questions</div><div class="v">40</div></div>
+        <div class="stat"><div class="k">Pass mark</div><div class="v ok">65% · 26/40</div></div>
+        <div class="stat"><div class="k">Duration</div><div class="v">60 min</div></div>
+        <div class="stat"><div class="k">Feedback</div><div class="v warn">After submit</div></div>
+      </div>
+    </div>
+
+    <section id="start-screen" class="start-card card">
+      <div class="eyebrow">[ EXAM BRIEF ]</div>
+      <h3>Run this like the real thing</h3>
+      <p>This mock test uses the same <strong>40-question / 60-minute / 65% pass</strong> structure described in your guide. The question mix is generated to mirror the guide's exam blueprint, with the largest share coming from the seven practices tested in detail.</p>
+      <div class="rules">
+        <div class="rule"><b>No instant feedback.</b><br>Answers and explanations stay hidden until you submit.</div>
+        <div class="rule"><b>Flag anything uncertain.</b><br>Use the navigator to return before final submission.</div>
+        <div class="rule"><b>Answer everything.</b><br>There is no penalty for guessing, so blank answers only hurt you.</div>
+        <div class="rule"><b>Retakes reshuffle.</b><br>Questions and answer choices are randomized from a larger bank.</div>
+      </div>
+      <div class="callout info"><b>Blueprint used:</b> 5 key concepts · 6 guiding principles · 2 four dimensions · 1 SVS · 2 service value chain · 7 practice purposes · 17 questions on the seven detailed practices.</div>
+      <div class="actions">
+        <button class="btn primary" id="start-btn">Start 60-minute exam</button>
+        <button class="btn" id="resume-btn" style="display:none">Resume saved exam</button>
+        <button class="btn danger" id="discard-btn" style="display:none">Discard saved attempt</button>
+      </div>
+      <div class="kbd">Keyboard: <code>1</code>-<code>4</code> answer · <code>←</code>/<code>→</code> navigate · <code>F</code> flag</div>
+    </section>
+
+    <section id="exam" class="exam-layout" aria-live="polite">
+      <div class="question-card">
+        <div class="question-meta">
+          <span class="category-chip" id="category-chip">Category</span>
+          <span class="q-number" id="q-number">Question 1 of 40</span>
+        </div>
+        <div class="question-text" id="question-text"></div>
+        <div class="question-hint" id="question-hint"></div>
+        <div class="options" id="options"></div>
+        <div class="review-box" id="review-box"></div>
+      </div>
+      <div class="question-actions">
+        <div class="left-actions">
+          <button class="btn" id="prev-btn">← Previous</button>
+          <button class="btn amber flag-btn" id="flag-btn">Flag for review</button>
+        </div>
+        <div class="right-actions">
+          <button class="btn primary" id="next-btn">Next →</button>
+        </div>
+      </div>
+      <div class="submit-strip">
+        <p id="submit-note">You can submit at any time. Review unanswered and flagged questions first.</p>
+        <button class="btn danger" id="submit-btn">Submit exam</button>
+      </div>
+    </section>
+
+    <section id="results" class="results">
+      <div class="results-card">
+        <div class="result-top">
+          <div class="score-ring" id="score-ring"><div class="pct" id="result-pct">0%</div><div class="raw" id="result-raw">0 / 40</div></div>
+          <div class="result-copy">
+            <div class="eyebrow">[ SCORE REPORT ]</div>
+            <h3 id="result-title">Attempt complete</h3>
+            <p id="result-message"></p>
+            <p id="result-time"></p>
+            <div class="actions" style="margin-top:14px">
+              <button class="btn primary" id="retake-btn">Start a new shuffled exam</button>
+              <button class="btn" id="missed-only-btn">Show missed only</button>
+              <button class="btn" id="all-review-btn">Show all answers</button>
+            </div>
+          </div>
+        </div>
+        <table>
+          <thead><tr><th>Blueprint area</th><th>Score</th><th style="width:34%">Performance</th></tr></thead>
+          <tbody id="breakdown-body"></tbody>
+        </table>
+      </div>
+      <div class="eyebrow" style="margin:26px 0 8px">[ ANSWER REVIEW ]</div>
+      <div class="review-list" id="review-list"></div>
+    </section>
+
+    <footer>TEST-001 · Practice content derived from the companion ITIL 4 Foundation study guide. This is an unofficial study aid and does not contain live certification exam questions.</footer>
+  </main>
+</div>
+
+<script>
+const CATEGORY_META = {
+  concepts:{label:'Key concepts',target:5},
+  principles:{label:'Guiding principles',target:6},
+  dimensions:{label:'Four dimensions',target:2},
+  svs:{label:'Service value system',target:1},
+  svc:{label:'Service value chain',target:2},
+  practicePurpose:{label:'Practice purposes',target:7},
+  practiceDetail:{label:'7 practices in detail',target:17}
+};
+
+const BANK = [
+  // ----- Key concepts -----
+  {cat:'concepts',q:'A payroll application contains every feature the business needs, but it is unavailable for several hours every afternoon. Which aspect is primarily failing?',a:['Utility','Warranty','Output','Service offering'],c:1,e:'Utility is what the service does; warranty is assurance that it will meet agreed requirements such as availability, capacity, continuity, and security.'},
+  {cat:'concepts',q:'A new reporting service can create exactly the reports users asked for. Which concept does this most directly demonstrate?',a:['Warranty','Utility','Risk','Governance'],c:1,e:'Utility is the functionality offered by a product or service to meet a particular need — fit for purpose.'},
+  {cat:'concepts',q:'Which statement best describes warranty?',a:['The functionality offered by a service','Assurance that a service will meet agreed requirements','A result achieved for a stakeholder','A deliverable produced by an activity'],c:1,e:'Warranty is assurance that a product or service will meet agreed requirements — fit for use.'},
+  {cat:'concepts',q:'Which is an outcome rather than an output?',a:['A provisioned virtual machine','A generated availability report','Payroll completes on time because the system is available','A closed incident ticket'],c:2,e:'An outcome is a result for a stakeholder enabled by outputs. The other choices are deliverables.'},
+  {cat:'concepts',q:'Which role defines requirements for a service and takes responsibility for outcomes from service consumption?',a:['User','Sponsor','Customer','Supplier'],c:2,e:'The customer defines requirements for a service and takes responsibility for outcomes from service consumption.'},
+  {cat:'concepts',q:'Which role authorizes budget for service consumption?',a:['Customer','User','Sponsor','Service desk'],c:2,e:'The sponsor authorizes budget for service consumption.'},
+  {cat:'concepts',q:'Which role primarily uses the service day to day?',a:['Sponsor','Customer','User','Change authority'],c:2,e:'The user is the person who uses the service.'},
+  {cat:'concepts',q:'Complete the definition: A service is a means of enabling value co-creation by facilitating outcomes customers want to achieve without the customer having to manage specific _____.',a:['practices and processes','costs and risks','suppliers and partners','outputs and events'],c:1,e:'The guide defines a service as facilitating desired outcomes without the customer having to manage specific costs and risks.'},
+  {cat:'concepts',q:'Which three elements can make up a service offering?',a:['Goods, access to resources, and service actions','Utility, warranty, and outcomes','Incidents, problems, and changes','People, technology, and suppliers'],c:0,e:'A service offering can include goods, access to resources, and service actions.'},
+  {cat:'concepts',q:'Which statement best describes value in ITIL 4?',a:['The provider\'s calculation of technical performance','The perceived benefits, usefulness, and importance of something','The financial cost of a service','A list of service-level targets'],c:1,e:'Value is the perceived benefits, usefulness, and importance of something; it is subjective.'},
+  {cat:'concepts',q:'Which statement correctly distinguishes service provision from service consumption?',a:['Provision is performed by the consumer; consumption is performed by the provider','Provision supplies/manages the service and resources; consumption uses/manages them','Provision is only for incidents; consumption is only for requests','They are two names for the same activity'],c:1,e:'Provision is what the provider does to supply/manage the service and resources; consumption is what the consumer does to use/manage them.'},
+
+  // ----- Guiding principles -----
+  {cat:'principles',q:'A team reviews its existing monitoring tools and keeps the useful parts before buying anything new. Which guiding principle is the best match?',a:['Focus on value','Start where you are','Optimize and automate','Keep it simple and practical'],c:1,e:'Start where you are means assess the current state and reuse what is useful instead of automatically starting from scratch.'},
+  {cat:'principles',q:'A large improvement is split into small releases, with user feedback gathered after each release. Which guiding principle is being applied?',a:['Progress iteratively with feedback','Think and work holistically','Collaborate and promote visibility','Focus on value'],c:0,e:'Small increments plus feedback is the core of progress iteratively with feedback.'},
+  {cat:'principles',q:'A process has 14 approval steps. Analysis shows only five contribute to the objective, so the others are removed. Which guiding principle fits best?',a:['Keep it simple and practical','Start where you are','Focus on value','Collaborate and promote visibility'],c:0,e:'Keep it simple and practical says to use the minimum number of steps needed to accomplish an objective.'},
+  {cat:'principles',q:'A team wants to automate a slow, confusing manual workflow. What should it do first according to the guiding principles?',a:['Automate immediately and improve later','Optimize the workflow before automating it','Replace every existing tool','Move the work to a supplier'],c:1,e:'Optimize and automate means improve/optimize first, then automate where it adds value.'},
+  {cat:'principles',q:'A service improvement includes operations, security, suppliers, users, and finance so one area is not optimized at the expense of another. Which guiding principle is this?',a:['Think and work holistically','Focus on value','Start where you are','Keep it simple and practical'],c:0,e:'Think and work holistically recognizes that no service, practice, process, or department exists in isolation.'},
+  {cat:'principles',q:'A project team makes work status, decisions, risks, and dependencies visible to other departments. Which guiding principle is most directly applied?',a:['Collaborate and promote visibility','Optimize and automate','Progress iteratively with feedback','Start where you are'],c:0,e:'Collaborate and promote visibility emphasizes working across boundaries and making work and decisions visible.'},
+  {cat:'principles',q:'Before prioritizing a proposed feature, a team asks which stakeholders benefit and why the feature matters to them. Which principle is this?',a:['Focus on value','Keep it simple and practical','Think and work holistically','Optimize and automate'],c:0,e:'Focus on value means everything should map directly or indirectly to value for stakeholders.'},
+  {cat:'principles',q:'Which statement about the guiding principles is correct?',a:['They apply only to service desk work','They are recommendations that can guide an organization in all circumstances','They must be followed in a fixed seven-step sequence','Each principle belongs to exactly one practice'],c:1,e:'The guiding principles are recommendations that guide an organization in all circumstances, regardless of goals, strategy, or structure.'},
+  {cat:'principles',q:'Which answer is NOT one of the seven guiding principles?',a:['Focus on value','Start where you are','Control every change centrally','Collaborate and promote visibility'],c:2,e:'“Control every change centrally” is not a guiding principle.'},
+  {cat:'principles',q:'A team deliberately avoids creating a new process until it has measured how well the current process actually works. Which principle is the strongest match?',a:['Start where you are','Focus on value','Progress iteratively with feedback','Optimize and automate'],c:0,e:'Start where you are includes objectively assessing what already exists before replacing it.'},
+
+  // ----- Four dimensions -----
+  {cat:'dimensions',q:'Which dimension includes organizational structure, culture, roles, responsibilities, staffing, and competencies?',a:['Organizations and people','Information and technology','Partners and suppliers','Value streams and processes'],c:0,e:'Those are all part of the Organizations and People dimension.'},
+  {cat:'dimensions',q:'Which dimension includes CMDBs, monitoring tools, knowledge, information, and supporting technologies?',a:['Organizations and people','Information and technology','Partners and suppliers','Value streams and processes'],c:1,e:'Information and Technology covers the information, knowledge, and technologies used to support services.'},
+  {cat:'dimensions',q:'Which dimension focuses on relationships with other organizations involved in designing, delivering, supporting, or improving services?',a:['Organizations and people','Information and technology','Partners and suppliers','Value streams and processes'],c:2,e:'Partners and Suppliers addresses relationships with other organizations involved in the service lifecycle.'},
+  {cat:'dimensions',q:'Which dimension focuses on how parts of the organization work together in an integrated and coordinated way to enable value creation?',a:['Organizations and people','Information and technology','Partners and suppliers','Value streams and processes'],c:3,e:'Value Streams and Processes focuses on integrated workflows and processes used to create value.'},
+  {cat:'dimensions',q:'A new privacy regulation changes how a service can collect customer data. In the guide, this is best classified as what?',a:['One of the four dimensions','A PESTLE external factor','A value chain activity','A known error'],c:1,e:'Political, economic, social, technological, legal, and environmental factors surround and influence all four dimensions.'},
+  {cat:'dimensions',q:'Why should all four dimensions be considered together?',a:['To ensure a holistic approach to service management','To replace the service value chain','To determine the change authority','To eliminate the need for suppliers'],c:0,e:'The four dimensions provide perspectives that must be considered together to support a holistic approach.'},
+
+  // ----- SVS -----
+  {cat:'svs',q:'Which term describes the complete ITIL model containing guiding principles, governance, the service value chain, practices, and continual improvement?',a:['Service value system','Service value chain','Value stream','Service offering'],c:0,e:'The Service Value System (SVS) is the overall model/container.'},
+  {cat:'svs',q:'What does the service value system take as input and produce as output?',a:['Incidents in; changes out','Opportunity and demand in; value out','Utility in; warranty out','Products in; practices out'],c:1,e:'The guide describes opportunity and demand as inputs to the SVS, with value as the output.'},
+  {cat:'svs',q:'Which of the following is NOT listed as a component of the service value system?',a:['Governance','Guiding principles','Service value chain','PESTLE'],c:3,e:'PESTLE describes external factors. The SVS components are guiding principles, governance, service value chain, practices, and continual improvement.'},
+
+  // ----- Service value chain / streams -----
+  {cat:'svc',q:'Which service value chain activity focuses on stakeholder needs, transparency, and ongoing relationships?',a:['Plan','Engage','Obtain/build','Deliver and support'],c:1,e:'Engage provides understanding of stakeholder needs and supports transparency and good relationships.'},
+  {cat:'svc',q:'Which service value chain activity ensures a shared understanding of the vision, current status, and improvement direction?',a:['Plan','Improve','Design and transition','Engage'],c:0,e:'Plan ensures shared understanding of vision, status, and improvement direction.'},
+  {cat:'svc',q:'Which service value chain activity ensures continual improvement of products, services, and practices across all value chain activities?',a:['Improve','Plan','Deliver and support','Obtain/build'],c:0,e:'Improve supports continual improvement throughout the value chain.'},
+  {cat:'svc',q:'Which value chain activity aims to ensure products and services meet stakeholder expectations for quality, cost, and time to market?',a:['Engage','Design and transition','Obtain/build','Plan'],c:1,e:'Design and Transition focuses on meeting expectations for quality, cost, and time to market.'},
+  {cat:'svc',q:'Which value chain activity ensures service components are available when and where needed and meet agreed specifications?',a:['Obtain/build','Engage','Improve','Deliver and support'],c:0,e:'Obtain/Build ensures components are available when and where needed and meet agreed specifications.'},
+  {cat:'svc',q:'Which value chain activity is most closely associated with delivering and supporting services according to agreed specifications?',a:['Plan','Improve','Deliver and support','Design and transition'],c:2,e:'Deliver and Support ensures services are delivered and supported according to agreed specifications and stakeholder expectations.'},
+  {cat:'svc',q:'Which term means a specific combination and sequence of value chain activities and practices used for a particular demand or scenario?',a:['Service value system','Value stream','Guiding principle','Service offering'],c:1,e:'A value stream is a specific combination of value chain activities and practices used to create value for a particular scenario.'},
+  {cat:'svc',q:'Which statement correctly compares the service value chain and a value stream?',a:['The value chain is a specific workflow; a value stream is always the same six activities','The value chain is the generic six-activity operating model; a value stream is a scenario-specific combination of activities and practices','They are two names for the same concept','A value stream contains the entire SVS'],c:1,e:'The value chain is the generic six-activity model. A value stream is a specific combination used for a particular demand or opportunity.'},
+
+  // ----- 15 practice purposes -----
+  {cat:'practicePurpose',q:'Which practice has the purpose of protecting the information the organization needs to conduct business?',a:['Information security management','Service configuration management','Supplier management','Service level management'],c:0,e:'Information Security Management protects the information the organization needs to conduct business, including confidentiality, integrity, and availability.'},
+  {cat:'practicePurpose',q:'Which practice establishes and nurtures links between the organization and its stakeholders at strategic and tactical levels?',a:['Relationship management','Service desk','Supplier management','Continual improvement'],c:0,e:'Relationship Management establishes and nurtures links between the organization and its stakeholders.'},
+  {cat:'practicePurpose',q:'Which practice manages suppliers and supplier performance so quality products and services are provided seamlessly?',a:['Supplier management','Relationship management','IT asset management','Service level management'],c:0,e:'Supplier Management manages suppliers and their performance.'},
+  {cat:'practicePurpose',q:'Which practice plans and manages IT assets across their lifecycle to maximize value, control cost, manage risk, and support decisions?',a:['IT asset management','Service configuration management','Deployment management','Change enablement'],c:0,e:'IT Asset Management manages the full lifecycle of IT assets for value, cost, risk, and control.'},
+  {cat:'practicePurpose',q:'Which practice systematically observes services and components and records/reports selected changes of state identified as events?',a:['Monitoring and event management','Incident management','Service desk','Service configuration management'],c:0,e:'Monitoring and Event Management observes services/components and manages significant changes of state.'},
+  {cat:'practicePurpose',q:'Which practice makes new and changed services and features available for use?',a:['Release management','Deployment management','Change enablement','Service request management'],c:0,e:'Release Management makes new and changed services and features available for use.'},
+  {cat:'practicePurpose',q:'Which practice makes accurate and reliable information about configuration items and their relationships available when needed?',a:['Service configuration management','IT asset management','Monitoring and event management','Release management'],c:0,e:'Service Configuration Management provides reliable information about configuration items and their relationships.'},
+  {cat:'practicePurpose',q:'Which practice moves new or changed hardware, software, documentation, processes, or other components into live or other environments?',a:['Deployment management','Release management','Change enablement','Service configuration management'],c:0,e:'Deployment Management moves components into live or other environments.'},
+  {cat:'practicePurpose',q:'Which practice keeps services and practices aligned with changing business needs through ongoing improvement?',a:['Continual improvement','Service level management','Relationship management','Change enablement'],c:0,e:'Continual Improvement aligns services and practices with changing needs through ongoing improvement.'},
+  {cat:'practicePurpose',q:'Which practice increases successful changes by assessing risk, authorizing changes, and managing the change schedule?',a:['Change enablement','Release management','Deployment management','Problem management'],c:0,e:'Change Enablement increases successful changes through risk assessment, authorization, and scheduling.'},
+  {cat:'practicePurpose',q:'Which practice minimizes the negative impact of incidents by restoring normal service operation as quickly as possible?',a:['Incident management','Problem management','Service request management','Service desk'],c:0,e:'Incident Management restores normal service as quickly as possible and minimizes incident impact.'},
+  {cat:'practicePurpose',q:'Which practice reduces incident likelihood and impact by identifying causes and managing workarounds and known errors?',a:['Problem management','Incident management','Change enablement','Monitoring and event management'],c:0,e:'Problem Management identifies causes and manages workarounds and known errors to reduce incident likelihood and impact.'},
+  {cat:'practicePurpose',q:'Which practice handles predefined, user-initiated requests effectively and in a user-friendly way?',a:['Service request management','Service desk','Incident management','Relationship management'],c:0,e:'Service Request Management handles predefined, user-initiated service requests.'},
+  {cat:'practicePurpose',q:'Which practice captures demand for incident resolution and service requests and acts as the user-facing entry point?',a:['Service desk','Service level management','Service request management','Relationship management'],c:0,e:'Service Desk is the entry point/single point of contact and captures demand for incidents and requests.'},
+  {cat:'practicePurpose',q:'Which practice sets clear, business-based service targets and ensures delivery is assessed, monitored, and managed against them?',a:['Service level management','Service desk','Monitoring and event management','Supplier management'],c:0,e:'Service Level Management sets business-based service targets and manages performance against them.'},
+
+  // ----- 7 practices in detail: Continual Improvement -----
+  {cat:'practiceDetail',practice:'Continual Improvement',q:'What is the first step of the continual improvement model?',a:['Where are we now?','What is the vision?','How do we get there?','Take action'],c:1,e:'The model begins with “What is the vision?”'},
+  {cat:'practiceDetail',practice:'Continual Improvement',q:'Which sequence correctly represents the first three steps of the continual improvement model?',a:['What is the vision? → Where are we now? → Where do we want to be?','Where are we now? → What is the vision? → Take action','What is the vision? → How do we get there? → Where are we now?','Where do we want to be? → Where are we now? → What is the vision?'],c:0,e:'The first three steps are vision, current state, desired state.'},
+  {cat:'practiceDetail',practice:'Continual Improvement',q:'After “How do we get there?” what comes next in the continual improvement model?',a:['Did we get there?','Take action','Where are we now?','How do we keep the momentum going?'],c:1,e:'After defining the improvement plan, the next step is Take action.'},
+  {cat:'practiceDetail',practice:'Continual Improvement',q:'What is the final step of the continual improvement model?',a:['Take action','Did we get there?','How do we keep the momentum going?','Where do we want to be?'],c:2,e:'The final step is “How do we keep the momentum going?”'},
+  {cat:'practiceDetail',practice:'Continual Improvement',q:'Which statement about continual improvement is correct?',a:['It applies only to services','It is the responsibility of a dedicated improvement team only','It can apply to services, products, practices, and other service-management elements','It begins only after an incident'],c:2,e:'The guide states that improvements can apply broadly and that improvement is everyone’s responsibility.'},
+  {cat:'practiceDetail',practice:'Continual Improvement',q:'What is a useful way to capture and prioritize improvement ideas?',a:['Known error database','Continual improvement register or backlog','Change schedule only','Service catalogue'],c:1,e:'The guide recommends a continual improvement register/backlog to capture and prioritize ideas.'},
+
+  // ----- Change Enablement -----
+  {cat:'practiceDetail',practice:'Change Enablement',q:'Which type of change is low-risk, well understood, documented, and pre-authorized?',a:['Normal','Emergency','Standard','Major'],c:2,e:'Standard changes are pre-authorized, low-risk, well understood, and documented.'},
+  {cat:'practiceDetail',practice:'Change Enablement',q:'Which statement about an emergency change is correct?',a:['It bypasses authorization entirely','It is expedited but still assessed and authorized','It is always a standard change','It can only be approved by the service desk'],c:1,e:'Emergency changes use an expedited path but still require assessment and authorization.'},
+  {cat:'practiceDetail',practice:'Change Enablement',q:'Which description best fits a normal change?',a:['Pre-authorized and low-risk','Assessed and authorized according to risk','Never scheduled','Automatically treated as an incident'],c:1,e:'Normal changes are assessed and authorized according to their risk and the organization’s defined process.'},
+  {cat:'practiceDetail',practice:'Change Enablement',q:'In ITIL 4, what is a change?',a:['Only a production software deployment','The addition, modification, or removal of anything that could directly or indirectly affect services','Any incident that lasts more than one hour','A new service request'],c:1,e:'A change is the addition, modification, or removal of anything that could directly or indirectly affect services.'},
+  {cat:'practiceDetail',practice:'Change Enablement',q:'Which statement about change authority is most consistent with the guide?',a:['Every change must be approved by the same CAB','Each change type/model should have an appropriate change authority','Standard changes can never be pre-authorized','Emergency changes have no authority'],c:1,e:'The guide emphasizes an appropriate change authority for each change type/model rather than one universal approval body.'},
+  {cat:'practiceDetail',practice:'Change Enablement',q:'Which practice is primarily responsible for maximizing the number of successful service and product changes?',a:['Change enablement','Release management','Deployment management','Incident management'],c:0,e:'Change Enablement increases successful changes through risk assessment, authorization, and schedule management.'},
+
+  // ----- Incident Management -----
+  {cat:'practiceDetail',practice:'Incident Management',q:'What is the primary goal of incident management?',a:['Find the root cause of every interruption','Restore normal service operation as quickly as possible','Authorize production changes','Maintain configuration relationships'],c:1,e:'Incident Management focuses on rapid restoration and minimizing negative impact. Root-cause analysis belongs to Problem Management.'},
+  {cat:'practiceDetail',practice:'Incident Management',q:'Which definition best describes an incident?',a:['A cause or potential cause of one or more incidents','An unplanned interruption to a service or reduction in service quality','A predefined user request','A pre-authorized change'],c:1,e:'An incident is an unplanned interruption to a service or reduction in the quality of a service.'},
+  {cat:'practiceDetail',practice:'Incident Management',q:'Incident prioritization is commonly based on which two factors?',a:['Utility and warranty','Impact and urgency','Cost and output','Risk and sponsor'],c:1,e:'The guide notes that incident prioritization is commonly based on impact and urgency.'},
+  {cat:'practiceDetail',practice:'Incident Management',q:'Why do major incidents receive special handling?',a:['They are always caused by failed changes','Because of their business impact','They are always handled by suppliers','They do not require prioritization'],c:1,e:'Major incidents use special handling because of their significant business impact.'},
+  {cat:'practiceDetail',practice:'Incident Management',q:'A monitoring tool reports that disk utilization crossed a threshold, but users have not experienced an interruption. What is this first of all?',a:['Incident','Problem','Event','Known error'],c:2,e:'An event is a change of state significant for management. An event is not automatically an incident.'},
+  {cat:'practiceDetail',practice:'Incident Management',q:'Which statement about resolving incidents is correct?',a:['Only the service desk may resolve them','They may be resolved by support teams, suppliers, or collaborative swarming','They cannot be resolved until root cause is found','Every incident requires a normal change'],c:1,e:'The guide notes that incidents may be resolved by support teams, suppliers, or collaborative swarming.'},
+
+  // ----- Problem Management -----
+  {cat:'practiceDetail',practice:'Problem Management',q:'What is a problem in ITIL 4?',a:['Any ticket open longer than its SLA','A cause or potential cause of one or more incidents','An analyzed issue with no resolution','A failed change'],c:1,e:'A problem is a cause, or potential cause, of one or more incidents.'},
+  {cat:'practiceDetail',practice:'Problem Management',q:'What is a known error?',a:['An incident with a workaround','A problem that has been analyzed but not resolved','A failed emergency change','A resolved problem'],c:1,e:'A known error is a problem that has been analyzed but has not been resolved.'},
+  {cat:'practiceDetail',practice:'Problem Management',q:'Put the problem management phases in the correct order.',a:['Error Control → Problem Control → Problem Identification','Problem Identification → Error Control → Problem Control','Problem Identification → Problem Control → Error Control','Problem Control → Problem Identification → Error Control'],c:2,e:'Memorize ICE: Problem Identification → Problem Control → Error Control.'},
+  {cat:'practiceDetail',practice:'Problem Management',q:'Which phase includes problem analysis and documenting workarounds and known errors?',a:['Problem Identification','Problem Control','Error Control','Incident Control'],c:1,e:'Problem Control includes analysis and documenting workarounds and known errors.'},
+  {cat:'practiceDetail',practice:'Problem Management',q:'Which phase manages known errors and permanent fixes until the known error is resolved?',a:['Problem Identification','Problem Control','Error Control','Change Control'],c:2,e:'Error Control manages known errors and permanent fixes.'},
+  {cat:'practiceDetail',practice:'Problem Management',q:'What is a workaround?',a:['A permanent resolution that closes the problem','A solution that reduces or eliminates impact without fully resolving the issue','An unapproved emergency change','A service request model'],c:1,e:'A workaround reduces or eliminates impact without fully resolving the underlying issue.'},
+
+  // ----- Service Request Management -----
+  {cat:'practiceDetail',practice:'Service Request Management',q:'A user requests access to a shared mailbox using an established request form. Which practice primarily handles this?',a:['Incident management','Problem management','Service request management','Change enablement'],c:2,e:'A predefined, user-initiated request is handled by Service Request Management.'},
+  {cat:'practiceDetail',practice:'Service Request Management',q:'Which statement best distinguishes a service request from an incident?',a:['A service request is a normal, predefined user-initiated request; an incident is an unplanned interruption or reduction in quality','A service request always has higher priority','An incident is always a request for information','There is no distinction'],c:0,e:'Service requests are normal, predefined, user-initiated requests. Incidents represent service interruption or degradation.'},
+  {cat:'practiceDetail',practice:'Service Request Management',q:'Which is a typical service request example from the guide?',a:['A database outage','Requesting information or access','Investigating recurring crashes','Approving an emergency change'],c:1,e:'Examples include information, access, a standard service action, or provision of a resource.'},
+  {cat:'practiceDetail',practice:'Service Request Management',q:'How should request models generally be designed?',a:['Unique and manual every time','Simple, standardized, and automated where practical','Only for major incidents','Without any predefined steps'],c:1,e:'The guide says request models should be simple, standardized, and automated where practical.'},
+  {cat:'practiceDetail',practice:'Service Request Management',q:'Which statement about service requests is correct?',a:['They always indicate a service failure','They are a normal part of service delivery','They are known errors','They can only be raised by suppliers'],c:1,e:'Service requests are a normal part of service delivery, not a service failure.'},
+
+  // ----- Service Desk -----
+  {cat:'practiceDetail',practice:'Service Desk',q:'Which practice acts as the single point of contact / entry point for users?',a:['Service desk','Service level management','Relationship management','Service request management'],c:0,e:'The Service Desk acts as the user-facing entry point and single point of contact.'},
+  {cat:'practiceDetail',practice:'Service Desk',q:'What demand does the service desk specifically capture?',a:['Only change approvals','Incident resolution and service requests','Only supplier contracts','Only service-level targets'],c:1,e:'The Service Desk captures demand for incident resolution and service requests.'},
+  {cat:'practiceDetail',practice:'Service Desk',q:'Which factor is emphasized as important to effective service desk work?',a:['Avoiding direct user communication','Communication quality, empathy, and user experience','Owning every technical support group','Root-cause analysis for every call'],c:1,e:'The guide emphasizes communication quality, empathy, and user experience.'},
+  {cat:'practiceDetail',practice:'Service Desk',q:'Which statement about the service desk is correct?',a:['It is only a physical desk','It is only the ticket queue software','It is a practice/function and not merely a physical desk or queue','It owns service-level targets'],c:2,e:'A service desk is a practice/function, not merely a physical location or ticket queue.'},
+  {cat:'practiceDetail',practice:'Service Desk',q:'Which pairing is correct?',a:['Service desk = business-based targets; SLM = user entry point','Service desk = user entry point; SLM = business-based targets','Both have exactly the same purpose','Service desk = root-cause analysis; SLM = change authorization'],c:1,e:'Service Desk is the front door for users. Service Level Management sets and manages business-based service targets.'},
+
+  // ----- Service Level Management -----
+  {cat:'practiceDetail',practice:'Service Level Management',q:'Which practice sets clear, business-based targets for service performance?',a:['Service desk','Service level management','Monitoring and event management','Supplier management'],c:1,e:'Service Level Management establishes business-based targets and manages performance against them.'},
+  {cat:'practiceDetail',practice:'Service Level Management',q:'What should an SLA relate to according to the guide?',a:['Only server CPU and memory metrics','Defined services and meaningful outcomes','Only incident ticket counts','Only supplier invoices'],c:1,e:'The guide says SLAs should relate to defined services and meaningful outcomes, not only technical metrics.'},
+  {cat:'practiceDetail',practice:'Service Level Management',q:'Why are service reviews and customer feedback useful?',a:['They replace all technical monitoring','They help understand actual customer/user experience','They automatically authorize changes','They eliminate the need for SLAs'],c:1,e:'Service reviews and feedback help understand actual service experience, which may differ from technical indicators.'},
+  {cat:'practiceDetail',practice:'Service Level Management',q:'What does the “watermelon effect” describe?',a:['A service that has high utility but low cost','Green technical metrics that hide a poor user experience','A service request that becomes an incident','A standard change that becomes an emergency'],c:1,e:'The guide uses “watermelon effect” for green technical metrics that mask a poor user experience.'},
+  {cat:'practiceDetail',practice:'Service Level Management',q:'Which is the best example of service level management rather than service desk work?',a:['Logging a user\'s password-reset request','Reviewing whether the service met agreed business-based targets over the quarter','Taking an incident call','Routing a ticket to desktop support'],c:1,e:'Service Level Management is concerned with targets, performance assessment, monitoring, reviews, and improvement over time.'},
+  {cat:'practiceDetail',practice:'Service Level Management',q:'A dashboard shows all infrastructure metrics green, but customers report the service is frustrating and slow. Which practice should make sure this experience is reflected in performance discussions?',a:['Service level management','Deployment management','Change enablement','Problem management'],c:0,e:'Service Level Management should use meaningful outcomes, service reviews, and customer feedback rather than relying only on green technical metrics.'},
+
+  // ----- Cross-practice detail distinctions -----
+  {cat:'practiceDetail',practice:'Change Enablement',q:'A critical security fix must be implemented as soon as possible. Which change type best fits?',a:['Standard','Normal','Emergency','Service request'],c:2,e:'Emergency changes are used when a change must be implemented as soon as possible, while still being assessed and authorized.'},
+  {cat:'practiceDetail',practice:'Problem Management',q:'Repeated incidents are linked to a common suspected cause. Which practice should investigate the underlying cause?',a:['Incident management','Problem management','Service desk','Service request management'],c:1,e:'Problem Management identifies actual and potential causes to reduce the likelihood and impact of incidents.'},
+  {cat:'practiceDetail',practice:'Incident Management',q:'A workaround restores service before the underlying cause is understood. What should incident management prioritize?',a:['Keep the service restored and minimize impact','Delay restoration until root cause is found','Convert the incident into a service request','Close every related problem automatically'],c:0,e:'Incident Management prioritizes restoring normal service quickly; root-cause analysis can continue separately in Problem Management.'},
+  {cat:'practiceDetail',practice:'Service Request Management',q:'A user asks for a new standard laptop using the organization\'s normal request catalogue. Which statement is best?',a:['This is automatically an incident','This is a predefined service request','This is a known error','This must be an emergency change'],c:1,e:'Provision of a standard resource through a predefined user-initiated flow is a service request.'}
+];
+
+const STORAGE_KEY='itil4PracticeExamV1';
+let state={exam:[],answers:[],flags:[],current:0,startTs:null,endTs:null,submitted:false,remaining:3600};
+let timerHandle=null;
+
+function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function cloneWithShuffledAnswers(item){
+  const choices=item.a.map((text,i)=>({text,correct:i===item.c}));
+  const shuffled=shuffle(choices);
+  return {...item,a:shuffled.map(x=>x.text),c:shuffled.findIndex(x=>x.correct)};
+}
+function pick(pool,n){return shuffle(pool).slice(0,n);}
+function buildExam(){
+  let selected=[];
+  for(const key of ['concepts','principles','dimensions','svs','svc','practicePurpose']){
+    selected.push(...pick(BANK.filter(q=>q.cat===key),CATEGORY_META[key].target));
+  }
+  const detail=BANK.filter(q=>q.cat==='practiceDetail');
+  const practices=['Continual Improvement','Change Enablement','Incident Management','Problem Management','Service Request Management','Service Desk','Service Level Management'];
+  let detailSelected=[];
+  practices.forEach(p=>detailSelected.push(...pick(detail.filter(q=>q.practice===p),2)));
+  const chosenSet=new Set(detailSelected.map(q=>q.q));
+  const remaining=detail.filter(q=>!chosenSet.has(q.q));
+  detailSelected.push(...pick(remaining,3));
+  selected.push(...detailSelected);
+  return shuffle(selected.map(cloneWithShuffledAnswers));
+}
+function save(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state));}catch(e){}}
+function loadSaved(){try{const raw=localStorage.getItem(STORAGE_KEY);return raw?JSON.parse(raw):null;}catch(e){return null;}}
+function clearSaved(){try{localStorage.removeItem(STORAGE_KEY);}catch(e){}}
+
+function showResumeIfAvailable(){
+  const saved=loadSaved();
+  if(saved && saved.exam && saved.exam.length===40 && !saved.submitted){
+    document.getElementById('resume-btn').style.display='inline-block';
+    document.getElementById('discard-btn').style.display='inline-block';
+  }
+}
+function startNew(){
+  state={exam:buildExam(),answers:Array(40).fill(null),flags:Array(40).fill(false),current:0,startTs:Date.now(),endTs:Date.now()+3600000,submitted:false,remaining:3600};
+  save(); enterExam();
+}
+function resumeSaved(){
+  const saved=loadSaved(); if(!saved)return;
+  state=saved;
+  if(state.endTs){state.remaining=Math.max(0,Math.floor((state.endTs-Date.now())/1000));}
+  enterExam();
+  if(state.remaining<=0) submitExam(true);
+}
+function discardSaved(){clearSaved();document.getElementById('resume-btn').style.display='none';document.getElementById('discard-btn').style.display='none';}
+function enterExam(){
+  document.getElementById('start-screen').style.display='none';
+  document.getElementById('exam').classList.add('active');
+  document.getElementById('results').classList.remove('active');
+  document.getElementById('hero-status').textContent='● IN PROGRESS';
+  buildNavigator(); renderQuestion(); updateChrome(); startTimer(); window.scrollTo({top:0,behavior:'smooth'});
+}
+function buildNavigator(){
+  const nav=document.getElementById('navigator');nav.innerHTML='';
+  state.exam.forEach((_,i)=>{const b=document.createElement('button');b.className='nav-q';b.textContent=i+1;b.title=`Question ${i+1}`;b.addEventListener('click',()=>goTo(i));nav.appendChild(b);});
+}
+function renderQuestion(){
+  const item=state.exam[state.current]; if(!item)return;
+  document.getElementById('category-chip').textContent=CATEGORY_META[item.cat].label+(item.practice?` · ${item.practice}`:'');
+  document.getElementById('q-number').textContent=`Question ${state.current+1} of 40`;
+  document.getElementById('question-text').textContent=item.q;
+  document.getElementById('question-hint').textContent='Choose the single best answer.';
+  const opts=document.getElementById('options');opts.innerHTML='';
+  item.a.forEach((text,i)=>{
+    const b=document.createElement('button');b.className='option';
+    if(state.answers[state.current]===i)b.classList.add('selected');
+    if(state.submitted){
+      if(i===item.c)b.classList.add('review-correct');
+      if(state.answers[state.current]===i && i!==item.c)b.classList.add('review-wrong');
+    }
+    b.innerHTML=`<span class="option-key">${String.fromCharCode(65+i)}</span><span>${escapeHtml(text)}</span>`;
+    b.disabled=state.submitted;
+    b.addEventListener('click',()=>selectAnswer(i));opts.appendChild(b);
+  });
+  const rb=document.getElementById('review-box');
+  if(state.submitted){
+    const ans=state.answers[state.current];
+    rb.innerHTML=`<strong>${ans===item.c?'Correct':'Incorrect'}.</strong> ${escapeHtml(item.e)}`;rb.classList.add('show');
+  }else{rb.innerHTML='';rb.classList.remove('show');}
+  document.getElementById('prev-btn').disabled=state.current===0;
+  document.getElementById('next-btn').textContent=state.current===39?'Review / Submit →':'Next →';
+  const flag=document.getElementById('flag-btn');flag.classList.toggle('active',!!state.flags[state.current]);flag.textContent=state.flags[state.current]?'⚑ Flagged':'Flag for review';
+  updateChrome();
+}
+function escapeHtml(s){return String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
+function selectAnswer(i){if(state.submitted)return;state.answers[state.current]=i;save();renderQuestion();}
+function toggleFlag(){if(state.submitted)return;state.flags[state.current]=!state.flags[state.current];save();renderQuestion();}
+function goTo(i){state.current=Math.max(0,Math.min(39,i));save();renderQuestion();window.scrollTo({top:document.getElementById('exam').offsetTop-10,behavior:'smooth'});}
+function updateChrome(){
+  const answered=state.answers.filter(x=>x!==null).length;const flagged=state.flags.filter(Boolean).length;
+  document.getElementById('answered-count').textContent=`${answered} / 40`;
+  document.getElementById('flagged-count').textContent=`${flagged} flagged for review`;
+  document.getElementById('progress-fill').style.width=`${answered/40*100}%`;
+  document.getElementById('mobile-progress').textContent=state.submitted?`TEST-001 · COMPLETE`:`Q ${state.current+1}/40 · ${answered} answered`;
+  const buttons=[...document.querySelectorAll('.nav-q')];
+  buttons.forEach((b,i)=>{
+    b.className='nav-q';
+    if(i===state.current)b.classList.add('current');
+    if(state.answers[i]!==null)b.classList.add('answered');
+    if(state.flags[i])b.classList.add('flagged');
+    if(state.submitted){b.classList.remove('answered');const ok=state.answers[i]===state.exam[i].c;b.classList.add(ok?'correct':'incorrect');}
+  });
+  const unanswered=40-answered;
+  document.getElementById('submit-note').textContent=unanswered?`${unanswered} unanswered · ${flagged} flagged. You can still submit, but unanswered questions count as incorrect.`:`All 40 answered · ${flagged} flagged for review.`;
+}
+function formatTime(sec){sec=Math.max(0,sec);const m=Math.floor(sec/60),s=sec%60;return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;}
+function startTimer(){
+  clearInterval(timerHandle);
+  const tick=()=>{
+    if(state.submitted)return;
+    state.remaining=Math.max(0,Math.floor((state.endTs-Date.now())/1000));
+    const t=formatTime(state.remaining);const el=document.getElementById('timer');el.textContent=t;document.getElementById('mobile-timer').textContent=t;
+    el.classList.remove('warn','danger');if(state.remaining<=300)el.classList.add('danger');else if(state.remaining<=600)el.classList.add('warn');
+    if(state.remaining%10===0)save();
+    if(state.remaining<=0){clearInterval(timerHandle);submitExam(true);}
+  };tick();timerHandle=setInterval(tick,1000);
+}
+function submitExam(auto=false){
+  if(state.submitted)return;
+  const unanswered=state.answers.filter(x=>x===null).length;
+  if(!auto){
+    const msg=unanswered?`You still have ${unanswered} unanswered question${unanswered===1?'':'s'}. Submit anyway?`:'Submit your exam for scoring?';
+    if(!window.confirm(msg))return;
+  }
+  clearInterval(timerHandle);state.submitted=true;state.remaining=Math.max(0,Math.floor((state.endTs-Date.now())/1000));clearSaved();
+  document.getElementById('exam').classList.remove('active');document.getElementById('results').classList.add('active');document.getElementById('hero-status').textContent='● COMPLETE';
+  showResults(auto);window.scrollTo({top:0,behavior:'smooth'});
+}
+function scoreExam(){return state.exam.reduce((sum,q,i)=>sum+(state.answers[i]===q.c?1:0),0);}
+function showResults(auto){
+  const score=scoreExam(),pct=Math.round(score/40*100),pass=score>=26;
+  const ring=document.getElementById('score-ring');ring.className='score-ring '+(pass?'pass':'fail');
+  document.getElementById('result-pct').textContent=`${pct}%`;document.getElementById('result-raw').textContent=`${score} / 40`;
+  document.getElementById('result-title').textContent=pass?'PASS — above the 65% threshold':'NOT YET — below the 65% threshold';
+  document.getElementById('result-message').textContent=pass?'You cleared the mock-exam pass line. Use the breakdown below to find weak categories before test day.':'You need 26 correct to pass. Focus first on the lowest-scoring blueprint areas, especially the seven detailed practices because they make up the largest block.';
+  const elapsed=3600-state.remaining;document.getElementById('result-time').textContent=`Time used: ${formatTime(elapsed)}${auto?' · submitted automatically when time expired':''}`;
+  const tbody=document.getElementById('breakdown-body');tbody.innerHTML='';
+  Object.entries(CATEGORY_META).forEach(([key,meta])=>{
+    const idxs=state.exam.map((q,i)=>q.cat===key?i:null).filter(i=>i!==null);const good=idxs.filter(i=>state.answers[i]===state.exam[i].c).length;const total=idxs.length;const cp=total?Math.round(good/total*100):0;
+    const tr=document.createElement('tr');tr.innerHTML=`<td>${meta.label}</td><td><strong>${good}/${total}</strong> · ${cp}%</td><td><div class="bar"><span style="width:${cp}%"></span></div></td>`;tbody.appendChild(tr);
+  });
+  renderReview(true);
+  document.getElementById('timer').textContent=formatTime(state.remaining);document.getElementById('mobile-timer').textContent=formatTime(state.remaining);buildNavigator();updateChrome();
+}
+function renderReview(missedOnly){
+  const list=document.getElementById('review-list');list.innerHTML='';
+  state.exam.forEach((q,i)=>{
+    const ok=state.answers[i]===q.c;if(missedOnly&&ok)return;
+    const item=document.createElement('div');item.className='review-item '+(ok?'correct':'incorrect');
+    const your=state.answers[i]===null?'No answer':`${String.fromCharCode(65+state.answers[i])}. ${q.a[state.answers[i]]}`;
+    const right=`${String.fromCharCode(65+q.c)}. ${q.a[q.c]}`;
+    item.innerHTML=`<div class="review-head"><span class="q-number">Question ${i+1} · ${escapeHtml(CATEGORY_META[q.cat].label)}${q.practice?' · '+escapeHtml(q.practice):''}</span><span class="review-status">${ok?'Correct':'Missed'}</span></div><div class="review-q">${escapeHtml(q.q)}</div><div class="review-a"><b>Your answer:</b> ${escapeHtml(your)}<br><b>Correct answer:</b> ${escapeHtml(right)}</div><div class="review-e">${escapeHtml(q.e)}</div>`;
+    list.appendChild(item);
+  });
+  if(!list.children.length)list.innerHTML='<div class="callout info"><b>Perfect review:</b> You did not miss any questions in this attempt.</div>';
+}
+
+// Controls
+document.getElementById('start-btn').addEventListener('click',startNew);
+document.getElementById('resume-btn').addEventListener('click',resumeSaved);
+document.getElementById('discard-btn').addEventListener('click',discardSaved);
+document.getElementById('prev-btn').addEventListener('click',()=>goTo(state.current-1));
+document.getElementById('next-btn').addEventListener('click',()=>{if(state.current<39)goTo(state.current+1);else document.getElementById('submit-btn').scrollIntoView({behavior:'smooth',block:'center'});});
+document.getElementById('flag-btn').addEventListener('click',toggleFlag);
+document.getElementById('submit-btn').addEventListener('click',()=>submitExam(false));
+document.getElementById('retake-btn').addEventListener('click',()=>{document.getElementById('results').classList.remove('active');startNew();});
+document.getElementById('missed-only-btn').addEventListener('click',()=>renderReview(true));
+document.getElementById('all-review-btn').addEventListener('click',()=>renderReview(false));
+
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('exam').classList.contains('active')||state.submitted)return;
+  if(['1','2','3','4'].includes(e.key)){const i=Number(e.key)-1;if(i<state.exam[state.current].a.length)selectAnswer(i);}
+  else if(e.key==='ArrowLeft'){e.preventDefault();goTo(state.current-1);}
+  else if(e.key==='ArrowRight'){e.preventDefault();goTo(state.current+1);}
+  else if(e.key.toLowerCase()==='f'){toggleFlag();}
+});
+
+showResumeIfAvailable();
+</script>
+</body>
+</html>
