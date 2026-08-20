@@ -270,6 +270,58 @@
   .chart-n{font-family:'IBM Plex Mono'; font-size:10.5px; color:var(--text-lo); margin-top:2px;}
   .chart-note{font-size:12px; color:var(--text-lo); font-style:italic;}
 
+  /* ===== Speed control ===== */
+  .speed-control{
+    display:flex; align-items:center; gap:12px;
+    background:var(--surface); border:1px solid var(--border); border-radius:9px;
+    padding:10px 16px; margin:14px 0 16px 0;
+  }
+  .speed-control-label{font-family:'IBM Plex Mono'; font-size:12px; color:var(--text-lo); text-transform:uppercase; letter-spacing:.05em; flex-shrink:0;}
+  #speedSlider{
+    flex:1; max-width:220px; accent-color:var(--accent);
+    background:transparent; cursor:pointer;
+  }
+  .speed-readout{
+    font-family:'IBM Plex Mono'; font-size:12.5px; font-weight:600; color:var(--accent);
+    min-width:34px; text-align:right;
+  }
+
+  /* ===== Sort visualizer panels ===== */
+  .sort-panel{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:16px 18px 12px 18px;
+    margin-bottom:16px;
+  }
+  .sort-panel-head{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;}
+  .sort-panel-head h4{margin:0; font-size:14.5px; display:flex; align-items:center; gap:8px;}
+  .sort-controls button{
+    background:var(--surface-2); border:1px solid var(--border); color:var(--text-hi);
+    font-family:'IBM Plex Mono'; font-size:11.5px; padding:6px 11px; border-radius:6px; cursor:pointer; margin-left:6px;
+  }
+  .sort-controls button:hover{border-color:var(--accent); color:var(--accent);}
+  .sort-controls button.playing{color:var(--bg); background:var(--accent); border-color:var(--accent);}
+  .bars{
+    display:flex; align-items:flex-end; gap:4px; height:130px;
+    background:var(--surface-2); border:1px solid var(--border); border-radius:8px;
+    padding:8px 8px 4px 8px;
+  }
+  .bar{
+    flex:1; display:flex; align-items:flex-end; justify-content:center;
+    border-radius:3px 3px 0 0; background:var(--on); transition:height .12s linear, background .12s linear;
+    position:relative; min-width:0;
+  }
+  .bar span{
+    position:absolute; top:-16px; font-family:'IBM Plex Mono'; font-size:10px; color:var(--text-lo);
+  }
+  .bar.cmp{background:var(--onlogn);}
+  .bar.swap{background:var(--on2);}
+  .bar.sorted{background:var(--o1);}
+  .sort-status{font-size:12px; color:var(--text-lo); font-family:'IBM Plex Mono'; margin-top:8px; display:flex; justify-content:space-between;}
+  .sort-panel details{margin-top:10px; background:var(--surface-2);}
+  .sort-panel pre{margin:0; font-size:12px; max-height:340px; overflow-y:auto;}
+
   /* ===== Footer ===== */
   footer{border-top:1px solid var(--border); margin-top:60px; padding-top:20px; font-size:12.5px; color:var(--text-lo); font-family:'IBM Plex Mono';}
 
@@ -423,6 +475,17 @@
           <tr><td>Bucket Sort</td><td>Distributes values into "buckets" by range, sorts each bucket, then concatenates.</td><td>Keyword "bucket"; grouping by range before sorting</td><td class="lo">varies</td></tr>
           <tr><td>Radix Sort</td><td>Sorts digit by digit, least significant to most significant, using a stable sort each pass.</td><td>Sorting passes keyed on individual digits, not whole-value comparisons</td><td class="mono">O(nk)</td></tr>
         </table>
+
+        <h4 style="margin-top:26px;">Watch Each Algorithm — Animated, Same Input Array</h4>
+        <p class="lo" style="font-size:13.3px;">Every panel below sorts the same starting array <span class="mono">[64, 34, 25, 12, 22, 11, 90, 45, 5, 77]</span> so you can compare how each algorithm moves through it. Amber = comparing · Coral = swapping/writing · Green = settled into final position.</p>
+
+        <div class="speed-control">
+          <span class="speed-control-label">Playback speed</span>
+          <input type="range" id="speedSlider" min="0" max="4" step="1" value="2">
+          <span class="speed-readout" id="speedReadout">1×</span>
+        </div>
+
+        <div id="sortPanels"></div>
       </div>
 
       <div class="topic" id="bigo">
@@ -831,6 +894,447 @@ document.getElementById('nextBtn').addEventListener('click', () => { if (stepIdx
 document.getElementById('prevBtn').addEventListener('click', () => { if (stepIdx > -1) stepIdx--; renderStep(); });
 document.getElementById('resetBtn').addEventListener('click', () => { stepIdx = -1; renderStep(); });
 renderStep();
+
+// ================= Sorting visualizers =================
+const SORT_DATA = [64, 34, 25, 12, 22, 11, 90, 45, 5, 77];
+const SORT_MAX = 100;
+
+function bubbleSortFrames(arr){
+  let a=arr.slice(); let n=a.length; let frames=[]; let sorted=[];
+  for(let i=0;i<n-1;i++){
+    for(let j=0;j<n-1-i;j++){
+      frames.push({arr:a.slice(), compare:[j,j+1], swap:[], sorted:sorted.slice()});
+      if(a[j]>a[j+1]){
+        [a[j],a[j+1]]=[a[j+1],a[j]];
+        frames.push({arr:a.slice(), compare:[], swap:[j,j+1], sorted:sorted.slice()});
+      }
+    }
+    sorted.unshift(n-1-i);
+  }
+  sorted=a.map((_,i)=>i);
+  frames.push({arr:a.slice(), compare:[], swap:[], sorted});
+  return frames;
+}
+function selectionSortFrames(arr){
+  let a=arr.slice(); let n=a.length; let frames=[]; let sortedIdx=[];
+  for(let i=0;i<n-1;i++){
+    let minIdx=i;
+    for(let j=i+1;j<n;j++){
+      frames.push({arr:a.slice(), compare:[minIdx,j], swap:[], sorted:sortedIdx.slice()});
+      if(a[j]<a[minIdx]) minIdx=j;
+    }
+    if(minIdx!==i){
+      [a[i],a[minIdx]]=[a[minIdx],a[i]];
+      frames.push({arr:a.slice(), compare:[], swap:[i,minIdx], sorted:sortedIdx.slice()});
+    }
+    sortedIdx.push(i);
+  }
+  sortedIdx.push(n-1);
+  frames.push({arr:a.slice(), compare:[], swap:[], sorted:sortedIdx.slice()});
+  return frames;
+}
+function insertionSortFrames(arr){
+  let a=arr.slice(); let n=a.length; let frames=[];
+  frames.push({arr:a.slice(), compare:[], swap:[], sorted:[0]});
+  for(let i=1;i<n;i++){
+    let key=a[i]; let j=i-1;
+    frames.push({arr:a.slice(), compare:[i], swap:[], sorted:[]});
+    while(j>=0 && a[j]>key){
+      a[j+1]=a[j];
+      frames.push({arr:a.slice(), compare:[], swap:[j,j+1], sorted:[]});
+      j--;
+    }
+    a[j+1]=key;
+    frames.push({arr:a.slice(), compare:[], swap:[], sorted:[]});
+  }
+  frames.push({arr:a.slice(), compare:[], swap:[], sorted:a.map((_,i)=>i)});
+  return frames;
+}
+function quickSortFrames(arr){
+  let a=arr.slice(); let frames=[]; let sortedSet=new Set();
+  function partition(lo,hi){
+    let pivot=a[hi]; let i=lo-1;
+    for(let j=lo;j<hi;j++){
+      frames.push({arr:a.slice(), compare:[j,hi], swap:[], sorted:[...sortedSet]});
+      if(a[j]<pivot){
+        i++;
+        [a[i],a[j]]=[a[j],a[i]];
+        frames.push({arr:a.slice(), compare:[], swap:[i,j], sorted:[...sortedSet]});
+      }
+    }
+    [a[i+1],a[hi]]=[a[hi],a[i+1]];
+    frames.push({arr:a.slice(), compare:[], swap:[i+1,hi], sorted:[...sortedSet]});
+    return i+1;
+  }
+  function qs(lo,hi){
+    if(lo<hi){
+      let p=partition(lo,hi);
+      sortedSet.add(p);
+      qs(lo,p-1);
+      qs(p+1,hi);
+    } else if(lo===hi){
+      sortedSet.add(lo);
+    }
+  }
+  qs(0,a.length-1);
+  frames.push({arr:a.slice(), compare:[], swap:[], sorted:a.map((_,i)=>i)});
+  return frames;
+}
+function mergeSortFrames(arr){
+  let a=arr.slice(); let frames=[];
+  function merge(lo,mid,hi){
+    let left=a.slice(lo,mid+1); let right=a.slice(mid+1,hi+1);
+    let i=0,j=0,k=lo;
+    while(i<left.length && j<right.length){
+      frames.push({arr:a.slice(), compare:[lo+i, mid+1+j], swap:[], sorted:[]});
+      if(left[i]<=right[j]){ a[k]=left[i]; i++; } else { a[k]=right[j]; j++; }
+      frames.push({arr:a.slice(), compare:[], swap:[k], sorted:[]});
+      k++;
+    }
+    while(i<left.length){ a[k]=left[i]; frames.push({arr:a.slice(), compare:[], swap:[k], sorted:[]}); i++;k++; }
+    while(j<right.length){ a[k]=right[j]; frames.push({arr:a.slice(), compare:[], swap:[k], sorted:[]}); j++;k++; }
+  }
+  function ms(lo,hi){
+    if(lo>=hi) return;
+    let mid=Math.floor((lo+hi)/2);
+    ms(lo,mid); ms(mid+1,hi); merge(lo,mid,hi);
+  }
+  ms(0,a.length-1);
+  frames.push({arr:a.slice(), compare:[], swap:[], sorted:a.map((_,i)=>i)});
+  return frames;
+}
+function heapSortFrames(arr){
+  let a=arr.slice(); let n=a.length; let frames=[];
+  function heapify(size,i){
+    let largest=i,l=2*i+1,r=2*i+2;
+    frames.push({arr:a.slice(), compare:[l<size?l:i, r<size?r:i], swap:[], sorted:[]});
+    if(l<size && a[l]>a[largest]) largest=l;
+    if(r<size && a[r]>a[largest]) largest=r;
+    if(largest!==i){
+      [a[i],a[largest]]=[a[largest],a[i]];
+      frames.push({arr:a.slice(), compare:[], swap:[i,largest], sorted:[]});
+      heapify(size,largest);
+    }
+  }
+  for(let i=Math.floor(n/2)-1;i>=0;i--) heapify(n,i);
+  let sortedIdx=[];
+  for(let i=n-1;i>0;i--){
+    [a[0],a[i]]=[a[i],a[0]];
+    frames.push({arr:a.slice(), compare:[], swap:[0,i], sorted:sortedIdx.slice()});
+    sortedIdx.unshift(i);
+    heapify(i,0);
+  }
+  frames.push({arr:a.slice(), compare:[], swap:[], sorted:a.map((_,i)=>i)});
+  return frames;
+}
+function bucketSortFrames(arr){
+  let a=arr.slice(); let n=a.length; let frames=[];
+  let bucketCount=5;
+  let max=Math.max(...a);
+  let buckets=Array.from({length:bucketCount},()=>[]);
+  for(let i=0;i<n;i++){
+    let idx=Math.min(bucketCount-1, Math.floor((a[i]*bucketCount)/(max+1)));
+    buckets[idx].push(a[i]);
+    frames.push({arr:a.slice(), compare:[i], swap:[], sorted:[]});
+  }
+  let k=0;
+  for(let b=0;b<bucketCount;b++){
+    buckets[b].sort((x,y)=>x-y);
+    for(let v of buckets[b]){
+      a[k]=v; frames.push({arr:a.slice(), compare:[], swap:[k], sorted:[]}); k++;
+    }
+  }
+  frames.push({arr:a.slice(), compare:[], swap:[], sorted:a.map((_,i)=>i)});
+  return frames;
+}
+function radixSortFrames(arr){
+  let a=arr.slice(); let n=a.length; let frames=[];
+  let max=Math.max(...a);
+  let exp=1;
+  while(Math.floor(max/exp)>0){
+    let output=new Array(n).fill(0);
+    let count=new Array(10).fill(0);
+    for(let i=0;i<n;i++) count[Math.floor(a[i]/exp)%10]++;
+    for(let i=1;i<10;i++) count[i]+=count[i-1];
+    for(let i=n-1;i>=0;i--){
+      let digit=Math.floor(a[i]/exp)%10;
+      output[count[digit]-1]=a[i];
+      count[digit]--;
+    }
+    a=output;
+    frames.push({arr:a.slice(), compare:[], swap:[], sorted:[]});
+    exp*=10;
+  }
+  frames.push({arr:a.slice(), compare:[], swap:[], sorted:a.map((_,i)=>i)});
+  return frames;
+}
+
+const PY_CODE = {
+bubble:
+`def bubble_sort(arr):
+    n = len(arr)
+    for i in range(n - 1):
+        swapped = False
+        for j in range(n - 1 - i):
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+                swapped = True
+        if not swapped:
+            break
+    return arr`,
+selection:
+`def selection_sort(arr):
+    n = len(arr)
+    for i in range(n - 1):
+        min_idx = i
+        for j in range(i + 1, n):
+            if arr[j] < arr[min_idx]:
+                min_idx = j
+        arr[i], arr[min_idx] = arr[min_idx], arr[i]
+    return arr`,
+insertion:
+`def insertion_sort(arr):
+    for i in range(1, len(arr)):
+        key = arr[i]
+        j = i - 1
+        while j >= 0 and arr[j] > key:
+            arr[j + 1] = arr[j]
+            j -= 1
+        arr[j + 1] = key
+    return arr`,
+quick:
+`def partition(arr, lo, hi):
+    pivot = arr[hi]
+    i = lo - 1
+    for j in range(lo, hi):
+        if arr[j] < pivot:
+            i += 1
+            arr[i], arr[j] = arr[j], arr[i]
+    arr[i + 1], arr[hi] = arr[hi], arr[i + 1]
+    return i + 1
+
+def quick_sort(arr, lo=0, hi=None):
+    if hi is None:
+        hi = len(arr) - 1
+    if lo < hi:
+        p = partition(arr, lo, hi)
+        quick_sort(arr, lo, p - 1)
+        quick_sort(arr, p + 1, hi)
+    return arr`,
+merge:
+`def merge(left, right):
+    result, i, j = [], 0, 0
+    while i < len(left) and j < len(right):
+        if left[i] <= right[j]:
+            result.append(left[i]); i += 1
+        else:
+            result.append(right[j]); j += 1
+    result.extend(left[i:])
+    result.extend(right[j:])
+    return result
+
+def merge_sort(arr):
+    if len(arr) <= 1:
+        return arr
+    mid = len(arr) // 2
+    left = merge_sort(arr[:mid])
+    right = merge_sort(arr[mid:])
+    return merge(left, right)`,
+heap:
+`def heapify(arr, n, i):
+    largest = i
+    l, r = 2 * i + 1, 2 * i + 2
+    if l < n and arr[l] > arr[largest]:
+        largest = l
+    if r < n and arr[r] > arr[largest]:
+        largest = r
+    if largest != i:
+        arr[i], arr[largest] = arr[largest], arr[i]
+        heapify(arr, n, largest)
+
+def heap_sort(arr):
+    n = len(arr)
+    for i in range(n // 2 - 1, -1, -1):
+        heapify(arr, n, i)
+    for i in range(n - 1, 0, -1):
+        arr[0], arr[i] = arr[i], arr[0]
+        heapify(arr, i, 0)
+    return arr`,
+bucket:
+`def bucket_sort(arr, bucket_count=5):
+    if not arr:
+        return arr
+    max_val = max(arr)
+    buckets = [[] for _ in range(bucket_count)]
+    for x in arr:
+        idx = min(bucket_count - 1, x * bucket_count // (max_val + 1))
+        buckets[idx].append(x)
+    result = []
+    for bucket in buckets:
+        result.extend(sorted(bucket))
+    return result`,
+radix:
+`def counting_sort_by_digit(arr, exp):
+    n = len(arr)
+    output = [0] * n
+    count = [0] * 10
+    for x in arr:
+        count[(x // exp) % 10] += 1
+    for i in range(1, 10):
+        count[i] += count[i - 1]
+    for i in range(n - 1, -1, -1):
+        digit = (arr[i] // exp) % 10
+        output[count[digit] - 1] = arr[i]
+        count[digit] -= 1
+    return output
+
+def radix_sort(arr):
+    if not arr:
+        return arr
+    max_val = max(arr)
+    exp = 1
+    while max_val // exp > 0:
+        arr = counting_sort_by_digit(arr, exp)
+        exp *= 10
+    return arr`
+};
+
+const SORT_ALGOS = [
+  { key:'bubble',    name:'Bubble Sort',    badge:'b-on2',    complexity:'O(n²)',      fn:bubbleSortFrames },
+  { key:'selection', name:'Selection Sort', badge:'b-on2',    complexity:'O(n²)',      fn:selectionSortFrames },
+  { key:'insertion', name:'Insertion Sort', badge:'b-on2',    complexity:'O(n²)',      fn:insertionSortFrames },
+  { key:'quick',     name:'Quick Sort',     badge:'b-on2',    complexity:'O(n²) worst', fn:quickSortFrames },
+  { key:'merge',     name:'Merge Sort',     badge:'b-onlogn', complexity:'O(n log n)', fn:mergeSortFrames },
+  { key:'heap',      name:'Heap Sort',      badge:'b-onlogn', complexity:'O(n log n)', fn:heapSortFrames },
+  { key:'bucket',    name:'Bucket Sort',    badge:'b-on',     complexity:'varies',     fn:bucketSortFrames },
+  { key:'radix',     name:'Radix Sort',     badge:'b-on',     complexity:'O(nk)',      fn:radixSortFrames },
+];
+
+const sortPanelsRoot = document.getElementById('sortPanels');
+
+// ---- global playback speed, shared across every panel ----
+const SPEED_OPTIONS = [
+  { ms: 700, label: '0.25×' },
+  { ms: 380, label: '0.5×' },
+  { ms: 220, label: '1×' },
+  { ms: 110, label: '2×' },
+  { ms: 55,  label: '4×' },
+];
+let currentSpeedIdx = 2; // matches slider default value=2 → 1×
+const activeRestarts = new Set(); // restart() fns for panels currently playing
+
+const speedSlider = document.getElementById('speedSlider');
+const speedReadout = document.getElementById('speedReadout');
+speedReadout.textContent = SPEED_OPTIONS[currentSpeedIdx].label;
+speedSlider.addEventListener('input', () => {
+  currentSpeedIdx = Number(speedSlider.value);
+  speedReadout.textContent = SPEED_OPTIONS[currentSpeedIdx].label;
+  activeRestarts.forEach(restart => restart());
+});
+
+SORT_ALGOS.forEach(algo => {
+  const frames = algo.fn(SORT_DATA);
+
+  const panel = document.createElement('div');
+  panel.className = 'sort-panel';
+  panel.innerHTML = `
+    <div class="sort-panel-head">
+      <h4>${algo.name} <span class="badge ${algo.badge}">${algo.complexity}</span></h4>
+      <div class="sort-controls">
+        <button class="sp-play">▶ Play</button>
+        <button class="sp-step">Step</button>
+        <button class="sp-reset">Reset</button>
+      </div>
+    </div>
+    <div class="bars"></div>
+    <div class="sort-status"><span class="sp-note">Ready.</span><span class="sp-count">0 / ${frames.length - 1}</span></div>
+    <details>
+      <summary>Python implementation</summary>
+      <pre><code class="sp-code"></code></pre>
+    </details>
+  `;
+  sortPanelsRoot.appendChild(panel);
+
+  const barsEl = panel.querySelector('.bars');
+  const noteEl = panel.querySelector('.sp-note');
+  const countEl = panel.querySelector('.sp-count');
+  const codeEl = panel.querySelector('.sp-code');
+  codeEl.textContent = PY_CODE[algo.key];
+
+  // build bar elements once
+  const barEls = SORT_DATA.map(v => {
+    const b = document.createElement('div');
+    b.className = 'bar';
+    const label = document.createElement('span');
+    label.textContent = v;
+    b.appendChild(label);
+    barsEl.appendChild(b);
+    return b;
+  });
+
+  let idx = 0;
+  let timer = null;
+  const playBtn = panel.querySelector('.sp-play');
+
+  function renderFrame(){
+    const f = frames[idx];
+    f.arr.forEach((v, i) => {
+      const el = barEls[i];
+      el.style.height = Math.max(4, (v / SORT_MAX) * 100) + '%';
+      el.querySelector('span').textContent = v;
+      el.classList.remove('cmp','swap','sorted');
+      if (f.sorted && f.sorted.includes(i)) el.classList.add('sorted');
+      if (f.compare && f.compare.includes(i)) el.classList.add('cmp');
+      if (f.swap && f.swap.includes(i)) el.classList.add('swap');
+    });
+    countEl.textContent = `${idx} / ${frames.length - 1}`;
+    noteEl.textContent = idx === frames.length - 1 ? 'Sorted.' : (f.swap && f.swap.length ? 'Writing / swapping…' : (f.compare && f.compare.length ? 'Comparing…' : 'Working…'));
+  }
+
+  function tick(){
+    if (idx >= frames.length - 1) { stop(); return; }
+    idx++;
+    renderFrame();
+  }
+
+  function startTimer(){
+    if (timer) clearInterval(timer);
+    timer = setInterval(tick, SPEED_OPTIONS[currentSpeedIdx].ms);
+  }
+
+  function restart(){
+    // called when the global speed control changes while this panel is playing
+    if (timer) startTimer();
+  }
+
+  function stop(){
+    if (timer) { clearInterval(timer); timer = null; }
+    activeRestarts.delete(restart);
+    playBtn.classList.remove('playing');
+    playBtn.textContent = '▶ Play';
+  }
+
+  playBtn.addEventListener('click', () => {
+    if (timer) { stop(); return; }
+    if (idx >= frames.length - 1) idx = 0;
+    playBtn.classList.add('playing');
+    playBtn.textContent = '⏸ Pause';
+    activeRestarts.add(restart);
+    startTimer();
+  });
+  panel.querySelector('.sp-step').addEventListener('click', () => {
+    stop();
+    if (idx < frames.length - 1) idx++;
+    renderFrame();
+  });
+  panel.querySelector('.sp-reset').addEventListener('click', () => {
+    stop();
+    idx = 0;
+    renderFrame();
+  });
+
+  renderFrame();
+});
 </script>
 </body>
 </html>
