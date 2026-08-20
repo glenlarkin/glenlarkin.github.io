@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C949 — Data Structures &amp; Algorithms Study Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0D1117;
+    --surface:#151B23;
+    --surface-2:#1C242E;
+    --border:#262F3A;
+    --text-hi:#E6EDF3;
+    --text-lo:#8B98A5;
+    --accent:#6EE7DD;
+    --accent-dim:rgba(110,231,221,0.12);
+
+    --o1:#4ADE80;
+    --ologn:#6EE7DD;
+    --on:#60A5FA;
+    --onlogn:#FBBF24;
+    --on2:#FB7185;
+
+    --sidebar-w:280px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text-hi);
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:15.5px;
+    line-height:1.6;
+  }
+  h1,h2,h3,h4{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    letter-spacing:-0.01em;
+    color:var(--text-hi);
+    margin:0 0 .5em 0;
+  }
+  code, .mono{font-family:'IBM Plex Mono', monospace;}
+  a{color:var(--accent);}
+  p{margin:.4em 0 .9em 0; color:var(--text-hi);}
+  .lo{color:var(--text-lo);}
+
+  /* ===== Layout ===== */
+  .app{display:flex; min-height:100vh;}
+  .sidebar{
+    width:var(--sidebar-w);
+    flex-shrink:0;
+    background:var(--surface);
+    border-right:1px solid var(--border);
+    position:sticky;
+    top:0;
+    height:100vh;
+    overflow-y:auto;
+    padding:22px 16px 24px 16px;
+  }
+  .sidebar::-webkit-scrollbar{width:8px;}
+  .sidebar::-webkit-scrollbar-thumb{background:var(--border); border-radius:4px;}
+
+  .brand{
+    display:flex; align-items:center; gap:10px;
+    margin-bottom:18px;
+  }
+  .brand-mark{
+    width:30px;height:30px;border-radius:7px;
+    background:linear-gradient(135deg, var(--accent), var(--on));
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Space Grotesk';font-weight:700;color:#0D1117;font-size:14px;
+    flex-shrink:0;
+  }
+  .brand-title{font-family:'Space Grotesk'; font-weight:600; font-size:15px; line-height:1.2;}
+  .brand-sub{font-size:11px; color:var(--text-lo); font-family:'IBM Plex Mono';}
+
+  .search-wrap{position:relative; margin-bottom:20px;}
+  #search{
+    width:100%;
+    background:var(--surface-2);
+    border:1px solid var(--border);
+    color:var(--text-hi);
+    padding:9px 12px 9px 30px;
+    border-radius:7px;
+    font-size:13px;
+    font-family:'IBM Plex Sans';
+  }
+  #search:focus{outline:1px solid var(--accent); border-color:var(--accent);}
+  .search-icon{position:absolute; left:10px; top:50%; transform:translateY(-50%); color:var(--text-lo); font-size:13px; pointer-events:none;}
+
+  .navgroup{margin-bottom:18px;}
+  .navgroup-head{
+    display:flex; justify-content:space-between; align-items:baseline;
+    font-size:11px; text-transform:uppercase; letter-spacing:.06em;
+    color:var(--text-lo); margin-bottom:6px; padding:0 8px;
+  }
+  .navgroup-weight{
+    font-family:'IBM Plex Mono'; font-size:11px;
+  }
+  .navlink{
+    display:block;
+    padding:6px 8px;
+    border-radius:6px;
+    color:var(--text-hi);
+    text-decoration:none;
+    font-size:13.5px;
+    opacity:.85;
+  }
+  .navlink:hover{background:var(--surface-2); opacity:1;}
+  .navlink.active{background:var(--accent-dim); color:var(--accent); opacity:1;}
+
+  .legend-box{
+    margin-top:10px;
+    border-top:1px solid var(--border);
+    padding-top:14px;
+  }
+  .legend-title{font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--text-lo); margin-bottom:8px;}
+  .legend-row{display:flex; align-items:center; gap:8px; font-size:12px; font-family:'IBM Plex Mono'; margin-bottom:5px; color:var(--text-hi);}
+  .dot{width:9px;height:9px;border-radius:50%; flex-shrink:0;}
+
+  main{flex:1; min-width:0; padding:40px 48px 100px 48px; max-width:920px;}
+
+  /* ===== Hero ===== */
+  .hero{margin-bottom:44px;}
+  .hero-eyebrow{font-family:'IBM Plex Mono'; color:var(--accent); font-size:12.5px; letter-spacing:.08em; text-transform:uppercase; margin-bottom:10px;}
+  .hero h1{font-size:34px; margin-bottom:10px;}
+  .hero p.lede{font-size:16px; color:var(--text-lo); max-width:640px;}
+
+  /* ===== Section chrome ===== */
+  section.competency{margin-bottom:56px; scroll-margin-top:24px;}
+  .comp-head{
+    display:flex; align-items:baseline; gap:12px;
+    border-bottom:1px solid var(--border);
+    padding-bottom:10px; margin-bottom:22px;
+  }
+  .comp-head h2{font-size:22px; margin:0;}
+  .comp-weight{
+    font-family:'IBM Plex Mono'; font-size:12.5px; color:var(--bg);
+    background:var(--accent); padding:2px 8px; border-radius:20px; font-weight:600;
+  }
+  .topic{scroll-margin-top:24px; margin-bottom:28px;}
+  .topic h3{font-size:17px; display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+  .topic h4{font-size:14.5px; color:var(--accent); margin-top:16px;}
+  .chapter-tag{font-family:'IBM Plex Mono'; font-size:11px; color:var(--text-lo); font-weight:400;}
+
+  /* ===== Badges ===== */
+  .badge{
+    display:inline-block;
+    font-family:'IBM Plex Mono'; font-size:11.5px; font-weight:600;
+    padding:2px 8px; border-radius:5px; letter-spacing:.01em;
+    border:1px solid transparent;
+  }
+  .b-o1{color:var(--o1); background:rgba(74,222,128,.12); border-color:rgba(74,222,128,.3);}
+  .b-ologn{color:var(--ologn); background:rgba(110,231,221,.12); border-color:rgba(110,231,221,.3);}
+  .b-on{color:var(--on); background:rgba(96,165,250,.12); border-color:rgba(96,165,250,.3);}
+  .b-onlogn{color:var(--onlogn); background:rgba(251,191,36,.12); border-color:rgba(251,191,36,.3);}
+  .b-on2{color:var(--on2); background:rgba(251,113,133,.12); border-color:rgba(251,113,133,.3);}
+
+  /* ===== Cards / grid ===== */
+  .card-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(255px,1fr)); gap:14px; margin:16px 0;}
+  .card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:16px;
+  }
+  .card h4{margin-top:0; font-size:15px; color:var(--text-hi); display:flex; justify-content:space-between; align-items:center; gap:8px;}
+  .card p{font-size:13.8px; margin:8px 0;}
+  .card .ops{font-size:12.5px; color:var(--text-lo); margin-top:10px;}
+  .card .ops b{color:var(--text-hi); font-weight:500;}
+
+  /* ===== Tables ===== */
+  table{width:100%; border-collapse:collapse; margin:14px 0 22px 0; font-size:13.8px;}
+  th, td{text-align:left; padding:9px 12px; border-bottom:1px solid var(--border); vertical-align:top;}
+  th{background:var(--surface-2); font-family:'Space Grotesk'; font-weight:600; font-size:12.5px; text-transform:uppercase; letter-spacing:.03em; color:var(--text-lo);}
+  tr:last-child td{border-bottom:none;}
+  td:first-child{font-family:'IBM Plex Mono'; color:var(--text-hi); white-space:nowrap;}
+
+  /* ===== Code blocks ===== */
+  pre{
+    background:var(--surface-2);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:14px 16px;
+    overflow-x:auto;
+    font-family:'IBM Plex Mono';
+    font-size:13px;
+    line-height:1.55;
+    color:var(--ologn);
+    margin:10px 0 18px 0;
+  }
+  .comment{color:var(--text-lo);}
+
+  /* ===== Tip callout ===== */
+  .tip{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-left:3px solid var(--accent);
+    border-radius:6px;
+    padding:12px 16px;
+    font-size:13.6px;
+    margin:14px 0;
+  }
+  .tip b{color:var(--accent); font-family:'IBM Plex Mono'; font-size:11.5px; text-transform:uppercase; letter-spacing:.05em;}
+
+  /* ===== Accordion (details) ===== */
+  details{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:8px;
+    margin-bottom:8px;
+    padding:0;
+  }
+  details[open]{border-color:var(--accent);}
+  summary{
+    cursor:pointer;
+    padding:11px 16px;
+    font-family:'Space Grotesk'; font-weight:600; font-size:14px;
+    display:flex; justify-content:space-between; align-items:center;
+    list-style:none;
+  }
+  summary::-webkit-details-marker{display:none;}
+  summary::after{content:"+"; color:var(--accent); font-family:'IBM Plex Mono'; font-size:16px;}
+  details[open] summary::after{content:"–";}
+  .details-body{padding:0 16px 14px 16px; font-size:13.6px;}
+  .details-body div{margin-bottom:5px;}
+  .details-body b{color:var(--accent); font-weight:500;}
+
+  /* ===== Trace stepper (signature) ===== */
+  .stepper{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:22px;
+    margin-top:10px;
+  }
+  .stepper-top{display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px;}
+  .stepper-title{font-family:'IBM Plex Mono'; font-size:12.5px; color:var(--text-lo); text-transform:uppercase; letter-spacing:.06em;}
+  .stepper-controls button{
+    background:var(--surface-2); border:1px solid var(--border); color:var(--text-hi);
+    font-family:'IBM Plex Mono'; font-size:12.5px; padding:7px 14px; border-radius:6px; cursor:pointer; margin-left:8px;
+  }
+  .stepper-controls button:hover{border-color:var(--accent); color:var(--accent);}
+  .stepper-controls button:disabled{opacity:.35; cursor:not-allowed;}
+  .stepper-grid{display:grid; grid-template-columns:1.3fr 1fr; gap:20px;}
+  @media (max-width:640px){.stepper-grid{grid-template-columns:1fr;}}
+  .code-panel pre{margin:0; font-size:12.8px;}
+  .code-panel .ln{display:block; padding:2px 6px; border-radius:4px;}
+  .code-panel .ln.active{background:rgba(110,231,221,.15); color:var(--text-hi);}
+  .watch-panel{background:var(--surface-2); border:1px solid var(--border); border-radius:8px; padding:14px;}
+  .watch-row{display:flex; justify-content:space-between; font-family:'IBM Plex Mono'; font-size:13px; padding:5px 0; border-bottom:1px dashed var(--border);}
+  .watch-row:last-child{border-bottom:none;}
+  .watch-row span:first-child{color:var(--text-lo);}
+  .watch-row span:last-child{color:var(--accent); font-weight:600;}
+  .out-line{font-family:'IBM Plex Mono'; font-size:13px; margin-top:10px; color:var(--text-hi);}
+  .out-line b{color:var(--o1);}
+  .step-note{font-size:13px; color:var(--text-lo); margin-top:12px; min-height:34px;}
+  .progress-dots{display:flex; gap:5px; margin-top:14px;}
+  .progress-dots span{width:7px;height:7px;border-radius:50%; background:var(--border);}
+  .progress-dots span.done{background:var(--accent);}
+
+  /* ===== Big-O growth chart ===== */
+  .chart{display:flex; align-items:flex-end; gap:18px; height:150px; margin:18px 0 6px 0; padding:0 6px;}
+  .chart-bar{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%;}
+  .chart-fill{width:100%; border-radius:5px 5px 0 0; transition:height .4s;}
+  .chart-label{font-family:'IBM Plex Mono'; font-size:11px; margin-top:8px; text-align:center; color:var(--text-lo);}
+  .chart-n{font-family:'IBM Plex Mono'; font-size:10.5px; color:var(--text-lo); margin-top:2px;}
+  .chart-note{font-size:12px; color:var(--text-lo); font-style:italic;}
+
+  /* ===== Footer ===== */
+  footer{border-top:1px solid var(--border); margin-top:60px; padding-top:20px; font-size:12.5px; color:var(--text-lo); font-family:'IBM Plex Mono';}
+
+  /* ===== Mobile ===== */
+  .menu-toggle{display:none;}
+  @media (max-width:880px){
+    .sidebar{position:fixed; left:0; top:0; z-index:50; transform:translateX(-104%); transition:transform .25s ease; box-shadow:0 0 40px rgba(0,0,0,.5);}
+    .sidebar.open{transform:translateX(0);}
+    main{padding:70px 20px 80px 20px;}
+    .menu-toggle{
+      display:flex; position:fixed; top:14px; left:16px; z-index:60;
+      width:38px; height:38px; border-radius:8px; background:var(--surface-2);
+      border:1px solid var(--border); color:var(--text-hi); align-items:center; justify-content:center;
+      cursor:pointer; font-size:16px;
+    }
+  }
+  ::selection{background:var(--accent); color:var(--bg);}
+</style>
+</head>
+<body>
+
+<button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">☰</button>
+
+<div class="app">
+  <nav class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="brand-mark">C9</div>
+      <div>
+        <div class="brand-title">C949v5 Guide</div>
+        <div class="brand-sub">Data Structures &amp; Algorithms I</div>
+      </div>
+    </div>
+
+    <div class="search-wrap">
+      <span class="search-icon">⌕</span>
+      <input id="search" type="text" placeholder="Filter topics…" autocomplete="off">
+    </div>
+
+    <div class="navgroup">
+      <div class="navgroup-head"><span>Explains Algorithms</span><span class="navgroup-weight">29%</span></div>
+      <a class="navlink" href="#explains">Algorithms &amp; classes</a>
+      <a class="navlink" href="#recursion">Recursion</a>
+      <a class="navlink" href="#search-algos">Linear &amp; binary search</a>
+      <a class="navlink" href="#sorting">Sorting algorithms</a>
+      <a class="navlink" href="#bigo">Big O &amp; efficiency</a>
+      <a class="navlink" href="#trace">Trace practice</a>
+    </div>
+
+    <div class="navgroup">
+      <div class="navgroup-head"><span>Data Structure Impact</span><span class="navgroup-weight">31%</span></div>
+      <a class="navlink" href="#structures">Core structures</a>
+      <a class="navlink" href="#pop-behavior">pop() by structure</a>
+      <a class="navlink" href="#traversal">Tree traversal</a>
+      <a class="navlink" href="#hashing">Hashing</a>
+      <a class="navlink" href="#adt-design">ADT design</a>
+    </div>
+
+    <div class="navgroup">
+      <div class="navgroup-head"><span>Applies Algorithms</span><span class="navgroup-weight">40%</span></div>
+      <a class="navlink" href="#programming">Programming basics</a>
+      <a class="navlink" href="#list-methods">List &amp; stack ops</a>
+      <a class="navlink" href="#identify-sort">Identify sorts from code</a>
+    </div>
+
+    <div class="navgroup">
+      <div class="navgroup-head"><span>Reference</span></div>
+      <a class="navlink" href="#adts">Abstract data types</a>
+      <a class="navlink" href="#datatypes">Data types</a>
+      <a class="navlink" href="#concepts">Core concepts</a>
+    </div>
+
+    <div class="legend-box">
+      <div class="legend-title">Big-O key</div>
+      <div class="legend-row"><span class="dot" style="background:var(--o1)"></span> O(1) constant</div>
+      <div class="legend-row"><span class="dot" style="background:var(--ologn)"></span> O(log n) logarithmic</div>
+      <div class="legend-row"><span class="dot" style="background:var(--on)"></span> O(n) linear</div>
+      <div class="legend-row"><span class="dot" style="background:var(--onlogn)"></span> O(n log n)</div>
+      <div class="legend-row"><span class="dot" style="background:var(--on2)"></span> O(n²) quadratic</div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="hero">
+      <div class="hero-eyebrow">WGU · C949v5</div>
+      <h1>Data Structures &amp; Algorithms — Study Guide</h1>
+      <p class="lede">Every topic on the assessment blueprint, explained with worked examples — plus an interactive trace tool for the pseudocode-reading skill the course flags as hardest.</p>
+    </div>
+
+    <!-- ================= EXPLAINS ALGORITHMS ================= -->
+    <section class="competency" id="explains">
+      <div class="comp-head"><h2>Explains Algorithms</h2><span class="comp-weight">29%</span></div>
+
+      <div class="topic">
+        <h3>Introduction to Algorithms <span class="chapter-tag">Ch. 1</span></h3>
+        <p>An algorithm is a finite, well-defined sequence of steps that takes some input and produces a correct output. Judge algorithms on <b>correctness</b> — does it always produce the right answer — and <b>efficiency</b> — how much time and memory it uses as input grows.</p>
+        <div class="tip"><b>Tip</b><br>Review the website links in Chapter 1. Conceptual questions on the exam draw from those linked readings, not just the textbook prose.</div>
+      </div>
+
+      <div class="topic">
+        <h3>Classes <span class="chapter-tag">Ch. 20</span></h3>
+        <p>A class is a blueprint for objects; it bundles data (attributes) with the behavior (methods) that acts on that data. An object is one instance of a class.</p>
+        <div class="card-grid">
+          <div class="card"><h4>Encapsulation</h4><p>Bundling data and methods together, controlling access with private/public visibility.</p></div>
+          <div class="card"><h4>Constructor</h4><p>Special method that runs when an object is created — sets initial attribute values.</p></div>
+          <div class="card"><h4>Instance vs. class variables</h4><p>Instance variables belong to one object; class (static) variables are shared across all instances.</p></div>
+          <div class="card"><h4>this / self</h4><p>Reference inside a method to the specific object the method was called on.</p></div>
+        </div>
+      </div>
+
+      <div class="topic" id="recursion">
+        <h3>Recursive Algorithms <span class="chapter-tag">Ch. 11, 21</span></h3>
+        <p>A recursive algorithm calls itself on a smaller version of the same problem. Every correct recursive function needs two parts:</p>
+        <div class="card-grid">
+          <div class="card"><h4>Base case</h4><p>The smallest version of the problem, solved directly — this stops the recursion.</p></div>
+          <div class="card"><h4>Recursive case</h4><p>Reduces the problem and calls the function again, moving closer to the base case.</p></div>
+        </div>
+        <pre>function factorial(n):
+    if n == 0: return 1              <span class="comment">// base case</span>
+    else: return n * factorial(n-1)  <span class="comment">// recursive case</span></pre>
+        <p>Each call is pushed onto the call stack; once the base case hits, calls resolve ("unwind") in reverse order. A function that never reaches its base case causes infinite recursion and a stack overflow.</p>
+      </div>
+
+      <div class="topic" id="search-algos">
+        <h3>Linear &amp; Binary Search</h3>
+        <div class="card-grid">
+          <div class="card">
+            <h4>Linear Search <span class="chapter-tag">11.1</span></h4>
+            <p>Checks each element in order until it finds the target or reaches the end. Works on sorted or unsorted data.</p>
+            <div class="ops">Best <span class="badge b-o1">O(1)</span> &nbsp; Worst <span class="badge b-on">O(n)</span></div>
+          </div>
+          <div class="card">
+            <h4>Binary Search <span class="chapter-tag">11.2</span></h4>
+            <p>Requires sorted data. Compares target to the middle element and discards the half that can't contain it — repeat.</p>
+            <div class="ops">Worst <span class="badge b-ologn">O(log n)</span></div>
+          </div>
+        </div>
+        <p class="lo">Trace: searching for <b>7</b> in [1,3,5,7,9,11,13] → mid=7, match on the first comparison. Searching for <b>9</b>: mid=7, 9&gt;7 → search right half [9,11,13]; mid=11, 9&lt;11 → search left half [9]; mid=9 → match.</p>
+      </div>
+
+      <div class="topic" id="sorting">
+        <h3>Sorting Algorithms <span class="chapter-tag">Ch. 11</span></h3>
+        <p>You need to both explain how each sort works and recognize it from pseudocode.</p>
+        <table>
+          <tr><th>Algorithm</th><th>How it works</th><th>Recognize it by</th><th>Worst case</th></tr>
+          <tr><td>Bubble Sort</td><td>Repeatedly compares adjacent pairs, swapping if out of order — largest values "bubble" to the end each pass.</td><td>Nested loop with an adjacent swap: arr[i], arr[i+1]</td><td><span class="badge b-on2">O(n²)</span></td></tr>
+          <tr><td>Selection Sort</td><td>Each pass finds the min (or max) of the unsorted portion and swaps it into place at the front.</td><td>Tracks a "min index" while scanning; one swap per outer pass</td><td><span class="badge b-on2">O(n²)</span></td></tr>
+          <tr><td>Insertion Sort</td><td>Builds the sorted list one element at a time, shifting larger elements right to insert in place.</td><td>Shifting elements right inside a while loop — like sorting a hand of cards</td><td><span class="badge b-on2">O(n²)</span></td></tr>
+          <tr><td>Quick Sort</td><td>Picks a pivot, partitions so smaller values are left and larger are right, recursively sorts each side.</td><td>Keywords "pivot" and/or "partition" / "split"</td><td><span class="badge b-on2">O(n²)</span> <span class="lo" style="font-size:11px;">(avg O(n log n))</span></td></tr>
+          <tr><td>Merge Sort</td><td>Recursively splits the array in half until pieces have one element, then merges sorted halves.</td><td>Recursive halving, followed by a merge comparing two sorted lists</td><td><span class="badge b-onlogn">O(n log n)</span></td></tr>
+          <tr><td>Heap Sort</td><td>Builds a max-heap, then repeatedly removes the root (largest) and re-heapifies.</td><td>References to a heap / heapify operation</td><td><span class="badge b-onlogn">O(n log n)</span></td></tr>
+          <tr><td>Bucket Sort</td><td>Distributes values into "buckets" by range, sorts each bucket, then concatenates.</td><td>Keyword "bucket"; grouping by range before sorting</td><td class="lo">varies</td></tr>
+          <tr><td>Radix Sort</td><td>Sorts digit by digit, least significant to most significant, using a stable sort each pass.</td><td>Sorting passes keyed on individual digits, not whole-value comparisons</td><td class="mono">O(nk)</td></tr>
+        </table>
+      </div>
+
+      <div class="topic" id="bigo">
+        <h3>Big O — Time Complexity &amp; Efficiency <span class="chapter-tag">11.7</span></h3>
+        <p>Big O describes how running time (or memory) grows as input size <em>n</em> grows — usually the worst case. Constants and lower-order terms are ignored; what matters is growth <em>rate</em> at scale.</p>
+
+        <div class="chart" id="chart"></div>
+        <p class="chart-note">Illustrative bar heights (not to scale) — operation counts shown for n = 16.</p>
+
+        <table>
+          <tr><th>Big O</th><th>Name</th><th>Example</th></tr>
+          <tr><td><span class="badge b-o1">O(1)</span></td><td>Constant</td><td>Array index access; average-case hash table lookup.</td></tr>
+          <tr><td><span class="badge b-ologn">O(log n)</span></td><td>Logarithmic</td><td>Binary search.</td></tr>
+          <tr><td><span class="badge b-on">O(n)</span></td><td>Linear</td><td>Linear search; a single pass over a list.</td></tr>
+          <tr><td><span class="badge b-onlogn">O(n log n)</span></td><td>Linearithmic</td><td>Merge sort, heap sort.</td></tr>
+          <tr><td><span class="badge b-on2">O(n²)</span></td><td>Quadratic</td><td>Bubble, selection, insertion sort (nested loops over n).</td></tr>
+        </table>
+
+        <p><b>Best case</b> = fewest steps for some input (insertion sort on an already-sorted list: O(n)). <b>Worst case</b> = most steps possible (insertion sort on reverse-sorted data: O(n²)). <b>Average case</b> = expected performance across all inputs. Quicksort's O(n²) above is worst case only — in practice, with good pivot choices, it usually runs closer to O(n log n).</p>
+
+        <details>
+          <summary>Worst-case complexities to memorize</summary>
+          <div class="details-body">
+            <div>Selection Sort <span class="badge b-on2">O(n²)</span></div>
+            <div>Insertion Sort <span class="badge b-on2">O(n²)</span></div>
+            <div>Bubble Sort <span class="badge b-on2">O(n²)</span></div>
+            <div>Quick Sort <span class="badge b-on2">O(n²)</span> worst / O(n log n) average</div>
+            <div>Merge Sort <span class="badge b-onlogn">O(n log n)</span></div>
+            <div>Heap Sort <span class="badge b-onlogn">O(n log n)</span></div>
+            <div>Radix Sort <span class="mono">O(nk)</span> — k = digits in the largest number</div>
+          </div>
+        </details>
+      </div>
+
+      <div class="topic" id="trace">
+        <h3>Trace Practice — Nested Loop Walkthrough</h3>
+        <div class="tip"><b>Tip</b><br>You'll need to read pseudocode cold. Practice writing out steps by hand — one misstep gives you the wrong answer choice. This is the hardest section on the exam.</div>
+
+        <div class="stepper">
+          <div class="stepper-top">
+            <span class="stepper-title">Step through the trace</span>
+            <span class="stepper-controls">
+              <button id="prevBtn">← Prev</button>
+              <button id="nextBtn">Next →</button>
+              <button id="resetBtn">Reset</button>
+            </span>
+          </div>
+          <div class="stepper-grid">
+            <div class="code-panel">
+              <pre id="codeLines"></pre>
+            </div>
+            <div class="watch-panel">
+              <div class="watch-row"><span>i</span><span id="watchI">–</span></div>
+              <div class="watch-row"><span>j</span><span id="watchJ">–</span></div>
+              <div class="watch-row"><span>n</span><span>2</span></div>
+              <div class="out-line">Output: <b id="watchOut">(none yet)</b></div>
+              <div class="step-note" id="stepNote"></div>
+              <div class="progress-dots" id="dots"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= DATA STRUCTURE IMPACT ================= -->
+    <section class="competency" id="structures">
+      <div class="comp-head"><h2>Determines Data Structure Impact</h2><span class="comp-weight">31%</span></div>
+
+      <div class="topic">
+        <h3>Core Structures</h3>
+        <div class="card-grid">
+          <div class="card"><h4>Array <span class="chapter-tag">1.1</span></h4><p>Fixed-size, contiguous memory, zero-based index.</p><div class="ops">Read by index <span class="badge b-o1">O(1)</span> · Insert/delete mid <span class="badge b-on">O(n)</span></div></div>
+          <div class="card"><h4>Linked List <span class="chapter-tag">Ch. 2</span></h4><p>Nodes chained via next (and prev, if doubly linked) pointers.</p><div class="ops">Insert/delete at known node <span class="badge b-o1">O(1)</span> · Traverse to find <span class="badge b-on">O(n)</span></div></div>
+          <div class="card"><h4>Stack <span class="chapter-tag">Ch. 3</span></h4><p>LIFO. push() adds to top; pop() removes top; peek() reads top.</p><div class="ops">All ops <span class="badge b-o1">O(1)</span></div></div>
+          <div class="card"><h4>Queue <span class="chapter-tag">Ch. 3</span></h4><p>FIFO. enqueue() adds to rear; dequeue() removes from front.</p><div class="ops">list.pop(0) is <span class="badge b-on">O(n)</span> — use deque instead</div></div>
+          <div class="card"><h4>Deque <span class="chapter-tag">Ch. 3</span></h4><p>"Double-ended queue" — append/appendleft/pop/popleft at both ends.</p><div class="ops">All ops <span class="badge b-o1">O(1)</span></div></div>
+          <div class="card"><h4>Hash Table <span class="chapter-tag">Ch. 4</span></h4><p>Maps keys to indices via a hash function. Collisions resolved by chaining or open addressing.</p><div class="ops">Avg insert/search/delete <span class="badge b-o1">O(1)</span></div></div>
+          <div class="card"><h4>Tree <span class="chapter-tag">Ch. 4</span></h4><p>Hierarchical nodes with one root. A leaf has no children. Height = longest root-to-leaf path.</p></div>
+          <div class="card"><h4>Heap <span class="chapter-tag">Ch. 7</span></h4><p>Complete binary tree. Max-heap: parent ≥ children. Min-heap: parent ≤ children. Backs priority queues.</p><div class="ops">Insert/remove <span class="badge b-ologn">O(log n)</span></div></div>
+          <div class="card"><h4>Set <span class="chapter-tag">Ch. 8</span></h4><p>Unordered, unique elements. Supports union, intersection, difference.</p></div>
+          <div class="card"><h4>Graph <span class="chapter-tag">Ch. 9</span></h4><p>Vertices connected by edges. Represented via adjacency list (sparse-friendly) or adjacency matrix (fast lookup).</p></div>
+        </div>
+      </div>
+
+      <div class="topic" id="pop-behavior">
+        <h3>.pop() by Structure</h3>
+        <div class="tip"><b>Tip</b><br>Per the pre-assessment, this competency leans heavily on basic stack/queue/dictionary functions — especially <code>.pop()</code> and <code>.push()</code>.</div>
+        <table>
+          <tr><th>Structure</th><th>What .pop() does</th></tr>
+          <tr><td>Stack</td><td>Removes and returns the most recently added (top/last) element — LIFO.</td></tr>
+          <tr><td>Queue</td><td>Removes and returns the front (oldest) element — FIFO. On a plain Python list: <code>pop(0)</code>. With <code>collections.deque</code>: <code>popleft()</code>.</td></tr>
+          <tr><td>Priority Queue</td><td>Removes and returns the highest-priority element. Python's <code>heapq.heappop()</code> returns the smallest value by default (min-heap).</td></tr>
+        </table>
+      </div>
+
+      <div class="topic" id="traversal">
+        <h3>Tree Traversal <span class="chapter-tag">5.7</span></h3>
+        <p>Order of visiting every node in a binary tree — example tree: root <b>5</b>, left child <b>3</b>, right child <b>8</b>.</p>
+        <table>
+          <tr><th>Traversal</th><th>Order</th><th>Result on example</th></tr>
+          <tr><td>Inorder</td><td>Left → Node → Right</td><td>3, 5, 8 <span class="lo">(sorted order for a BST)</span></td></tr>
+          <tr><td>Preorder</td><td>Node → Left → Right</td><td>5, 3, 8</td></tr>
+          <tr><td>Postorder</td><td>Left → Right → Node</td><td>3, 8, 5</td></tr>
+        </table>
+      </div>
+
+      <div class="topic" id="hashing">
+        <h3>Hashing <span class="chapter-tag">4.1</span></h3>
+        <div class="card-grid">
+          <div class="card"><h4>Hashing</h4><p>Running a key through a hash function to produce an integer, mapped to an array index.</p></div>
+          <div class="card"><h4>Chaining</h4><p>Collision handling — each slot holds a small list of all pairs that hashed there.</p></div>
+          <div class="card"><h4>Hash key</h4><p>The resulting index/value produced by hashing a key.</p></div>
+          <div class="card"><h4>Modulo operator</h4><p><code>index = hash(key) % table_size</code>. If table_size=10 and hash(key)=47, then 47 % 10 = <b>7</b> → stored at index 7.</p></div>
+        </div>
+      </div>
+
+      <div class="topic" id="adt-design">
+        <h3>Design of Data Structures</h3>
+        <p><b>ADT characteristics</b> <span class="chapter-tag">1.5, 1.6</span> — an Abstract Data Type defines <em>what</em> operations a structure supports, not <em>how</em> they're implemented. A Stack ADT guarantees push/pop/peek behavior whether it's built on an array or a linked list underneath.</p>
+        <div class="tip"><b>Tip</b><br>Know how each structure compares, inserts, and deletes elements — which support indexing, and which have hierarchy vs. a flat layout.</div>
+        <div class="card-grid">
+          <div class="card"><h4>Linear structures</h4><p>Array, Linked List, Doubly Linked List, Queue, Stack — flat, sequential.</p></div>
+          <div class="card"><h4>Hierarchical structures</h4><p>Binary Tree, Heap — parent/child relationships, height and depth matter.</p></div>
+          <div class="card"><h4>Graph structures</h4><p>Vertices + edges, optionally weighted/directed — no single "flat" order.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= APPLIES ALGORITHMS ================= -->
+    <section class="competency" id="programming">
+      <div class="comp-head"><h2>Applies Algorithms</h2><span class="comp-weight">40%</span></div>
+
+      <div class="topic">
+        <h3>Programming Basics</h3>
+        <details open>
+          <summary>Variable declaration — dynamic vs. static <span class="chapter-tag">18.3</span></summary>
+          <div class="details-body"><p>Static languages (Java, C++) require a fixed type up front: <code>int x = 10;</code>. Dynamic languages (Python) infer type at runtime and allow reassignment to a different type entirely.</p></div>
+        </details>
+        <details>
+          <summary>Assignment operators <span class="chapter-tag">13.1</span></summary>
+          <div class="details-body">
+            <table style="margin:6px 0 0 0;">
+              <tr><td>=</td><td>Assign — <code>x = 5</code></td></tr>
+              <tr><td>+=</td><td>Add &amp; assign — <code>x = x + 5</code></td></tr>
+              <tr><td>-=</td><td>Subtract &amp; assign</td></tr>
+              <tr><td>*=</td><td>Multiply &amp; assign</td></tr>
+              <tr><td>/=</td><td>Divide &amp; assign</td></tr>
+              <tr><td>%=</td><td>Modulo &amp; assign</td></tr>
+            </table>
+          </div>
+        </details>
+        <details>
+          <summary>Order of operations / precedence <span class="chapter-tag">13, 15</span></summary>
+          <div class="details-body"><p>Highest → lowest: parentheses → exponentiation → × / % → + − → comparisons → NOT → AND → OR. Ties resolve left to right.<br><code>2 + 3 * 4</code> → multiplication first → <code>2 + 12 = 14</code>, not 20.</p></div>
+        </details>
+        <details>
+          <summary>Loops <span class="chapter-tag">Ch. 17</span></summary>
+          <div class="details-body">
+            <div><b>for</b> — bounded iteration over a known range or collection.</div>
+            <div><b>while</b> — repeats while a condition holds; count not known in advance.</div>
+            <div><b>do-while</b> — condition checked after the body runs; executes at least once.</div>
+          </div>
+        </details>
+        <details>
+          <summary>Conditionals / branching <span class="chapter-tag">Ch. 15</span></summary>
+          <div class="details-body"><p>if / else if / else chains branch on Boolean expressions; switch/case branches on discrete values of one variable. Only one branch executes per pass.</p></div>
+        </details>
+      </div>
+
+      <div class="topic" id="list-methods">
+        <h3>List, Stack &amp; Deque Operations</h3>
+        <table>
+          <tr><th>Method</th><th>Effect</th></tr>
+          <tr><td>append(x)</td><td>Add to the end <span class="badge b-o1">O(1)</span> amortized.</td></tr>
+          <tr><td>insert(i, x)</td><td>Insert at index i, shifting right <span class="badge b-on">O(n)</span>.</td></tr>
+          <tr><td>remove(x)</td><td>Remove first occurrence of x <span class="badge b-on">O(n)</span>.</td></tr>
+          <tr><td>pop()</td><td>Remove &amp; return last element <span class="badge b-o1">O(1)</span>.</td></tr>
+          <tr><td>pop(i)</td><td>Remove &amp; return element at index i <span class="badge b-on">O(n)</span>.</td></tr>
+          <tr><td>index(x)</td><td>Return index of first occurrence <span class="badge b-on">O(n)</span>.</td></tr>
+        </table>
+        <p><b>Stack</b> <span class="chapter-tag">3.1</span> — push(x)/pop()/peek(), all <span class="badge b-o1">O(1)</span>. <b>Deque</b> <span class="chapter-tag">3.8</span> — append(x)/appendleft(x)/pop()/popleft(), all <span class="badge b-o1">O(1)</span> at both ends.</p>
+      </div>
+
+      <div class="topic" id="identify-sort">
+        <h3>Identify Sorting Algorithms From Code</h3>
+        <div class="card-grid">
+          <div class="card"><h4>Bubble</h4><p>Look for adjacent-element swaps that let the result "bubble" to the top.</p></div>
+          <div class="card"><h4>Bucket</h4><p>Look for values distributed into "buckets" sorted individually.</p></div>
+          <div class="card"><h4>Merge</h4><p>Look for something that continually splits a list in half.</p></div>
+          <div class="card"><h4>Quicksort</h4><p>Look for the keywords "pivot" and/or "split"/"partition".</p></div>
+        </div>
+        <p class="lo">Big-O primer video referenced in course materials: <a href="https://www.youtube.com/watch?v=__vX2sjlpXU" target="_blank" rel="noopener">youtube.com/watch?v=__vX2sjlpXU</a></p>
+      </div>
+    </section>
+
+    <!-- ================= REFERENCE ================= -->
+    <section class="competency" id="adts">
+      <div class="comp-head"><h2>Reference — Abstract Data Types</h2></div>
+      <div class="topic" id="adts-list">
+        <details>
+          <summary>List &amp; Array</summary>
+          <div class="details-body"><div><b>Function:</b> ordered collection, same or mixed types.</div><div><b>Distinctions:</b> ordered, indexable.</div><div><b>Underlying:</b> dynamic array.</div><div><b>Syntax:</b> [] creates a list · append() adds to end · pop() removes &amp; returns last.</div></div>
+        </details>
+        <details>
+          <summary>Tuple</summary>
+          <div class="details-body"><div><b>Function:</b> ordered collection, same or mixed types.</div><div><b>Distinctions:</b> immutable.</div><div><b>Underlying:</b> dynamic array.</div><div><b>Syntax:</b> () creates a tuple · indexing/slicing to access.</div></div>
+        </details>
+        <details>
+          <summary>Stack</summary>
+          <div class="details-body"><div><b>Function:</b> LIFO collection.</div><div><b>Distinctions:</b> add/remove from the top only.</div><div><b>Underlying:</b> dynamic array or linked list.</div><div><b>Syntax:</b> append() adds to top · pop() removes &amp; returns last.</div></div>
+        </details>
+        <details>
+          <summary>Queue</summary>
+          <div class="details-body"><div><b>Function:</b> FIFO collection.</div><div><b>Distinctions:</b> add at rear, remove from front.</div><div><b>Underlying:</b> linked list.</div><div><b>Syntax:</b> append() adds to rear · pop(0) removes &amp; returns first.</div></div>
+        </details>
+        <details>
+          <summary>Deque</summary>
+          <div class="details-body"><div><b>Function:</b> add/remove from both ends.</div><div><b>Distinctions:</b> "double-ended queue".</div><div><b>Underlying:</b> linked list.</div><div><b>Syntax:</b> append()/appendleft()/pop()/popleft().</div></div>
+        </details>
+        <details>
+          <summary>Bag</summary>
+          <div class="details-body"><div><b>Function:</b> unordered collection, duplicates allowed.</div><div><b>Distinctions:</b> order not preserved.</div><div><b>Underlying:</b> hash table.</div><div><b>Syntax:</b> add() · remove().</div></div>
+        </details>
+        <details>
+          <summary>Set</summary>
+          <div class="details-body"><div><b>Function:</b> unordered, unique elements.</div><div><b>Distinctions:</b> no duplicates.</div><div><b>Underlying:</b> hash table.</div><div><b>Syntax:</b> set() · add() · remove().</div></div>
+        </details>
+        <details>
+          <summary>Priority Queue</summary>
+          <div class="details-body"><div><b>Function:</b> elements dequeued by priority.</div><div><b>Distinctions:</b> ordered by priority, not insertion order.</div><div><b>Underlying:</b> heap.</div><div><b>Syntax:</b> heapq module · heappush() · heappop().</div></div>
+        </details>
+        <details>
+          <summary>Dictionary (Map)</summary>
+          <div class="details-body"><div><b>Function:</b> key-value pairs.</div><div><b>Distinctions:</b> keys unique.</div><div><b>Underlying:</b> hash table.</div><div><b>Syntax:</b> {} creates a dict · keys() · values() · items().</div></div>
+        </details>
+      </div>
+    </section>
+
+    <section class="competency" id="datatypes">
+      <div class="comp-head"><h2>Reference — Data Types</h2></div>
+      <div class="topic">
+        <table>
+          <tr><th>Type</th><th>Description</th><th>Java</th><th>Python</th></tr>
+          <tr><td>Boolean</td><td>Two possible values.</td><td>boolean x = true;</td><td>x = True</td></tr>
+          <tr><td>Byte</td><td>8-bit signed two's complement integer.</td><td>byte x = 10;</td><td class="lo">n/a — use int</td></tr>
+          <tr><td>Int</td><td>32-bit signed two's complement integer.</td><td>int x = 10;</td><td>x = 10</td></tr>
+          <tr><td>Char</td><td>Single Unicode character.</td><td>char x = 'a';</td><td>x = 'a'</td></tr>
+          <tr><td>Float</td><td>Single-precision 32-bit floating point.</td><td>float x = 3.14f;</td><td>x = 3.14</td></tr>
+          <tr><td>Double</td><td>Double-precision 64-bit floating point.</td><td>double x = 3.14;</td><td>x = 3.14</td></tr>
+          <tr><td>String</td><td>Sequence of characters.</td><td>String x = "Hello";</td><td>x = "Hello"</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <section class="competency" id="concepts">
+      <div class="comp-head"><h2>Reference — Core Concepts</h2></div>
+      <div class="topic">
+        <details>
+          <summary>Assignment vs. comparison</summary>
+          <div class="details-body"><p><code>=</code> assigns a value; <code>==</code> compares two values. <code>x = 5</code> vs. <code>if (x == 5):</code></p></div>
+        </details>
+        <details>
+          <summary>Garbage collection</summary>
+          <div class="details-body"><p>Automatic reclaiming of memory no longer used. Java's JVM and Python's interpreter both handle this automatically.</p></div>
+        </details>
+        <details>
+          <summary>Reference count</summary>
+          <div class="details-body"><p>How many times an object is referenced. In Python, when an object's reference count hits zero, the garbage collector deletes it.</p></div>
+        </details>
+        <details>
+          <summary>Memory allocation (linked vs. sequential)</summary>
+          <div class="details-body"><p><b>Linked allocation:</b> memory reserved in linked nodes, each pointing to the next (linked lists). <b>Sequential allocation:</b> memory reserved contiguously (arrays).</p></div>
+        </details>
+        <details>
+          <summary>Pointer</summary>
+          <div class="details-body"><p>A variable storing another variable's memory address. C++: <code>int *ptr</code>.</p></div>
+        </details>
+        <details>
+          <summary>Null</summary>
+          <div class="details-body"><p>Represents the absence of a value. In Java, <code>null</code> can be assigned to reference types.</p></div>
+        </details>
+        <details>
+          <summary>Object constructor</summary>
+          <div class="details-body"><p>Special method that initializes a new object; shares the class's name in Java and runs automatically on <code>new</code>.</p></div>
+        </details>
+      </div>
+    </section>
+
+    <footer>
+      C949v5 Study Guide · built for exam prep — trace every algorithm by hand before test day.
+    </footer>
+  </main>
+</div>
+
+<script>
+// ---------- Mobile nav ----------
+const sidebar = document.getElementById('sidebar');
+document.getElementById('menuToggle').addEventListener('click', () => sidebar.classList.toggle('open'));
+document.querySelectorAll('.navlink').forEach(l => l.addEventListener('click', () => sidebar.classList.remove('open')));
+
+// ---------- Active nav highlight ----------
+const navlinks = Array.from(document.querySelectorAll('.navlink'));
+const targets = navlinks.map(l => document.querySelector(l.getAttribute('href'))).filter(Boolean);
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = '#' + entry.target.id;
+      navlinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === id));
+    }
+  });
+}, { rootMargin: '-15% 0px -70% 0px' });
+targets.forEach(t => io.observe(t));
+
+// ---------- Search filter ----------
+const searchInput = document.getElementById('search');
+const topics = Array.from(document.querySelectorAll('.topic'));
+searchInput.addEventListener('input', () => {
+  const q = searchInput.value.trim().toLowerCase();
+  topics.forEach(t => {
+    const match = !q || t.textContent.toLowerCase().includes(q);
+    t.style.display = match ? '' : 'none';
+  });
+  document.querySelectorAll('.competency').forEach(sec => {
+    const anyVisible = Array.from(sec.querySelectorAll('.topic')).some(t => t.style.display !== 'none');
+    const hasTopics = sec.querySelectorAll('.topic').length > 0;
+    sec.style.display = (!hasTopics || anyVisible) ? '' : 'none';
+  });
+});
+
+// ---------- Big-O growth chart ----------
+const chartData = [
+  {label:'O(1)', n:'1', h:5, color:'var(--o1)'},
+  {label:'O(log n)', n:'4', h:15, color:'var(--ologn)'},
+  {label:'O(n)', n:'16', h:40, color:'var(--on)'},
+  {label:'O(n log n)', n:'64', h:65, color:'var(--onlogn)'},
+  {label:'O(n²)', n:'256', h:100, color:'var(--on2)'},
+];
+const chartEl = document.getElementById('chart');
+chartData.forEach(d => {
+  const bar = document.createElement('div');
+  bar.className = 'chart-bar';
+  bar.innerHTML = `<div class="chart-fill" style="height:${d.h}%; background:${d.color};"></div>
+                    <div class="chart-label">${d.label}</div>
+                    <div class="chart-n">n=16 → ${d.n}</div>`;
+  chartEl.appendChild(bar);
+});
+
+// ---------- Trace stepper ----------
+const codeText = [
+  "for i in range(2, 3):        // i = 2",
+  "    for j in range(0, n+1): // n = 2",
+  "        display(j)",
+  "        j += 1",
+  "    // inner loop exits when j > n",
+  "// outer loop exits when i > 2",
+  "// done"
+];
+const steps = [
+  { line:0, i:'2', j:'–', out:'(none yet)', note:'Outer loop begins: i = 2. Condition i ≤ 2 is true → enter loop.' },
+  { line:1, i:'2', j:'0', out:'(none yet)', note:'Inner loop begins: j = 0. Condition j ≤ n(2) is true → enter loop.' },
+  { line:2, i:'2', j:'0', out:'0', note:'display(j) → prints 0.' },
+  { line:3, i:'2', j:'1', out:'0', note:'j increments to 1. Check j ≤ 2 → true, loop continues.' },
+  { line:2, i:'2', j:'1', out:'0, 1', note:'display(j) → prints 1.' },
+  { line:3, i:'2', j:'2', out:'0, 1', note:'j increments to 2. Check j ≤ 2 → true, loop continues.' },
+  { line:2, i:'2', j:'2', out:'0, 1, 2', note:'display(j) → prints 2.' },
+  { line:3, i:'2', j:'3', out:'0, 1, 2', note:'j increments to 3. Check j ≤ 2 → false, EXIT inner loop.' },
+  { line:5, i:'3', j:'3', out:'0, 1, 2', note:'i increments to 3. Check i ≤ 2 → false, EXIT outer loop.' },
+  { line:6, i:'3', j:'3', out:'0, 1, 2 ✅', note:'Done. Final displayed output: 0, 1, 2.' },
+];
+
+const codeLinesEl = document.getElementById('codeLines');
+function renderCode(activeLine) {
+  codeLinesEl.innerHTML = codeText.map((l, idx) =>
+    `<span class="ln${idx === activeLine ? ' active' : ''}">${l.replace(/</g,'&lt;')}</span>`
+  ).join('\n');
+}
+const dotsEl = document.getElementById('dots');
+steps.forEach(() => {
+  const d = document.createElement('span');
+  dotsEl.appendChild(d);
+});
+
+let stepIdx = -1;
+function renderStep() {
+  const dots = dotsEl.querySelectorAll('span');
+  dots.forEach((d, i) => d.classList.toggle('done', i <= stepIdx));
+
+  if (stepIdx === -1) {
+    renderCode(-1);
+    document.getElementById('watchI').textContent = '–';
+    document.getElementById('watchJ').textContent = '–';
+    document.getElementById('watchOut').textContent = '(none yet)';
+    document.getElementById('stepNote').textContent = 'Click "Next" to begin tracing the loop.';
+  } else {
+    const s = steps[stepIdx];
+    renderCode(s.line);
+    document.getElementById('watchI').textContent = s.i;
+    document.getElementById('watchJ').textContent = s.j;
+    document.getElementById('watchOut').textContent = s.out;
+    document.getElementById('stepNote').textContent = s.note;
+  }
+  document.getElementById('prevBtn').disabled = stepIdx <= -1;
+  document.getElementById('nextBtn').disabled = stepIdx >= steps.length - 1;
+}
+document.getElementById('nextBtn').addEventListener('click', () => { if (stepIdx < steps.length-1) stepIdx++; renderStep(); });
+document.getElementById('prevBtn').addEventListener('click', () => { if (stepIdx > -1) stepIdx--; renderStep(); });
+document.getElementById('resetBtn').addEventListener('click', () => { stepIdx = -1; renderStep(); });
+renderStep();
+</script>
+</body>
+</html>
