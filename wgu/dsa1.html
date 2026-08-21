@@ -318,7 +318,9 @@
   .bar.cmp{background:var(--onlogn);}
   .bar.swap{background:var(--on2);}
   .bar.sorted{background:var(--o1);}
-  .sort-status{font-size:12px; color:var(--text-lo); font-family:'IBM Plex Mono'; margin-top:8px; display:flex; justify-content:space-between;}
+  .sort-status{font-size:12px; color:var(--text-lo); font-family:'IBM Plex Mono'; margin-top:8px; display:flex; justify-content:space-between; align-items:flex-start; gap:14px;}
+  .sort-status .sp-note{flex:1; min-width:0; line-height:1.5;}
+  .sort-status .sp-count{flex-shrink:0; white-space:nowrap; padding-top:1px;}
   .sort-panel details{margin-top:10px; background:var(--surface-2);}
   .sort-panel pre{margin:0; font-size:12px; max-height:340px; overflow-y:auto;}
 
@@ -903,67 +905,87 @@ function bubbleSortFrames(arr){
   let a=arr.slice(); let n=a.length; let frames=[]; let sorted=[];
   for(let i=0;i<n-1;i++){
     for(let j=0;j<n-1-i;j++){
-      frames.push({arr:a.slice(), compare:[j,j+1], swap:[], sorted:sorted.slice()});
-      if(a[j]>a[j+1]){
+      const left=a[j], right=a[j+1];
+      const willSwap = left > right;
+      const compareNote = `Compare index ${j} (${left}) and index ${j+1} (${right}) → ${left} ${willSwap ? '>' : '≤'} ${right}, ${willSwap ? 'swap needed' : 'already in order'}`;
+      frames.push({arr:a.slice(), compare:[j,j+1], swap:[], sorted:sorted.slice(), note:compareNote});
+      if(willSwap){
         [a[j],a[j+1]]=[a[j+1],a[j]];
-        frames.push({arr:a.slice(), compare:[], swap:[j,j+1], sorted:sorted.slice()});
+        const swapNote = `${left} > ${right} → move ${left} to index ${j+1}, move ${right} to index ${j}`;
+        frames.push({arr:a.slice(), compare:[], swap:[j,j+1], sorted:sorted.slice(), note:swapNote});
       }
     }
     sorted.unshift(n-1-i);
   }
   sorted=a.map((_,i)=>i);
-  frames.push({arr:a.slice(), compare:[], swap:[], sorted});
+  frames.push({arr:a.slice(), compare:[], swap:[], sorted, note:`Array fully sorted: [${a.join(', ')}]`});
   return frames;
 }
+
 function selectionSortFrames(arr){
   let a=arr.slice(); let n=a.length; let frames=[]; let sortedIdx=[];
   for(let i=0;i<n-1;i++){
     let minIdx=i;
     for(let j=i+1;j<n;j++){
-      frames.push({arr:a.slice(), compare:[minIdx,j], swap:[], sorted:sortedIdx.slice()});
-      if(a[j]<a[minIdx]) minIdx=j;
+      const isNewMin = a[j] < a[minIdx];
+      const note = `Check index ${j} (${a[j]}) vs current minimum index ${minIdx} (${a[minIdx]}) → ${a[j]} ${isNewMin ? '<' : '≥'} ${a[minIdx]}, ${isNewMin ? `new minimum is index ${j}` : `minimum stays at index ${minIdx}`}`;
+      frames.push({arr:a.slice(), compare:[minIdx,j], swap:[], sorted:sortedIdx.slice(), note});
+      if(isNewMin) minIdx=j;
     }
     if(minIdx!==i){
+      const valI=a[i], valMin=a[minIdx];
       [a[i],a[minIdx]]=[a[minIdx],a[i]];
-      frames.push({arr:a.slice(), compare:[], swap:[i,minIdx], sorted:sortedIdx.slice()});
+      const note = `Swap: move ${valMin} from index ${minIdx} to index ${i}, move ${valI} from index ${i} to index ${minIdx}`;
+      frames.push({arr:a.slice(), compare:[], swap:[i,minIdx], sorted:sortedIdx.slice(), note});
     }
     sortedIdx.push(i);
   }
   sortedIdx.push(n-1);
-  frames.push({arr:a.slice(), compare:[], swap:[], sorted:sortedIdx.slice()});
+  frames.push({arr:a.slice(), compare:[], swap:[], sorted:sortedIdx.slice(), note:`Array fully sorted: [${a.join(', ')}]`});
   return frames;
 }
+
 function insertionSortFrames(arr){
   let a=arr.slice(); let n=a.length; let frames=[];
-  frames.push({arr:a.slice(), compare:[], swap:[], sorted:[0]});
+  frames.push({arr:a.slice(), compare:[], swap:[], sorted:[0], note:`Index 0 (${a[0]}) is trivially sorted on its own.`});
   for(let i=1;i<n;i++){
     let key=a[i]; let j=i-1;
-    frames.push({arr:a.slice(), compare:[i], swap:[], sorted:[]});
+    frames.push({arr:a.slice(), compare:[i], swap:[], sorted:[], note:`Start inserting index ${i} (value ${key}) into the sorted portion [0..${i-1}]`});
     while(j>=0 && a[j]>key){
+      const shiftedVal=a[j];
       a[j+1]=a[j];
-      frames.push({arr:a.slice(), compare:[], swap:[j,j+1], sorted:[]});
+      frames.push({arr:a.slice(), compare:[], swap:[j,j+1], sorted:[], note:`${shiftedVal} > ${key} → shift ${shiftedVal} from index ${j} to index ${j+1}`});
       j--;
     }
     a[j+1]=key;
-    frames.push({arr:a.slice(), compare:[], swap:[], sorted:[]});
+    frames.push({arr:a.slice(), compare:[], swap:[], sorted:[], note:`Insert ${key} at index ${j+1}`});
   }
-  frames.push({arr:a.slice(), compare:[], swap:[], sorted:a.map((_,i)=>i)});
+  frames.push({arr:a.slice(), compare:[], swap:[], sorted:a.map((_,i)=>i), note:`Array fully sorted: [${a.join(', ')}]`});
   return frames;
 }
+
 function quickSortFrames(arr){
   let a=arr.slice(); let frames=[]; let sortedSet=new Set();
   function partition(lo,hi){
     let pivot=a[hi]; let i=lo-1;
     for(let j=lo;j<hi;j++){
-      frames.push({arr:a.slice(), compare:[j,hi], swap:[], sorted:[...sortedSet]});
-      if(a[j]<pivot){
+      const belowPivot = a[j] < pivot;
+      const note = `Compare index ${j} (${a[j]}) to pivot ${pivot} (index ${hi}) → ${a[j]} ${belowPivot ? '<' : '≥'} ${pivot}, ${belowPivot ? 'moves into lower partition' : 'stays in upper partition'}`;
+      frames.push({arr:a.slice(), compare:[j,hi], swap:[], sorted:[...sortedSet], note});
+      if(belowPivot){
         i++;
-        [a[i],a[j]]=[a[j],a[i]];
-        frames.push({arr:a.slice(), compare:[], swap:[i,j], sorted:[...sortedSet]});
+        if(i!==j){
+          const valI=a[i], valJ=a[j];
+          [a[i],a[j]]=[a[j],a[i]];
+          frames.push({arr:a.slice(), compare:[], swap:[i,j], sorted:[...sortedSet], note:`Swap: move ${valJ} to index ${i}, move ${valI} to index ${j}`});
+        } else {
+          frames.push({arr:a.slice(), compare:[], swap:[i], sorted:[...sortedSet], note:`${a[i]} already sits at index ${i} in the lower partition — no movement needed`});
+        }
       }
     }
+    const valI1=a[i+1], valHi=a[hi];
     [a[i+1],a[hi]]=[a[hi],a[i+1]];
-    frames.push({arr:a.slice(), compare:[], swap:[i+1,hi], sorted:[...sortedSet]});
+    frames.push({arr:a.slice(), compare:[], swap:[i+1,hi], sorted:[...sortedSet], note:`Place pivot ${valHi}: swap index ${i+1} (${valI1}) and index ${hi} (${valHi}) → pivot now settled at index ${i+1}`});
     return i+1;
   }
   function qs(lo,hi){
@@ -977,22 +999,26 @@ function quickSortFrames(arr){
     }
   }
   qs(0,a.length-1);
-  frames.push({arr:a.slice(), compare:[], swap:[], sorted:a.map((_,i)=>i)});
+  frames.push({arr:a.slice(), compare:[], swap:[], sorted:a.map((_,i)=>i), note:`Array fully sorted: [${a.join(', ')}]`});
   return frames;
 }
+
 function mergeSortFrames(arr){
   let a=arr.slice(); let frames=[];
   function merge(lo,mid,hi){
     let left=a.slice(lo,mid+1); let right=a.slice(mid+1,hi+1);
     let i=0,j=0,k=lo;
     while(i<left.length && j<right.length){
-      frames.push({arr:a.slice(), compare:[lo+i, mid+1+j], swap:[], sorted:[]});
-      if(left[i]<=right[j]){ a[k]=left[i]; i++; } else { a[k]=right[j]; j++; }
-      frames.push({arr:a.slice(), compare:[], swap:[k], sorted:[]});
+      const takeLeft = left[i] <= right[j];
+      const note = `Compare ${left[i]} (from index ${lo+i}) and ${right[j]} (from index ${mid+1+j}) → ${left[i]} ${takeLeft?'≤':'>'} ${right[j]}, take ${takeLeft?left[i]:right[j]} next`;
+      frames.push({arr:a.slice(), compare:[lo+i, mid+1+j], swap:[], sorted:[], note});
+      let val;
+      if(takeLeft){ val=left[i]; a[k]=val; i++; } else { val=right[j]; a[k]=val; j++; }
+      frames.push({arr:a.slice(), compare:[], swap:[k], sorted:[], note:`Write ${val} to index ${k}`});
       k++;
     }
-    while(i<left.length){ a[k]=left[i]; frames.push({arr:a.slice(), compare:[], swap:[k], sorted:[]}); i++;k++; }
-    while(j<right.length){ a[k]=right[j]; frames.push({arr:a.slice(), compare:[], swap:[k], sorted:[]}); j++;k++; }
+    while(i<left.length){ const val=left[i]; a[k]=val; frames.push({arr:a.slice(), compare:[], swap:[k], sorted:[], note:`Copy remaining ${val} to index ${k}`}); i++;k++; }
+    while(j<right.length){ const val=right[j]; a[k]=val; frames.push({arr:a.slice(), compare:[], swap:[k], sorted:[], note:`Copy remaining ${val} to index ${k}`}); j++;k++; }
   }
   function ms(lo,hi){
     if(lo>=hi) return;
@@ -1000,33 +1026,40 @@ function mergeSortFrames(arr){
     ms(lo,mid); ms(mid+1,hi); merge(lo,mid,hi);
   }
   ms(0,a.length-1);
-  frames.push({arr:a.slice(), compare:[], swap:[], sorted:a.map((_,i)=>i)});
+  frames.push({arr:a.slice(), compare:[], swap:[], sorted:a.map((_,i)=>i), note:`Array fully sorted: [${a.join(', ')}]`});
   return frames;
 }
+
 function heapSortFrames(arr){
   let a=arr.slice(); let n=a.length; let frames=[];
   function heapify(size,i){
     let largest=i,l=2*i+1,r=2*i+2;
-    frames.push({arr:a.slice(), compare:[l<size?l:i, r<size?r:i], swap:[], sorted:[]});
+    const parts=[`parent index ${i} (${a[i]})`];
+    if(l<size) parts.push(`left child index ${l} (${a[l]})`);
+    if(r<size) parts.push(`right child index ${r} (${a[r]})`);
+    frames.push({arr:a.slice(), compare:[l<size?l:i, r<size?r:i], swap:[], sorted:[], note:`Heapify: compare ${parts.join(', ')}`});
     if(l<size && a[l]>a[largest]) largest=l;
     if(r<size && a[r]>a[largest]) largest=r;
     if(largest!==i){
+      const valI=a[i], valLargest=a[largest];
       [a[i],a[largest]]=[a[largest],a[i]];
-      frames.push({arr:a.slice(), compare:[], swap:[i,largest], sorted:[]});
+      frames.push({arr:a.slice(), compare:[], swap:[i,largest], sorted:[], note:`${valLargest} > ${valI} → swap index ${i} (${valI}) and index ${largest} (${valLargest})`});
       heapify(size,largest);
     }
   }
   for(let i=Math.floor(n/2)-1;i>=0;i--) heapify(n,i);
   let sortedIdx=[];
   for(let i=n-1;i>0;i--){
+    const valRoot=a[0], valI=a[i];
     [a[0],a[i]]=[a[i],a[0]];
-    frames.push({arr:a.slice(), compare:[], swap:[0,i], sorted:sortedIdx.slice()});
+    frames.push({arr:a.slice(), compare:[], swap:[0,i], sorted:sortedIdx.slice(), note:`Move max ${valRoot} (root) to index ${i}, move ${valI} to root`});
     sortedIdx.unshift(i);
     heapify(i,0);
   }
-  frames.push({arr:a.slice(), compare:[], swap:[], sorted:a.map((_,i)=>i)});
+  frames.push({arr:a.slice(), compare:[], swap:[], sorted:a.map((_,i)=>i), note:`Array fully sorted: [${a.join(', ')}]`});
   return frames;
 }
+
 function bucketSortFrames(arr){
   let a=arr.slice(); let n=a.length; let frames=[];
   let bucketCount=5;
@@ -1035,22 +1068,24 @@ function bucketSortFrames(arr){
   for(let i=0;i<n;i++){
     let idx=Math.min(bucketCount-1, Math.floor((a[i]*bucketCount)/(max+1)));
     buckets[idx].push(a[i]);
-    frames.push({arr:a.slice(), compare:[i], swap:[], sorted:[]});
+    frames.push({arr:a.slice(), compare:[i], swap:[], sorted:[], note:`Place ${a[i]} (index ${i}) into bucket ${idx}`});
   }
   let k=0;
   for(let b=0;b<bucketCount;b++){
     buckets[b].sort((x,y)=>x-y);
     for(let v of buckets[b]){
-      a[k]=v; frames.push({arr:a.slice(), compare:[], swap:[k], sorted:[]}); k++;
+      a[k]=v; frames.push({arr:a.slice(), compare:[], swap:[k], sorted:[], note:`Write ${v} (from sorted bucket ${b}) to index ${k}`}); k++;
     }
   }
-  frames.push({arr:a.slice(), compare:[], swap:[], sorted:a.map((_,i)=>i)});
+  frames.push({arr:a.slice(), compare:[], swap:[], sorted:a.map((_,i)=>i), note:`Array fully sorted: [${a.join(', ')}]`});
   return frames;
 }
+
 function radixSortFrames(arr){
   let a=arr.slice(); let n=a.length; let frames=[];
   let max=Math.max(...a);
   let exp=1;
+  const placeName = e => e===1?'ones':e===10?'tens':e===100?'hundreds':`10^${Math.log10(e)}`;
   while(Math.floor(max/exp)>0){
     let output=new Array(n).fill(0);
     let count=new Array(10).fill(0);
@@ -1062,10 +1097,10 @@ function radixSortFrames(arr){
       count[digit]--;
     }
     a=output;
-    frames.push({arr:a.slice(), compare:[], swap:[], sorted:[]});
+    frames.push({arr:a.slice(), compare:[], swap:[], sorted:[], note:`Redistribute by the ${placeName(exp)} digit → result: [${a.join(', ')}]`});
     exp*=10;
   }
-  frames.push({arr:a.slice(), compare:[], swap:[], sorted:a.map((_,i)=>i)});
+  frames.push({arr:a.slice(), compare:[], swap:[], sorted:a.map((_,i)=>i), note:`Array fully sorted: [${a.join(', ')}]`});
   return frames;
 }
 
@@ -1288,7 +1323,7 @@ SORT_ALGOS.forEach(algo => {
       if (f.swap && f.swap.includes(i)) el.classList.add('swap');
     });
     countEl.textContent = `${idx} / ${frames.length - 1}`;
-    noteEl.textContent = idx === frames.length - 1 ? 'Sorted.' : (f.swap && f.swap.length ? 'Writing / swapping…' : (f.compare && f.compare.length ? 'Comparing…' : 'Working…'));
+    noteEl.textContent = f.note || (idx === frames.length - 1 ? 'Sorted.' : (f.swap && f.swap.length ? 'Writing / swapping…' : (f.compare && f.compare.length ? 'Comparing…' : 'Working…')));
   }
 
   function tick(){
