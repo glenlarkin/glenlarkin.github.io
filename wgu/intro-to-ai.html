@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>D429 Key Terms — Study Guide</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#12141c;
+    --surface:#1b1f2b;
+    --surface-2:#232a3a;
+    --border:#333c52;
+    --text:#e9e7e0;
+    --text-dim:#98a0b5;
+    --accent:#c9a24b;
+    --accent-soft:rgba(201,162,75,.14);
+    --sage:#7f9e83;
+    --rust:#b8694a;
+    --slate:#6c8fae;
+    --plum:#9b7bab;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'IBM Plex Sans', sans-serif;
+    padding:28px 20px 80px;
+  }
+  .wrap{max-width:980px;margin:0 auto;}
+  header{margin-bottom:22px;}
+  h1{
+    font-family:'Source Serif 4', serif;
+    font-weight:700;
+    font-size:2rem;
+    margin:0 0 4px;
+    letter-spacing:.2px;
+  }
+  .subtitle{color:var(--text-dim);font-size:.95rem;margin:0 0 20px;}
+  .toolbar{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    align-items:center;
+    margin-bottom:14px;
+  }
+  #search{
+    flex:1 1 220px;
+    background:var(--surface);
+    border:1px solid var(--border);
+    color:var(--text);
+    padding:10px 14px;
+    border-radius:3px;
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:.92rem;
+  }
+  #search:focus{outline:none;border-color:var(--accent);}
+  .mode-btn{
+    background:var(--surface);
+    border:1px solid var(--border);
+    color:var(--text-dim);
+    padding:10px 16px;
+    border-radius:3px;
+    font-size:.85rem;
+    cursor:pointer;
+    font-family:'IBM Plex Sans',sans-serif;
+    white-space:nowrap;
+  }
+  .mode-btn.active{
+    background:var(--accent-soft);
+    border-color:var(--accent);
+    color:var(--accent);
+  }
+  .cats{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:16px;
+  }
+  .cat-pill{
+    border:1px solid var(--border);
+    background:var(--surface);
+    color:var(--text-dim);
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:.78rem;
+    cursor:pointer;
+    user-select:none;
+  }
+  .cat-pill.active{
+    background:var(--pill-color, var(--accent));
+    border-color:var(--pill-color, var(--accent));
+    color:#12141c;
+    font-weight:600;
+  }
+  .status-line{
+    color:var(--text-dim);
+    font-size:.82rem;
+    margin-bottom:18px;
+    display:flex;
+    justify-content:space-between;
+    border-bottom:1px solid var(--border);
+    padding-bottom:14px;
+  }
+  #grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+    gap:10px;
+  }
+  .card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-left:3px solid var(--cat-color,var(--accent));
+    border-radius:2px;
+    padding:14px 16px;
+    cursor:pointer;
+    transition:background .12s ease;
+  }
+  .card:hover{background:var(--surface-2);}
+  .card.known{opacity:.45;}
+  .card-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:8px;
+  }
+  .term{
+    font-family:'Source Serif 4',serif;
+    font-weight:600;
+    font-size:1.05rem;
+    line-height:1.3;
+  }
+  .cat-tag{
+    font-size:.68rem;
+    color:var(--cat-color,var(--text-dim));
+    white-space:nowrap;
+    font-family:'IBM Plex Mono',monospace;
+  }
+  .def{
+    margin-top:10px;
+    color:var(--text-dim);
+    font-size:.9rem;
+    line-height:1.5;
+    display:none;
+  }
+  .def.show{display:block;}
+  .quiz-hidden .def{display:none !important;}
+  .card-foot{
+    margin-top:10px;
+    display:flex;
+    justify-content:flex-end;
+  }
+  .known-btn{
+    font-size:.72rem;
+    color:var(--text-dim);
+    border:1px solid var(--border);
+    background:transparent;
+    padding:3px 9px;
+    border-radius:3px;
+  }
+  .known-btn.on{
+    color:var(--sage);
+    border-color:var(--sage);
+  }
+  #empty{
+    text-align:center;
+    color:var(--text-dim);
+    padding:40px 0;
+    display:none;
+  }
+  #practice{
+    margin-top:44px;
+    border-top:1px solid var(--border);
+    padding-top:24px;
+  }
+  #practice h2{
+    font-family:'Source Serif 4',serif;
+    font-weight:600;
+    font-size:1.3rem;
+    margin:0 0 6px;
+  }
+  #practice .hint{
+    color:var(--text-dim);
+    font-size:.88rem;
+  }
+  #practice-list{margin-top:16px;}
+  .q-card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:3px;
+    padding:16px 18px;
+    margin-bottom:10px;
+  }
+  .q-text{font-size:.95rem;margin-bottom:10px;}
+  .q-opts{display:flex;flex-direction:column;gap:6px;}
+  .q-opt{
+    text-align:left;
+    background:var(--surface-2);
+    border:1px solid var(--border);
+    color:var(--text);
+    padding:8px 12px;
+    border-radius:3px;
+    font-size:.86rem;
+    cursor:pointer;
+    font-family:'IBM Plex Sans',sans-serif;
+  }
+  .q-opt.correct{border-color:var(--sage);background:rgba(127,158,131,.15);}
+  .q-opt.wrong{border-color:var(--rust);background:rgba(184,105,74,.15);}
+  .q-explain{
+    margin-top:8px;
+    font-size:.82rem;
+    color:var(--text-dim);
+    display:none;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>D429 — Key Terms</h1>
+    <p class="subtitle">Intro to Artificial Intelligence · reference cards + practice questions</p>
+  </header>
+
+  <div class="toolbar">
+    <input id="search" type="text" placeholder="Search terms or definitions…">
+    <button class="mode-btn" id="quizToggle">Hide definitions</button>
+    <button class="mode-btn" id="unknownToggle">Show unmastered only</button>
+  </div>
+
+  <div class="cats" id="cats"></div>
+
+  <div class="status-line">
+    <span id="countLine"></span>
+    <span id="knownLine"></span>
+  </div>
+
+  <div id="grid"></div>
+  <div id="empty">No terms match that search.</div>
+
+  <section id="practice">
+    <h2>Practice Questions</h2>
+    <p class="hint">Send over your sample questions and I'll drop them in here as a graded quiz.</p>
+    <div id="practice-list"></div>
+  </section>
+</div>
+
+<script>
+const CATS = {
+  foundations: {label:'Foundations', color:'#c9a24b'},
+  agents:      {label:'Agents & Environments', color:'#6c8fae'},
+  ethics:      {label:'Ethics & Privacy', color:'#b8694a'},
+  prob:        {label:'Probability & Bayesian', color:'#9b7bab'},
+  nlp:         {label:'NLP', color:'#7f9e83'},
+  vision:      {label:'Computer Vision', color:'#c98a4b'},
+  ml:          {label:'Machine Learning & RL', color:'#4b9ec9'},
+  data:        {label:'Data Types & Quality', color:'#a67c9c'},
+  clean:       {label:'Data Cleaning & Stats', color:'#8aa65a'}
+};
+
+const TERMS = [
+// FOUNDATIONS
+{t:"Artificial Intelligence (AI)", d:"Machine-driven, human-like intelligence and problem-solving systems.", c:"foundations"},
+{t:"Intelligence", d:"The ability to understand, apply knowledge, and solve complex problems.", c:"foundations"},
+{t:"Rationality", d:"The ability to make sound decisions.", c:"foundations"},
+{t:"Turing Test", d:"A thought experiment that decides a computer's ability to respond as a human.", c:"foundations"},
+{t:"Total Turing Test", d:"Evaluates a machine's intelligence by assessing its ability to not only communicate in natural language but also perceive and interact with the physical world and become indistinguishable from a human.", c:"foundations"},
+{t:"Knowledge Representation", d:"The ability to store information.", c:"foundations"},
+{t:"Automated Reasoning", d:"The computer's ability to answer questions and draw new conclusions.", c:"foundations"},
+{t:"Machine Learning (ML)", d:"The field of study that gives computers the ability to learn from data without being explicitly programmed; more broadly, a type of AI where computers learn from data and improve performance over time.", c:"foundations"},
+{t:"Robotics", d:"The ability to manipulate and move objects; the branch of technology dealing with the design, construction, operation, and application of robots.", c:"foundations"},
+{t:"Dualism", d:"Posits the existence of two distinct and independent realities.", c:"foundations"},
+{t:"Empiricism", d:"Emphasizes knowledge acquisition through sensory experiences and observations.", c:"foundations"},
+{t:"Induction", d:"Involves drawing general conclusions from specific observations; figuring out general rules from specific examples.", c:"foundations"},
+{t:"Deduction", d:"Drawing specific conclusions from general rules or facts.", c:"foundations"},
+{t:"AI Observation Sentence", d:"A statement generated by an AI system based on its analysis of data, reflecting the AI's interpretation of observed patterns or trends.", c:"foundations"},
+{t:"Legal Positivism", d:"A theory of laws where rules are created by humans and valid based on legitimate authority.", c:"foundations"},
+{t:"Neural Networks", d:"Computational models inspired by the human brain, consisting of interconnected layers of nodes that process and learn from data to recognize patterns and make predictions.", c:"foundations"},
+{t:"Ethical Artificial Intelligence", d:"Considers that the study and use of AI technologies should follow ethical rules to ensure fairness, transparency, and accountability.", c:"foundations"},
+{t:"Algorithm", d:"A step-by-step procedure or formula for solving a problem, often used in programming and data processing.", c:"foundations"},
+
+// AGENTS & ENVIRONMENTS
+{t:"Agent", d:"Anything that can be viewed as perceiving its environment through sensors.", c:"agents"},
+{t:"Environment", d:"The part that affects what an agent perceives.", c:"agents"},
+{t:"Actuators", d:"A device that causes motion (robotic movement).", c:"agents"},
+{t:"Percept", d:"The content of an agent's sensors.", c:"agents"},
+{t:"Percept Sequence", d:"The history of everything an agent has perceived.", c:"agents"},
+{t:"Agent Function", d:"Maps percept sequence to actions.", c:"agents"},
+{t:"Task Environment", d:"Specific setting or context in which an AI agent operates and performs its designated tasks.", c:"agents"},
+{t:"PEAS", d:"Performance, Environment, Actuators, Sensors.", c:"agents"},
+{t:"Software Agent", d:"A computer program that acts for another user or program in a relationship with an agent.", c:"agents"},
+{t:"Softbot", d:"A program that issues commands within a software environment and interprets feedback.", c:"agents"},
+{t:"Fully Observable", d:"Occurs when sensors detect all aspects that are relevant to the choice of an action.", c:"agents"},
+{t:"Partially Observable", d:"Occurs when parts of a state are missing from sensor data.", c:"agents"},
+{t:"Unobservable", d:"When an agent has no sensors.", c:"agents"},
+{t:"Single Agent", d:"One agent performing a task.", c:"agents"},
+{t:"Multiagent", d:"When two or more agents perform a task together.", c:"agents"},
+{t:"Competitive", d:"Maximizes agent performance measures by avoiding the pitfalls of predictability.", c:"agents"},
+{t:"Cooperative", d:"Allows single-space occupancy.", c:"agents"},
+{t:"Deterministic", d:"When the state of an environment is completely decided by the current state and action executed by an agent.", c:"agents"},
+{t:"Nondeterministic", d:"When certain behaviors are unpredictable or unexpected.", c:"agents"},
+{t:"Stochastic", d:"When the model of an environment explicitly deals with probabilities.", c:"agents"},
+{t:"Episodic", d:"A process where agents do not think ahead but base decisions on current issues.", c:"agents"},
+{t:"Sequential", d:"A concept where decisions affect future decisions.", c:"agents"},
+{t:"Static Environment", d:"An environment that remains unchanged while an agent is deliberating or acting.", c:"agents"},
+{t:"Dynamic Environment", d:"Environments that consistently question agents to make decisions and do nothing until agents make decisions.", c:"agents"},
+{t:"Semi-Dynamic Environment", d:"An environment that does not change with time despite an agent's changing performance score.", c:"agents"},
+{t:"Discrete", d:"A system that models problems that are too large to be continuous.", c:"agents"},
+{t:"Continuous", d:"An environment where performed actions cannot be numbered.", c:"agents"},
+{t:"Known", d:"An environment where the outcome of all actions is provided.", c:"agents"},
+{t:"Unknown", d:"A situation where the AI agent has little or no prior knowledge about the environment it is operating in.", c:"agents"},
+{t:"Environment Class", d:"A category or grouping in programming that encapsulates environmental variables and settings, allowing for the management and configuration of application behavior based on the specific context in which it operates.", c:"agents"},
+{t:"Smart Agent", d:"A software program capable of performing tasks autonomously, learning from its environment, and making decisions or taking actions to achieve specific goals.", c:"agents"},
+{t:"AI Agent", d:"A software entity that perceives its environment, processes information, and takes actions autonomously to achieve a specific objective.", c:"agents"},
+{t:"Learning Agents", d:"The agents that handle making improvements.", c:"agents"},
+{t:"Performance Element", d:"Selects external actions.", c:"agents"},
+{t:"Critic", d:"Decides performance element modifications.", c:"agents"},
+{t:"Problem Generator", d:"Suggests actions that lead to new and informative experiences.", c:"agents"},
+{t:"Reward", d:"Provides direct feedback on the quality of agent behavior.", c:"agents"},
+{t:"Penalty", d:"Provides critical feedback on agent behavior.", c:"agents"},
+{t:"Training Data", d:"A set of examples used to teach a machine learning model, allowing it to learn patterns and make predictions or decisions.", c:"agents"},
+{t:"Operational Data", d:"Information generated during the regular functioning of a system, used for monitoring, managing, and improving ongoing operations.", c:"agents"},
+{t:"Human-Level AI", d:"Commonly referred to as artificial general intelligence (AGI); AI's ability to understand, learn, and perform humanlike tasks.", c:"agents"},
+{t:"Artificial Superintelligence (ASI)", d:"Refers to the future of AI, which could potentially surpass all levels of human intelligence.", c:"agents"},
+{t:"Gorilla Problem", d:"Refers to apprehension about creating superintelligent machines.", c:"agents"},
+{t:"King Midas Problem", d:"Describes a hypothetical scenario or challenge that arises when designing intelligent systems that optimize for a specific objective without considering the broader consequences or trade-offs.", c:"agents"},
+{t:"Assistance Game", d:"Occurs when a machine tries to achieve a human objective.", c:"agents"},
+{t:"Inverse Reinforcement Learning", d:"Occurs when machines learn about human preferences by observing human choices.", c:"agents"},
+
+// ETHICS & PRIVACY
+{t:"AI Ethics", d:"The examination of moral issues related to the development and use of artificial intelligence, including fairness, transparency, and societal impact.", c:"ethics"},
+{t:"Negative Side Effects", d:"The harmful effects that technologies have on the world.", c:"ethics"},
+{t:"Surveillance Cameras", d:"Recording devices that capture movement.", c:"ethics"},
+{t:"Cybersecurity", d:"The practice of protecting computer systems, networks, and digital data from unauthorized access, attacks, damage, or theft.", c:"ethics"},
+{t:"De-identification", d:"The process of removing identifying information.", c:"ethics"},
+{t:"Generalizing Fields", d:"A form of minimizing risks by minimizing information.", c:"ethics"},
+{t:"K-Anonymity", d:"Indistinguishable database.", c:"ethics"},
+{t:"Aggregate Querying", d:"Processes the data from multiple indexed entities to return a single summary value.", c:"ethics"},
+{t:"Differential Privacy", d:"A mathematical framework that ensures the privacy of individuals in a dataset by guaranteeing that including or excluding any single individual's data does not significantly affect analysis outcomes.", c:"ethics"},
+{t:"Federated Learning", d:"Also called collaborative learning; a decentralized approach to training machine learning models that does not require exchanging data from client devices, ensuring privacy.", c:"ethics"},
+{t:"Secure Aggregation", d:"A privacy-preserving technique that allows multiple parties to collaboratively compute an aggregate value (e.g., a sum or average) without revealing their raw data to each other.", c:"ethics"},
+{t:"Sybil", d:"A single entity that creates multiple identities to gain an unfair advantage or manipulate a system, often seen in online platforms and networks.", c:"ethics"},
+{t:"Sybil Attack", d:"Occurs when an attacker creates multiple fake identities or nodes to disrupt or gain control over a network, influencing decisions or overwhelming resources.", c:"ethics"},
+{t:"Existence Uncertainty", d:"Refers to the lack of certainty about whether a particular entity or event exists within a given context or model.", c:"ethics"},
+{t:"Identity Uncertainty", d:"Involves not knowing the identity of an individual or entity, often due to incomplete or ambiguous information.", c:"ethics"},
+{t:"Open-Universe Probability Model (OUPM)", d:"A framework used to handle situations where the set of possible outcomes or entities is not fixed and can change over time as new information is introduced.", c:"ethics"},
+{t:"Data Privacy", d:"Regulatory practices that protect personal data.", c:"ethics"},
+{t:"Data Security", d:"Measures and practices designed to protect digital information from unauthorized access, corruption, or theft.", c:"ethics"},
+{t:"Accountability and Governance", d:"Responsibility for actions and decisions; supported by a framework that ensures ethical conduct and adherence to regulations.", c:"ethics"},
+{t:"Algorithmic Transparency", d:"The practice of making the processes and decision-making criteria of algorithms clear and understandable to users and stakeholders.", c:"ethics"},
+{t:"Compliance Sources", d:"Guidelines, regulations, and standards that organizations refer to in order to ensure their practices meet legal and ethical requirements.", c:"ethics"},
+{t:"Data Bias", d:"A systematic distortion in a dataset that leads to unfair or skewed outcomes in analysis or AI models.", c:"ethics"},
+{t:"Bias in AI", d:"Systematic and unfair discrimination in the outcomes produced by AI systems, often due to biased training data.", c:"ethics"},
+{t:"Autonomous Systems", d:"Systems that can perform tasks without human intervention, often using AI to make decisions.", c:"ethics"},
+
+// PROBABILITY & BAYESIAN
+{t:"Probabilistic Inference", d:"Deduction of probabilities from known data using probabilistic models.", c:"prob"},
+{t:"Bayes' Rule", d:"Also known as Bayes' theorem; uses prior knowledge or beliefs (prior probabilities) with new data or observations to calculate revised probabilities (posterior probabilities).", c:"prob"},
+{t:"Query", d:"A request for information or the probability of an event within a probabilistic model.", c:"prob"},
+{t:"Marginal Probability", d:"The probability of a single event occurring, obtained by summing or integrating over other variables.", c:"prob"},
+{t:"Marginalization", d:"The process of summing or integrating out unneeded variables to compute marginal probabilities.", c:"prob"},
+{t:"Normalization", d:"Adjusting probabilities so that their total sums to one.", c:"prob"},
+{t:"Marginal Independence", d:"When two variables are independent without conditioning on any other variables.", c:"prob"},
+{t:"Conditional Independence", d:"When two variables are independent given the knowledge of a third variable.", c:"prob"},
+{t:"Naive Bayes", d:"A classification algorithm based on Bayes' theorem with strong independence assumptions.", c:"prob"},
+{t:"Naive Bayes Model", d:"Probability distribution model where the effect variables are not strictly independent of the given cause variable.", c:"prob"},
+{t:"Bayesian Classifier", d:"A probabilistic model that classifies data based on Bayes' theorem, using prior knowledge and evidence to predict the likelihood of different outcomes.", c:"prob"},
+{t:"Bayesian Inference", d:"A method of updating the probability of a hypothesis or event based on new evidence or information.", c:"prob"},
+{t:"Number Statement", d:"A statement that provides specific quantitative information, such as a count or measurement, about a particular variable or phenomenon.", c:"prob"},
+{t:"Poisson Distribution", d:"A probability distribution that describes the likelihood of a given number of events occurring within a fixed interval of time or space.", c:"prob"},
+{t:"Discrete Log-Normal Distribution", d:"A probability distribution for a random variable whose logarithm is normally distributed, often used to model phenomena with multiplicative effects, where the variable takes on discrete values.", c:"prob"},
+{t:"Order-of-Magnitude Distribution", d:"Describes the distribution of values based on their scale or size, often using logarithmic scales to analyze data that spans several orders of magnitude.", c:"prob"},
+{t:"Number Variables", d:"Variables that represent quantitative values or counts, as opposed to categorical or qualitative data.", c:"prob"},
+{t:"Random Variables", d:"Variables whose values are subject to randomness or uncertainty, typically used in probability and statistics to model and analyze random processes.", c:"prob"},
+
+// NLP
+{t:"Natural Language Processing (NLP)", d:"A field of AI that focuses on the interaction between computers and human languages, enabling machines to understand, interpret, and generate human language.", c:"nlp"},
+{t:"Generative Program", d:"Software that autonomously creates new content or data, such as text, images, or designs, often using algorithms or AI.", c:"nlp"},
+{t:"Grammar", d:"A collection of rules that specify how phrases can be organized in a structured way, often represented as a tree-like diagram.", c:"nlp"},
+{t:"Semantic Rules", d:"Guidelines that govern how meanings are assigned to phrases and sentences in a language.", c:"nlp"},
+{t:"Language Model", d:"Assigns the probability or likelihood of a string within a bag of words.", c:"nlp"},
+{t:"Bag-of-Words (BoW) Model", d:"Represents text as an unordered collection of words, focusing on word frequency while ignoring word order.", c:"nlp"},
+{t:"Corpus", d:"A collection of authentic text or audio organized into datasets.", c:"nlp"},
+{t:"Tokenization", d:"The process of converting input text into smaller units or tokens, such as words or sub-words.", c:"nlp"},
+{t:"Language", d:"The complete set of sentences that can be constructed by following the rules established by grammar.", c:"nlp"},
+{t:"Syntactic Category", d:"A set of words and/or phrases in a language that share a significant number of common characteristics.", c:"nlp"},
+{t:"Phrase Structure", d:"Rule to describe a language's syntax.", c:"nlp"},
+{t:"Probabilistic Context-Free Grammar", d:"Assigns a probability to the rules.", c:"nlp"},
+{t:"Word Embedding", d:"A dense vector that represents a word's meaning and relationships to other words.", c:"nlp"},
+{t:"One-Hot Encoding", d:"A technique used in machine learning to represent categorical data as binary vectors, where each category becomes a unique vector with a single '1' marking its presence and '0's elsewhere.", c:"nlp"},
+{t:"Recurrent Neural Network (RNN)", d:"A deep learning model that converts sequential data input into sequential data output over multiple time-steps.", c:"nlp"},
+{t:"Feed Forward Neural Network (FFNN)", d:"A type of neural network where information moves only in one direction — from input to output — without loops; used for tasks like image classification where data is not sequential.", c:"nlp"},
+{t:"Bidirectional RNN", d:"Concatenates a separate right-to-left model to the left-to-right model.", c:"nlp"},
+{t:"Long Short-Term Memory (LSTM) Model", d:"An RNN designed to handle long-term dependencies in sequences using gating mechanisms to manage information flow.", c:"nlp"},
+{t:"Sequence-to-Sequence Models", d:"Models that convert one sequence (like a sentence) into another sequence.", c:"nlp"},
+{t:"Decoding", d:"The process of converting encoded data back into its original form.", c:"nlp"},
+{t:"Greedy Decoding", d:"Choosing the most likely next word step-by-step, without considering future options.", c:"nlp"},
+{t:"Beam Search", d:"A heuristic search algorithm that explores a graph by expanding the most promising node in a limited set.", c:"nlp"},
+{t:"Machine Translation (MT)", d:"Translating text from one language to another.", c:"nlp"},
+{t:"Transformer Architecture", d:"Used for translation between different languages using encoding and decoding.", c:"nlp"},
+{t:"Self-Attention", d:"Understand dependencies and relationships within the input sequence.", c:"nlp"},
+{t:"Multiheaded Attention", d:"Using multiple attention mechanisms at once to capture different details in the data.", c:"nlp"},
+{t:"Transformer Encoding", d:"Creating a detailed representation of input data in transformer models.", c:"nlp"},
+{t:"Transformer Decoding", d:"Generating output from an encoded input in transformer models.", c:"nlp"},
+{t:"Pretraining", d:"Training a model on a large dataset before fine-tuning it on a specific, often smaller dataset.", c:"nlp"},
+{t:"Transfer Learning", d:"Using a pre-trained model to help with a new but related task; reusing a model developed for one task as the starting point for a second task.", c:"nlp"},
+
+// COMPUTER VISION
+{t:"Computer Vision", d:"A field of AI that enables computers to interpret and understand visual information from the world, such as images and videos, to make decisions or perform tasks.", c:"vision"},
+{t:"Stimulus", d:"An input or signal received by a system, often referring to sensory information used to trigger a response or reaction.", c:"vision"},
+{t:"Passive Sensing", d:"A method of gathering information from the environment without emitting any signals, such as using a camera to capture images.", c:"vision"},
+{t:"Active Sensing", d:"A method where the system emits signals (like light or sound) and measures the reflections to gather information about the environment.", c:"vision"},
+{t:"Feature", d:"A number obtained by applying simple computations to an image, such as resolution, color, and pixel size.", c:"vision"},
+{t:"Feature Extraction", d:"The process of identifying and isolating important features or attributes from raw data, such as edges or textures in images.", c:"vision"},
+{t:"Mode-Based Approach", d:"A method that relies on predefined models or modes to analyze and interpret data.", c:"vision"},
+{t:"Object Model", d:"A representation of an object that captures its key features and characteristics; used to recognize or analyze objects in images.", c:"vision"},
+{t:"Rendering Model", d:"A framework or algorithm used to generate realistic images or visualizations of objects based on their 3D models and textures.", c:"vision"},
+{t:"Reconstruction", d:"Builds a global model from an image.", c:"vision"},
+{t:"Recognition", d:"Occurs when agents draw distinctions among objects.", c:"vision"},
+{t:"Appearance", d:"The visual characteristics or features of an object as seen in an image or video.", c:"vision"},
+{t:"Convolutional Neural Network (CNN)", d:"A type of neural network designed for processing grid-like data, such as images, by applying convolutional layers to extract features and patterns.", c:"vision"},
+{t:"Dataset Augmentation", d:"Techniques used to artificially expand the size and diversity of a dataset by applying transformations like rotation, scaling, and flipping to the original data.", c:"vision"},
+
+// ML & RL
+{t:"Factored Representation", d:"Breaking down complex data into simpler parts for easier analysis.", c:"ml"},
+{t:"Supervised Learning", d:"Training a model with labeled data, meaning the input data is paired with the correct output, to predict outcomes.", c:"ml"},
+{t:"Unsupervised Learning", d:"Training a model with unlabeled data to find patterns or groupings without guidance.", c:"ml"},
+{t:"Clustering", d:"Grouping similar items together based on their features.", c:"ml"},
+{t:"Reinforcement Learning", d:"Learning by trying actions and getting rewards or penalties to improve decisions, maximizing cumulative reward.", c:"ml"},
+{t:"Semi-Supervised Learning", d:"Using a small amount of labeled data with a lot of unlabeled data to help improve learning.", c:"ml"},
+{t:"Weakly Supervised Learning", d:"Training models with labels that might be wrong or not very precise.", c:"ml"},
+{t:"Unbalanced Classes", d:"When some categories in data have many more examples than others, making it hard for the model to learn equally from all categories.", c:"ml"},
+{t:"Outlier", d:"A data point that is very different from most others and may need special attention.", c:"ml"},
+{t:"Feature Engineering", d:"Using domain knowledge to select, modify, or create features from raw data that enhance the performance of machine learning algorithms.", c:"ml"},
+{t:"Interpretability", d:"How easily people can understand what a model is doing.", c:"ml"},
+{t:"Explainability", d:"Giving clear reasons for why a model made a certain prediction.", c:"ml"},
+{t:"Sparse Rewards", d:"Feedback (rewards) given rarely or in specific situations.", c:"ml"},
+{t:"Model-Based Reinforcement Learning", d:"Using a model of the environment to make decisions; the model can be learned or known.", c:"ml"},
+{t:"Model-Free Reinforcement Learning", d:"Learning from experiences without using a model.", c:"ml"},
+{t:"Action-Utility Learning", d:"Learning the value of actions in different situations; includes Q-learning.", c:"ml"},
+{t:"Q-Learning", d:"A method for learning the value of actions based on expected future rewards.", c:"ml"},
+{t:"Policy Search", d:"Learning a set of rules (policy) for choosing actions.", c:"ml"},
+{t:"Active Reinforcement Learning", d:"Learning both actions and state values through exploration.", c:"ml"},
+{t:"Passive Reinforcement Learning", d:"Learning the value of states or actions with a fixed policy.", c:"ml"},
+{t:"Recursive Feature Elimination", d:"A technique for selecting the most important features by recursively removing less significant ones.", c:"ml"},
+{t:"Deep Learning", d:"A type of machine learning that uses multi-layered neural networks to analyze various factors of data.", c:"ml"},
+{t:"Data Mining", d:"The practice of examining large datasets to uncover patterns, correlations, and insights.", c:"ml"},
+{t:"Expert System", d:"A computer system that emulates the decision-making ability of a human expert.", c:"ml"},
+{t:"Chatbot", d:"A software application designed to simulate conversation with human users, especially over the Internet.", c:"ml"},
+{t:"Generative AI", d:"A type of AI that can create new content, such as images, music, or text, based on learned patterns from existing data.", c:"ml"},
+{t:"Predictive Analytics", d:"The use of statistical algorithms and machine learning techniques to identify the likelihood of future outcomes based on historical data.", c:"ml"},
+
+// DATA TYPES & QUALITY
+{t:"Social Media", d:"Online platforms and applications that enable users to create, share, and interact with content, as well as connect with other people.", c:"data"},
+{t:"Virtual Assistants", d:"Software applications or programs designed to perform tasks or services for users based on voice or text commands.", c:"data"},
+{t:"Structured Data", d:"Used for training machine learning models, as its predictable nature allows algorithms to learn patterns and relationships effectively.", c:"data"},
+{t:"Unstructured Data", d:"Information not arranged according to a preset data model or schema, and therefore cannot be stored in a traditional relational database; text and multimedia are common types.", c:"data"},
+{t:"Semi-Structured Data", d:"A type of data that does not follow a strict schema but still contains some organizational properties that make it easier to analyze than completely unstructured data.", c:"data"},
+{t:"Quasi-Structured Data", d:"Data that does not conform to a rigid structure like traditional structured data but still has some organizational properties; includes textual data such as email headers and log files.", c:"data"},
+{t:"Incomplete Data", d:"Refers to datasets that lack certain values or information necessary for analysis or model training.", c:"data"},
+{t:"Inaccurate Data", d:"Refers to incomplete, misleading, or flawed information that hinders AI performance.", c:"data"},
+{t:"Data Quality", d:"Refers to the condition of a dataset, measuring how well it meets the requirements of its intended use.", c:"data"},
+{t:"Data Quality Metrics", d:"Standardized measures used to assess the quality of data in a dataset.", c:"data"},
+{t:"Data Observability", d:"The practice of monitoring, managing, and maintaining data to ensure its quality, availability, and reliability across processes, systems, and pipelines within an organization.", c:"data"},
+{t:"Data Completeness", d:"Refers to the extent to which all required data is present and available for analysis and modeling.", c:"data"},
+{t:"Data Incompleteness", d:"Refers to data that has a large number of missing and/or messy values.", c:"data"},
+{t:"Uniformity", d:"Reveals when data is presented in standard format or with identical units of measurement.", c:"data"},
+{t:"Industry-Specific Data Sources", d:"Databases, repositories, or systems that provide information relevant to a particular industry or sector.", c:"data"},
+{t:"Kaggle", d:"A platform for data science competitions, datasets, and collaborative projects, offering resources for building and testing machine learning models.", c:"data"},
+{t:"Regulatory Standards", d:"Rules or guidelines established by governments or official bodies to ensure that organizations or industries operate in a safe, fair, and legal manner.", c:"data"},
+{t:"Big Data", d:"Extremely large and complex datasets that are too vast to be processed and analyzed using traditional data management tools and techniques.", c:"data"},
+{t:"Problem Domain", d:"Specific area or field of application for an AI system.", c:"data"},
+{t:"Representation Techniques", d:"Methods for modeling and interpreting data.", c:"data"},
+{t:"Data Structuring", d:"Organizing data into a suitable format for analysis.", c:"data"},
+{t:"Integration", d:"Incorporating representation techniques into the AI system's architecture.", c:"data"},
+{t:"Performance Testing", d:"Evaluating model effectiveness on sample data.", c:"data"},
+{t:"Validation", d:"Ensuring representation meets problem domain requirements.", c:"data"},
+
+// DATA CLEANING & STATS
+{t:"Exploratory Data Analysis (EDA)", d:"The first step in analyzing data to understand its patterns and issues before further processing.", c:"clean"},
+{t:"Descriptive Statistics", d:"Measures like mean, median, and standard deviation that summarize key features of a dataset.", c:"clean"},
+{t:"Data Visualization Techniques", d:"Methods like histograms and scatterplots that use charts and graphs to show data patterns and trends.", c:"clean"},
+{t:"Outliers", d:"Data points that are very different from the others, which can affect analysis, so need to be identified.", c:"clean"},
+{t:"Missing Data and Values", d:"Instances where expected data points are not available, often due to errors or incomplete data collection.", c:"clean"},
+{t:"Pandas", d:"A Python tool used to handle and analyze data easily; used to implement machine learning algorithms, EDA, and descriptive and inferential statistics.", c:"clean"},
+{t:"Matplotlib", d:"A Python tool for creating graphs and charts to visualize data.", c:"clean"},
+{t:"Data Cleaning (Data Cleansing)", d:"The process of identifying and correcting errors and inconsistencies in a dataset to ensure its accuracy and usefulness.", c:"clean"},
+{t:"Data Cleaning Software", d:"Tools used to automate the process of checking and correcting errors in data according to predefined rules.", c:"clean"},
+{t:"Static Columns", d:"Data columns with constant values that provide no variability and are removed during data cleaning.", c:"clean"},
+{t:"Low Variance Columns", d:"Columns with little variation, often removed for minimal impact on predictions.", c:"clean"},
+{t:"Duplicate Records and Duplicate Rows", d:"Repeated entries of the same data in a dataset, which can lead to bias and inefficiencies.", c:"clean"},
+{t:"Imputation", d:"The process of replacing missing data with estimated values, such as the mean or median of the available data.", c:"clean"},
+{t:"Data Management", d:"The practice of organizing and maintaining data to ensure its accuracy and accessibility; includes storage, record management, security, quality management, and data destruction.", c:"clean"},
+{t:"Mean", d:"A measure of central tendency calculated by summing all data points and dividing by the number of points.", c:"clean"},
+{t:"Median", d:"The middle value in a dataset when the numbers are arranged in order.", c:"clean"},
+{t:"Obsolete Data", d:"Information that is outdated or no longer relevant to current operations.", c:"clean"},
+{t:"Data Preprocessing", d:"The process of cleaning, transforming, and organizing raw data into a format suitable for analysis or modeling.", c:"clean"},
+{t:"Scrubbing", d:"The process of cleaning and correcting data to ensure its accuracy and quality.", c:"clean"},
+{t:"Anomaly Detection", d:"The process of identifying data points, patterns, or observations that deviate significantly from the expected behavior or norm within a dataset.", c:"clean"},
+{t:"Anomalies", d:"Data points, observations, or patterns that stand out from the rest of the data because they are significantly different from the expected norm.", c:"clean"},
+{t:"Feature Transformation", d:"Modifying data features to improve their fit for a model, often to address skewness or outliers.", c:"clean"},
+{t:"Histogram", d:"A graphical representation of data distribution, showing the frequency of data points in specified ranges (bins).", c:"clean"},
+{t:"Bins", d:"Intervals or ranges used in a histogram to group data points.", c:"clean"},
+{t:"NumPy", d:"A Python library used for working with arrays, linear algebra, and other mathematical functions.", c:"clean"},
+{t:"Pyplot", d:"A module in the Matplotlib library used for creating static, interactive, and animated visualizations in Python.", c:"clean"},
+{t:"Bimodal Distribution", d:"A distribution with two different peaks or modes.", c:"clean"},
+{t:"Skewness", d:"The asymmetry in the distribution of data, where one tail is longer or fatter than the other.", c:"clean"},
+{t:"Box-Cox Power Transformation", d:"A method used to stabilize variance and make the data into a more normal distribution.", c:"clean"},
+{t:"Transformation", d:"A process that alters each data point in a column in a systematic way to make it more suitable for model use.", c:"clean"},
+{t:"Exponent", d:"The power to which a number is raised in a transformation, determining the extent and direction of the transformation applied to data points.", c:"clean"},
+{t:"Normal Distribution", d:"A symmetrical, bell-shaped distribution of data, which is often the target of transformations.", c:"clean"},
+{t:"Data Transformation", d:"A process that alters data in a systematic way, making it cleaner and more suitable for a model to use.", c:"clean"},
+{t:"Append", d:"Adding additional data columns from another dataset.", c:"clean"},
+{t:"Augment", d:"A data transformation technique that adds columns from related datasets to enhance the existing dataset.", c:"clean"},
+{t:"Delta", d:"A data transformation type where output columns are generated to store the difference (delta) between records.", c:"clean"},
+{t:"Flatten", d:"A transformation that simplifies hierarchical data into a flat, non-hierarchical structure.", c:"clean"},
+{t:"Digest", d:"Provides interactive and visual information on various data items; highly interactive dashboards allow users to drill down and filter for detailed exploration.", c:"clean"},
+{t:"Compute Expression", d:"A transformation type where derived fields are added to a dataset, generated analytically based on existing data or other derived fields.", c:"clean"},
+{t:"Assign", d:"A data transformation rule used to assign new values to input data fields.", c:"clean"},
+{t:"Replace", d:"A rule used to replace existing strings or parts of strings in data fields with new strings.", c:"clean"},
+{t:"Truncate", d:"A rule that shortens data field values that exceed a specified length.", c:"clean"},
+{t:"Binning", d:"Combining data into categories such as ages into bins like 0-10, 11-20, 21-30, 31-40, and so on.", c:"clean"},
+{t:"Dropping Features", d:"Removing features that do not help the model.", c:"clean"},
+{t:"Combine Features", d:"Merging different features into one to make the model simpler.", c:"clean"},
+{t:"Defining Features", d:"The practice of selecting features based on their relevance to the problem being solved.", c:"clean"},
+{t:"Derived Features", d:"Features created from existing data to provide additional insights.", c:"clean"},
+{t:"Text Data", d:"Data from text sources, where techniques like N-gram generation and topic modeling help improve models for tasks like spam detection.", c:"clean"},
+{t:"Interaction Feature", d:"A feature created by combining two or more existing features to enhance model insights.", c:"clean"}
+];
+
+// ---- state ----
+let activeCat = 'all';
+let quizMode = false;
+let unknownOnly = false;
+let knownSet = new Set();
+let query = '';
+
+// build category pills
+const catsEl = document.getElementById('cats');
+function renderPills(){
+  let html = `<div class="cat-pill ${activeCat==='all'?'active':''}" data-cat="all">All (${TERMS.length})</div>`;
+  Object.keys(CATS).forEach(k=>{
+    const count = TERMS.filter(x=>x.c===k).length;
+    html += `<div class="cat-pill ${activeCat===k?'active':''}" data-cat="${k}" style="--pill-color:${CATS[k].color}">${CATS[k].label} (${count})</div>`;
+  });
+  catsEl.innerHTML = html;
+  catsEl.querySelectorAll('.cat-pill').forEach(p=>{
+    p.addEventListener('click', ()=>{ activeCat = p.dataset.cat; renderPills(); renderGrid(); });
+  });
+}
+
+const grid = document.getElementById('grid');
+const emptyEl = document.getElementById('empty');
+const countLine = document.getElementById('countLine');
+const knownLine = document.getElementById('knownLine');
+
+function renderGrid(){
+  let list = TERMS;
+  if(activeCat !== 'all') list = list.filter(x=>x.c===activeCat);
+  if(query.trim()){
+    const q = query.trim().toLowerCase();
+    list = list.filter(x=> x.t.toLowerCase().includes(q) || x.d.toLowerCase().includes(q));
+  }
+  if(unknownOnly) list = list.filter(x=> !knownSet.has(x.t));
+
+  grid.classList.toggle('quiz-hidden', quizMode);
+  emptyEl.style.display = list.length ? 'none':'block';
+
+  grid.innerHTML = list.map(x=>{
+    const cat = CATS[x.c];
+    const isKnown = knownSet.has(x.t);
+    return `<div class="card ${isKnown?'known':''}" style="--cat-color:${cat.color}" data-term="${x.t.replace(/"/g,'&quot;')}">
+      <div class="card-top">
+        <div class="term">${x.t}</div>
+        <div class="cat-tag">${cat.label}</div>
+      </div>
+      <div class="def">${x.d}</div>
+      <div class="card-foot">
+        <button class="known-btn ${isKnown?'on':''}" data-term-btn="${x.t.replace(/"/g,'&quot;')}">${isKnown?'✓ Mastered':'Mark mastered'}</button>
+      </div>
+    </div>`;
+  }).join('');
+
+  countLine.textContent = `${list.length} of ${TERMS.length} terms shown`;
+  knownLine.textContent = `${knownSet.size} mastered`;
+
+  grid.querySelectorAll('.card').forEach(card=>{
+    card.addEventListener('click', (e)=>{
+      if(e.target.closest('.known-btn')) return;
+      const def = card.querySelector('.def');
+      def.classList.toggle('show');
+    });
+  });
+  grid.querySelectorAll('.known-btn').forEach(btn=>{
+    btn.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      const term = btn.dataset.termBtn;
+      if(knownSet.has(term)) knownSet.delete(term); else knownSet.add(term);
+      renderGrid();
+    });
+  });
+}
+
+document.getElementById('search').addEventListener('input', e=>{
+  query = e.target.value;
+  renderGrid();
+});
+document.getElementById('quizToggle').addEventListener('click', e=>{
+  quizMode = !quizMode;
+  e.target.classList.toggle('active', quizMode);
+  e.target.textContent = quizMode ? 'Show definitions' : 'Hide definitions';
+  renderGrid();
+});
+document.getElementById('unknownToggle').addEventListener('click', e=>{
+  unknownOnly = !unknownOnly;
+  e.target.classList.toggle('active', unknownOnly);
+  renderGrid();
+});
+
+renderPills();
+renderGrid();
+
+// ---- practice questions (original, modeled on pre-assessment topic coverage) ----
+const QUESTIONS = [
+{q:"A cleaning robot must decide its next move without any consideration of how that move will limit its options later. Which type of task environment is this?", opts:["Sequential","Episodic","Dynamic","Stochastic"], correct:1, explain:"Episodic environments treat each decision independently, with no effect on future episodes — unlike sequential environments where actions have lasting consequences."},
+{q:"An agent's environment does not change while the agent thinks, but the agent's performance score drops the longer it takes to decide. What kind of environment is this?", opts:["Static","Dynamic","Semi-dynamic","Unobservable"], correct:2, explain:"A semi-dynamic environment stays physically unchanged during deliberation, but the agent's score is still penalized by the passage of time."},
+{q:"Which type of agent maintains an internal model of how the world evolves, even when its sensors can't currently observe every aspect of the state?", opts:["Simple reflex agent","Model-based reflex agent","Utility-based agent","Goal-based agent"], correct:1, explain:"Model-based reflex agents track an internal model of the world to handle partial observability, unlike simple reflex agents which only react to current percepts."},
+{q:"Which field of AI research most directly relies on observing neural activity to understand how humans process information?", opts:["Robotics","Brain imaging / cognitive neuroscience","Natural language processing","Data mining"], correct:1, explain:"Brain imaging techniques let researchers directly observe the brain in action, informing AI approaches modeled on human cognition."},
+{q:"A weather-prediction AI outputs a 70% chance of rain rather than a definite yes/no. What role is probability playing here?", opts:["It guarantees the outcome.","It introduces a measure of uncertainty into the prediction.","It eliminates the need for data.", "It relies purely on intuition."], correct:1, explain:"Probability lets a system express uncertainty about an outcome rather than claiming false certainty."},
+{q:"Before pasting a customer's support ticket into a generative AI tool for a draft response, what is the most important ethical safeguard to apply first?", opts:["Check the server's response time","Remove or mask any personally identifiable information","Verify the AI's programming language","Confirm the ticket is written in English"], correct:1, explain:"De-identifying or anonymizing sensitive personal data before sending it to an AI tool is a core ethical guardrail."},
+{q:"What distinguishes differential privacy from simple de-identification of a dataset?", opts:["It removes names but keeps other identifying details.", "It offers a formal, mathematical guarantee against re-identification even when an attacker combines multiple queries.", "It focuses only on encrypting data in transit.", "It requires no changes to the underlying data."], correct:1, explain:"Differential privacy provides a mathematical guarantee that holds even under repeated querying or linking with other datasets, unlike basic de-identification."},
+{q:"A city deploys an AI tool to flag 'high-risk' neighborhoods for increased police patrols, based on historical arrest data. What is the primary ethical risk?", opts:["The system will run too slowly to be useful.", "Historical bias in the arrest data could be reinforced and amplify discrimination.", "The system cannot process geographic data.", "Officers will no longer need training."], correct:1, explain:"When training data reflects historical bias, a predictive policing system can reinforce and intensify that same discrimination."},
+{q:"Besides autonomous driving, which of the following is commonly cited as a safety-critical domain for AI systems?", opts:["Curating social media feeds", "Medical diagnosis and treatment recommendation", "Recommending music playlists", "Auto-completing search queries"], correct:1, explain:"Medical diagnosis is safety-critical because an incorrect AI recommendation can directly harm a patient."},
+{q:"A student uses an AI writing assistant to summarize a scientific paper, but the summary states a statistic that doesn't appear anywhere in the source. What does this best illustrate?", opts:["The AI is intentionally malicious.", "Generative AI can produce fluent but factually ungrounded ('hallucinated') content.", "The AI has accessed a private database.", "The AI has a virus."], correct:1, explain:"Generative models can produce plausible-sounding but unsupported or fabricated content, distinct from malware or intent."},
+{q:"A knowledge base organizes 'Golden Retriever' under 'Dog' under 'Mammal' under 'Animal.' What AI concept does this hierarchy represent?", opts:["A neural network", "An ontology", "A regression model", "A corpus"], correct:1, explain:"An ontology organizes concepts into a hierarchy of categories and their relationships."},
+{q:"A reasoning system is designed specifically to stay computationally efficient even as its knowledge base grows, trading some expressive power for speed. Which approach best fits this description?", opts:["Existential graphs", "Semantic networks", "Description logics", "Overriding"], correct:2, explain:"Description logics are built to balance expressiveness against tractability, keeping reasoning efficient."},
+{q:"A rover on Mars can't fully sense its surroundings, so it keeps a running estimate of where it likely is and prepares backup plans in case that estimate is wrong. What is this an example of?", opts:["Ignoring uncertainty", "Tracking a belief state and generating a contingency plan", "Relying solely on deterministic outcomes", "Avoiding all risky actions"], correct:1, explain:"Agents facing uncertainty maintain a belief state over possible situations and prepare contingency plans, rather than assuming a single certain outcome."},
+{q:"An agent chooses between two actions by multiplying each possible outcome's utility by its probability and picking the option with the highest total. What decision-theory principle is this?", opts:["Minimax regret", "Maximum expected utility (MEU)", "Naive Bayes classification", "Marginalization"], correct:1, explain:"MEU selects the action that maximizes the probability-weighted (expected) utility across all possible outcomes."},
+{q:"A spam filter represents each email purely by which words appear and how often, ignoring their order entirely. Which model is being used?", opts:["Bag-of-words model", "Sequence-to-sequence model", "Transformer model", "Naive Bayes model"], correct:0, explain:"The bag-of-words model captures word frequency while discarding order — exactly the description given."},
+{q:"In a word-embedding space, which pair of words is most likely to be close together because of a shared topic rather than a shared sentiment?", opts:["\"Happy\" and \"Joyful\"", "\"Ocean\" and \"Tide\"", "\"Terrible\" and \"Awful\"", "\"Excited\" and \"Thrilled\""], correct:1, explain:"'Ocean' and 'Tide' share a subject-matter (topical) relationship, unlike the other pairs which share emotional tone (sentiment)."},
+{q:"Which pair of words in a word-embedding space would most likely be grouped together due to a shared emotional tone rather than subject matter?", opts:["\"Rainy\" and \"Umbrella\"", "\"Furious\" and \"Irritated\"", "\"Guitar\" and \"Concert\"", "\"Doctor\" and \"Hospital\""], correct:1, explain:"'Furious' and 'Irritated' share sentiment (both negative emotions), unlike the other pairs which share a topical domain."},
+{q:"A microphone that records ambient conversation without emitting any signal is an example of which sensing approach?", opts:["Active sensing", "Passive sensing", "Reflexive sensing", "Stochastic sensing"], correct:1, explain:"Passive sensing gathers information without emitting a signal of its own — a microphone recording ambient sound is passive, like a camera capturing daylight."},
+{q:"A doctor uses a patient's test result to update their estimate of the probability the patient has a certain disease. Which concept does this illustrate?", opts:["Marginalization", "Bayes' rule", "Normalization", "K-anonymity"], correct:1, explain:"Bayes' rule updates a prior belief (probability of disease) using new evidence (the test result) to produce a posterior probability."},
+{q:"Which best describes what a naive Bayes classifier does when sorting incoming emails into 'spam' or 'not spam'?", opts:["It creates a 3D visualization of the email text.", "It assigns each email to the class with the highest computed probability given the words present.", "It summarizes each email into a single sentence.", "It removes duplicate emails from the inbox."], correct:1, explain:"Naive Bayes classification assigns an item to whichever class is most probable given the observed features (words), using Bayes' theorem."},
+{q:"A video game gives the player no feedback until they either win or lose the entire match. What kind of reward structure is this?", opts:["Dense rewards", "Sparse rewards", "Continuous rewards", "Immediate rewards"], correct:1, explain:"Feedback given only rarely — like only at the end of a match — is the definition of sparse rewards."},
+{q:"During the problem formulation phase of an ML project, which question is most important to answer before choosing infrastructure or algorithms?", opts:["What cloud provider should we use?", "How will we measure whether the model is successful?", "Which programming language is fastest?", "How much RAM does the server need?"], correct:1, explain:"Problem formulation should start by defining success metrics before infrastructure or algorithm choices are made."},
+{q:"A company runs some ML workloads on its own servers and others in the cloud, giving it flexibility to test sensitive models on-premises. What kind of infrastructure approach is this?", opts:["Fully cloud-based", "Fully on-premises", "Hybrid", "Federated"], correct:2, explain:"A hybrid infrastructure approach combines cloud and on-premises resources, which is what enables on-premises testing capability."},
+{q:"A fraud-detection dataset has 99% legitimate transactions and 1% fraudulent ones. Which technique would help the model pay more attention to the rare fraud cases?", opts:["Deleting all fraudulent examples", "Assigning a higher weight to the fraud class in the loss function", "Using only the legitimate transactions for training", "Ignoring the class imbalance entirely"], correct:1, explain:"A weighted loss function penalizes errors on the minority (fraud) class more heavily, which is a standard fix for unbalanced classes."},
+{q:"Why can a single extreme outlier significantly change the slope and intercept of a fitted linear regression line?", opts:["Linear regression automatically excludes outliers.", "Linear regression minimizes squared error, so large deviations have an outsized influence on every parameter.", "Outliers only affect the model's speed, not its parameters.", "Linear regression treats outliers as missing data."], correct:1, explain:"Because linear regression minimizes squared error, a single large deviation contributes disproportionately to the fit and can shift all parameters."},
+{q:"A dataset of job applicants has self-reported years of experience that are sometimes rounded or approximated. What kind of learning problem does this best describe?", opts:["Supervised learning", "Weakly supervised learning", "Unsupervised learning", "Active reinforcement learning"], correct:1, explain:"Labels that exist but may be imprecise or approximate (like rounded self-reported experience) describe a weakly supervised learning setting."},
+{q:"Researchers observe experienced chess players' move choices to build a model of what they value in a position, without being told the rules explicitly. What technique does this describe?", opts:["Supervised classification", "Inverse reinforcement learning", "Unsupervised clustering", "Federated learning"], correct:1, explain:"Inverse reinforcement learning infers the underlying reward or preferences behind observed behavior, as with inferring what expert players value."},
+{q:"A delivery robot learns to slow down whenever its camera detects a pedestrian stepping into its path, by observing many past instances of that pattern. What is being learned?", opts:["A condition-action rule", "A grammar", "A marginal probability", "An ontology"], correct:0, explain:"Associating a sensed condition (pedestrian detected) with an action (slow down) is exactly what a condition-action rule captures."},
+{q:"An analyst wants to predict a continuous numeric value, like next month's sales revenue, from several input features. Which type of model is appropriate?", opts:["Classification", "Regression", "Clustering", "Reinforcement learning"], correct:1, explain:"Regression predicts continuous numeric outputs, unlike classification (discrete categories) or clustering (unlabeled groupings)."},
+{q:"A hospital has a large set of X-ray images, each already labeled by radiologists as 'normal' or 'abnormal.' Which learning approach fits this scenario?", opts:["Unsupervised learning", "Supervised learning", "Semi-dynamic learning", "Federated learning"], correct:1, explain:"Labeled input-output pairs (image plus diagnosis label) are the hallmark of supervised learning."},
+{q:"Why does feeding a model inaccurate or noisy training examples typically hurt its performance more than a smaller but clean dataset would?", opts:["The model learns patterns from whatever examples it sees, including bad ones.", "More data always improves a model regardless of quality.", "Noisy data speeds up training time.", "Inaccurate data has no effect on model output."], correct:0, explain:"Because models learn directly from their training examples, noisy or inaccurate examples teach the model the wrong patterns."},
+{q:"Sensor logs, audio recordings, and social media posts are all considered which type of data?", opts:["Structured data", "Semi-structured data", "Unstructured data", "Quasi-structured data"], correct:2, explain:"None of these fit a preset schema, making them classic unstructured data — one of today's most abundant categories."},
+{q:"A dataset has entries where 'state' is sometimes written as 'CA' and sometimes as 'California.' Which data quality dimension does this problem affect most directly?", opts:["Completeness", "Consistency", "Timeliness", "Uniqueness"], correct:1, explain:"Representing the same fact in different formats across records is a consistency problem, distinct from missing values (completeness)."},
+{q:"A retail dataset is missing purchase-date values for 15% of its rows. Which data quality issue does this represent?", opts:["Inaccurate data", "Incomplete data", "Duplicate data", "Obsolete data"], correct:1, explain:"Values that are simply absent describe incomplete data, as opposed to inaccurate data where values are present but wrong."},
+{q:"A data science team building an image classifier for defect detection would most likely rely on which type of data and library?", opts:["Structured data and SQL", "Unstructured image data and a deep learning framework like PyTorch or TensorFlow", "Semi-structured logs and Pandas", "Tabular sales data and NumPy"], correct:1, explain:"Image classification works on unstructured image data, typically processed with a deep learning framework such as PyTorch or TensorFlow."},
+{q:"An IT team tracks how much storage their data lake consumes each month and how that cost changes as more raw data is ingested. What are they monitoring?", opts:["Data storage expense", "Data-to-error ratio", "Transformation error frequency", "Time to value"], correct:0, explain:"Tracking storage volume against cost over time is monitoring data storage expense."},
+{q:"An insurance company keeps policyholder and claims records in relational tables with well-defined fields. What kind of data is this?", opts:["Unstructured data", "Structured data", "Quasi-structured data", "Semi-structured data"], correct:1, explain:"Well-defined fields in relational tables are the definition of structured data, common across finance and insurance industries."},
+{q:"Which Kaggle feature is specifically designed to let data scientists practice new techniques on real datasets against other participants?", opts:["Discussion forums", "Competitions", "User profiles", "Notebooks version history"], correct:1, explain:"Kaggle competitions are the platform's mechanism for practicing techniques against real data and comparing results with other participants."},
+{q:"On Kaggle, publicly shared notebooks that walk through another competitor's approach primarily support which outcome?", opts:["Preventing plagiarism", "Collaborative learning through shared strategies", "Reducing dataset size", "Enforcing a single correct solution"], correct:1, explain:"Publicly shared notebooks let competitors learn from and build on each other's strategies, driving collaborative learning."},
+{q:"A loan-approval AI system's decision process needs to be explainable to regulators and applicants alike. Which principle addresses this directly?", opts:["Data security", "Algorithmic transparency", "Data privacy", "Federated learning"], correct:1, explain:"Algorithmic transparency is specifically about making an algorithm's decision-making criteria clear and understandable to stakeholders."},
+{q:"A dataset contains free-text comments, some of which are clearly off-topic spam unrelated to the survey. What is the recommended way to remove them during cleaning?", opts:["Delete every comment under a certain length automatically", "Have an analyst manually review and remove the irrelevant comments", "Leave them in since they won't affect the analysis", "Replace them with the average comment length"], correct:1, explain:"Because relevance is context-dependent, manual review is the safer approach compared to automatic or blanket removal rules."},
+{q:"A dataset feature ranges from 0 to 1,000,000 while another ranges from 0 to 1. Before training a distance-based model, which technique would put both features on a comparable scale with mean 0 and standard deviation 1?", opts:["One-hot encoding", "Z-score standardization", "Binning", "Tokenization"], correct:1, explain:"Z-score standardization rescales any feature to have a mean of 0 and a standard deviation of 1, making differently scaled features comparable."},
+{q:"A data science team first tests their pipeline on a 1,000-row sample before running it on the full 10-million-row dataset. What is the main benefit of this approach?", opts:["It guarantees the final model will be perfectly accurate.", "It lets the team iterate and catch problems faster before committing to the full run.", "It eliminates the need for data cleaning.", "It automatically converts unstructured data to structured data."], correct:1, explain:"Testing on a smaller subset first speeds up each iteration, letting teams catch problems before the costly full-scale run."},
+{q:"Two datasets both describe the same event, but one contains obviously fabricated numbers alongside real ones. Which 'V' of big data does this problem primarily affect?", opts:["Volume", "Velocity", "Variety", "Veracity"], correct:3, explain:"Veracity concerns the trustworthiness and quality of the data; fabricated or unreliable values are a veracity problem, not one of volume, speed, or variety."},
+{q:"A feature representing 'income' is heavily right-skewed, with most values clustered low and a few extremely high outliers. If left untransformed, what is the most likely consequence for a model trained on it?", opts:["The model will be unaffected since skew doesn't matter.", "Predictions may be biased toward the dense, low-income region.", "The model will automatically become more accurate.", "The feature will be dropped by the algorithm."], correct:1, explain:"Skewed, untransformed features can cause a model's predictions to be biased toward wherever most of the data is concentrated."},
+{q:"After applying a log transformation to a skewed feature, the resulting histogram looks much more symmetric and bell-shaped. What does this suggest?", opts:["The transformation harmed the data's usefulness.", "The transformation likely improved the feature's suitability for modeling.", "The original data had no skew to begin with.", "The transformation increased the number of outliers."], correct:1, explain:"A more symmetric, bell-shaped distribution after transformation is generally a sign that the transformation helped the feature better fit model assumptions."},
+{q:"If a Box-Cox transformation uses an exponent of 2 instead of 1/2, what operation does that exponent represent?", opts:["Taking the square root of each value", "Squaring each value", "Taking the reciprocal of each value", "Taking the natural log of each value"], correct:1, explain:"Raising each value to the power of 2 is squaring it, the same logic by which an exponent of 1/2 represents a square root."},
+{q:"Which Python library would you reach for specifically to generate the histogram or scatterplot itself, once your data is already loaded into a DataFrame?", opts:["NumPy", "Matplotlib's pyplot module", "Pandas' read_csv function", "Scikit-learn's train_test_split"], correct:1, explain:"Pyplot, part of Matplotlib, is the module used to actually generate visualizations like histograms and scatterplots."},
+{q:"An analyst converts an 'age' column into the categories '0-18', '19-35', '36-60', and '60+.' Which feature engineering technique is this?", opts:["One-hot encoding", "Binning", "Feature combination", "Feature dropping"], correct:1, explain:"Grouping a continuous numeric variable into discrete ranges or categories is the definition of binning."},
+{q:"A dataset of delivery times has a few extremely long outlier deliveries. Which descriptive statistic would be least affected by those outliers when summarizing typical delivery time?", opts:["Mean", "Range", "Median", "Variance"], correct:2, explain:"The median, as the middle value, is far less sensitive to extreme outliers than the mean, range, or variance."}
+];
+function renderQuestions(){
+  const el = document.getElementById('practice-list');
+  if(!QUESTIONS.length){ return; }
+  el.innerHTML = QUESTIONS.map((q,i)=>`
+    <div class="q-card">
+      <div class="q-text">${i+1}. ${q.q}</div>
+      <div class="q-opts">
+        ${q.opts.map((o,j)=>`<button class="q-opt" data-qi="${i}" data-oi="${j}">${o}</button>`).join('')}
+      </div>
+      <div class="q-explain" id="explain-${i}">${q.explain||''}</div>
+    </div>`).join('');
+  el.querySelectorAll('.q-opt').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const qi = +btn.dataset.qi, oi = +btn.dataset.oi;
+      const group = el.querySelectorAll(`.q-opt[data-qi="${qi}"]`);
+      group.forEach(b=>b.disabled = true);
+      group[QUESTIONS[qi].correct].classList.add('correct');
+      if(oi !== QUESTIONS[qi].correct) btn.classList.add('wrong');
+      document.getElementById(`explain-${qi}`).style.display = 'block';
+    });
+  });
+}
+renderQuestions();
+</script>
+</body>
+</html>
