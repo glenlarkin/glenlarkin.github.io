@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Diabetic Readmission Analysis | Glen Larkin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #334155; overflow-x: hidden; padding-top: 5rem; }
+    html { scroll-behavior: smooth; }
+    header {
+      position: fixed; top: 0; width: 100%; z-index: 999;
+      background-image: linear-gradient(to right, #2563eb, #4338ca, #2563eb);
+      background-size: 200% 100%;
+      animation: smooth-color-cycle 3s linear infinite alternate;
+    }
+    @keyframes smooth-color-cycle {
+      0%   { background-position: 0% 0; }
+      100% { background-position: 100% 0; }
+    }
+    .scroll-reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+    .scroll-reveal.active { opacity: 1; transform: translateY(0); }
+    #back-to-top {
+      position: fixed; bottom: 20px; right: 20px; background-color: #4f46e5;
+      color: white; padding: 12px 16px; border-radius: 9999px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2); display: none; cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s; z-index: 1000; font-size: 1.5rem; line-height: 1;
+    }
+    #back-to-top:hover { background-color: #4338ca; transform: translateY(-2px); }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #e2e8f0; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="py-4 px-6 flex items-center justify-between shadow-md">
+    <a href="https://glenlarkin.github.io" class="text-white font-bold text-xl tracking-tight hover:opacity-80 transition">Glen Larkin</a>
+    <a href="https://glenlarkin.github.io" class="text-white text-sm font-medium hover:opacity-80 transition">← Back to Portfolio</a>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-6 py-12">
+
+    <!-- Hero -->
+    <section class="scroll-reveal mb-12 text-center">
+      <span class="inline-block bg-indigo-100 text-indigo-700 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider mb-4">Data Analysis &amp; Machine Learning</span>
+      <h1 class="text-4xl font-bold text-slate-800 mb-4">Diabetic Patient Readmission Analysis</h1>
+      <p class="text-lg text-slate-500 max-w-2xl mx-auto">
+        Exploratory data analysis and visualization of 69,570 hospital records to uncover patterns in diabetic patient readmissions — using Python, Pandas, and AWS SageMaker.
+      </p>
+      <div class="flex justify-center gap-3 mt-6 flex-wrap">
+        <span class="bg-slate-100 text-slate-600 text-sm px-3 py-1 rounded-full">Python</span>
+        <span class="bg-slate-100 text-slate-600 text-sm px-3 py-1 rounded-full">Pandas</span>
+        <span class="bg-slate-100 text-slate-600 text-sm px-3 py-1 rounded-full">Matplotlib</span>
+        <span class="bg-slate-100 text-slate-600 text-sm px-3 py-1 rounded-full">Seaborn</span>
+        <span class="bg-slate-100 text-slate-600 text-sm px-3 py-1 rounded-full">AWS SageMaker</span>
+        <span class="bg-slate-100 text-slate-600 text-sm px-3 py-1 rounded-full">SageMaker Autopilot</span>
+        <span class="bg-slate-100 text-slate-600 text-sm px-3 py-1 rounded-full">Data Wrangler</span>
+      </div>
+    </section>
+
+    <!-- Overview -->
+    <section class="scroll-reveal mb-10">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-8">
+        <h2 class="text-2xl font-semibold text-slate-800 mb-4">Project Overview</h2>
+        <p class="text-slate-600 leading-relaxed mb-4">
+          Hospital readmissions are a major cost driver in healthcare — and for diabetic patients, they're especially common. This project analyzes a real-world dataset of <strong>69,570 diabetic patient encounters</strong> to identify which factors are most associated with readmission, and to build a foundation for predictive modeling.
+        </p>
+        <p class="text-slate-600 leading-relaxed">
+          The full pipeline spans raw data exploration, feature engineering with AWS SageMaker Data Wrangler, automated model training with SageMaker Autopilot, and batch inference — all tied together with custom Python visualizations.
+        </p>
+      </div>
+    </section>
+
+    <!-- Key Stats -->
+    <section class="scroll-reveal mb-10">
+      <h2 class="text-2xl font-semibold text-slate-800 mb-5">Dataset at a Glance</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 text-center">
+          <div class="text-3xl font-bold text-indigo-600">69,570</div>
+          <div class="text-sm text-slate-500 mt-1">Patient Records</div>
+        </div>
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 text-center">
+          <div class="text-3xl font-bold text-indigo-600">16</div>
+          <div class="text-sm text-slate-500 mt-1">Features</div>
+        </div>
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 text-center">
+          <div class="text-3xl font-bold text-indigo-600">40%</div>
+          <div class="text-sm text-slate-500 mt-1">Readmission Rate</div>
+        </div>
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 text-center">
+          <div class="text-3xl font-bold text-indigo-600">4.3</div>
+          <div class="text-sm text-slate-500 mt-1">Avg. Days in Hospital</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Readmission Breakdown -->
+    <section class="scroll-reveal mb-10">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-8">
+        <h2 class="text-2xl font-semibold text-slate-800 mb-5">Readmission Breakdown</h2>
+        <div class="space-y-4">
+          <div>
+            <div class="flex justify-between text-sm text-slate-600 mb-1">
+              <span>Not Readmitted</span><span class="font-medium">41,613 (60%)</span>
+            </div>
+            <div class="w-full bg-slate-100 rounded-full h-3">
+              <div class="bg-indigo-500 h-3 rounded-full" style="width:60%"></div>
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between text-sm text-slate-600 mb-1">
+              <span>Readmitted after 30+ days</span><span class="font-medium">21,805 (31%)</span>
+            </div>
+            <div class="w-full bg-slate-100 rounded-full h-3">
+              <div class="bg-blue-400 h-3 rounded-full" style="width:31%"></div>
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between text-sm text-slate-600 mb-1">
+              <span>Readmitted within 30 days</span><span class="font-medium">6,152 (9%)</span>
+            </div>
+            <div class="w-full bg-slate-100 rounded-full h-3">
+              <div class="bg-violet-400 h-3 rounded-full" style="width:9%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Findings -->
+    <section class="scroll-reveal mb-10">
+      <h2 class="text-2xl font-semibold text-slate-800 mb-5">Key Findings</h2>
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+          <div class="text-2xl mb-2">👴</div>
+          <h3 class="font-semibold text-slate-800 mb-1">Age is a strong predictor</h3>
+          <p class="text-sm text-slate-500">Over 65% of patients were aged 65–85. Readmission rates climb steadily with age, peaking in the 75–85 bracket.</p>
+        </div>
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+          <div class="text-2xl mb-2">💊</div>
+          <h3 class="font-semibold text-slate-800 mb-1">Medication changes matter</h3>
+          <p class="text-sm text-slate-500">45% of patients had their medication changed during the visit. 75% were on diabetes medication — both are correlated with readmission risk.</p>
+        </div>
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+          <div class="text-2xl mb-2">🧪</div>
+          <h3 class="font-semibold text-slate-800 mb-1">Testing gaps are significant</h3>
+          <p class="text-sm text-slate-500">82% of patients had no HbA1c test recorded, and 95% had no blood glucose serum test — despite being diabetic patients.</p>
+        </div>
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+          <div class="text-2xl mb-2">🏥</div>
+          <h3 class="font-semibold text-slate-800 mb-1">Prior admissions are telling</h3>
+          <p class="text-sm text-slate-500">Number of prior inpatient visits is positively correlated with readmission — patients with a history of hospitalization are more likely to return.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tools & Pipeline -->
+    <section class="scroll-reveal mb-10">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-8">
+        <h2 class="text-2xl font-semibold text-slate-800 mb-5">Tools &amp; Pipeline</h2>
+        <ol class="space-y-4">
+          <li class="flex gap-4">
+            <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold text-sm">1</span>
+            <div>
+              <div class="font-medium text-slate-700">Data Exploration</div>
+              <div class="text-sm text-slate-500">Loaded and profiled 69,570 records with Pandas. Identified class imbalance, missing test data, and key demographic distributions.</div>
+            </div>
+          </li>
+          <li class="flex gap-4">
+            <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold text-sm">2</span>
+            <div>
+              <div class="font-medium text-slate-700">Feature Engineering — AWS SageMaker Data Wrangler</div>
+              <div class="text-sm text-slate-500">Applied transformations, handled categorical encoding, and exported a clean feature set to S3 via a SageMaker Processing Job.</div>
+            </div>
+          </li>
+          <li class="flex gap-4">
+            <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold text-sm">3</span>
+            <div>
+              <div class="font-medium text-slate-700">AutoML — AWS SageMaker Autopilot</div>
+              <div class="text-sm text-slate-500">Ran automated model selection and hyperparameter tuning. Autopilot generated candidate models and a full data exploration notebook.</div>
+            </div>
+          </li>
+          <li class="flex gap-4">
+            <span class="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold text-sm">4</span>
+            <div>
+              <div class="font-medium text-slate-700">Inference &amp; Visualization</div>
+              <div class="text-sm text-slate-500">Ran batch inference on unlabeled data with prediction probabilities. Built a 6-panel visualization dashboard with Matplotlib and Seaborn.</div>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Visualization Preview -->
+    <section class="scroll-reveal mb-10">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-8">
+        <h2 class="text-2xl font-semibold text-slate-800 mb-2">Visualization Dashboard</h2>
+        <p class="text-sm text-slate-500 mb-5">Generated with Python (Matplotlib + Seaborn) — 6 charts covering readmission distribution, age trends, race breakdown, hospital stay length, medication density, and feature correlations.</p>
+        <img src="diabetic_visualization.png" alt="Diabetic Readmission Visualization Dashboard" class="rounded-xl border border-slate-100 w-full shadow-sm" />
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="scroll-reveal mb-10 text-center">
+      <div class="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl p-10 text-white">
+        <h2 class="text-2xl font-bold mb-2">Interested in this project?</h2>
+        <p class="text-blue-100 mb-6">Let's connect on LinkedIn or check out more of my work on GitHub.</p>
+        <div class="flex justify-center gap-4 flex-wrap">
+          <a href="https://www.linkedin.com/in/glen-larkin/" target="_blank"
+             class="bg-white text-indigo-700 font-semibold px-6 py-2 rounded-full hover:bg-blue-50 transition">
+            Connect on LinkedIn
+          </a>
+          <a href="https://github.com/glenlarkin" target="_blank"
+             class="border border-white text-white font-semibold px-6 py-2 rounded-full hover:bg-white hover:text-indigo-700 transition">
+            View GitHub
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="text-center text-sm text-slate-400 py-8 border-t border-slate-100">
+    © 2025 Glen Larkin. All rights reserved. &nbsp;·&nbsp; Built with ♥ and Tailwind CSS.
+  </footer>
+
+  <button id="back-to-top" title="Back to top">▲</button>
+
+  <script>
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('active'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+
+    // Back to top
+    const btn = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => { btn.style.display = window.scrollY > 300 ? 'block' : 'none'; });
+    btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  </script>
+</body>
+</html>
