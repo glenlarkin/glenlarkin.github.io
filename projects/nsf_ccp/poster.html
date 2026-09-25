@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Embedding CCP Expertise Across a Multi-Enclave CUI Environment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1c1b19;
+    --paper:#f2f0eb;
+    --panel:#fbfaf7;
+    --crimson:#9c1c1c;
+    --crimson-deep:#6e1414;
+    --navy:#25313c;
+    --navy-deep:#182129;
+    --steel:#5c6b78;
+    --hair:#d8d3c8;
+    --gray:#4d493f;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#8a857a;}
+  body{font-family:'IBM Plex Sans',sans-serif; color:var(--ink);}
+  .poster{
+    width:48in;
+    min-height:36in;
+    margin:0.5in auto;
+    background:var(--paper);
+    display:flex;
+    flex-direction:column;
+    position:relative;
+  }
+  @page{ size:48in 36in; margin:0; }
+  @media print{
+    body{background:#fff;}
+    .poster{margin:0;}
+  }
+
+  /* ===== Header ===== */
+
+  header{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    padding:.55in .6in .35in .6in;
+    border-bottom:.045in solid var(--ink);
+    gap:.4in;
+  }
+  .brand{display:flex; align-items:center; gap:.22in; flex-shrink:0;}
+  .brand-mark{
+    width:.9in; height:.9in;
+    background:var(--crimson);
+    display:flex; align-items:center; justify-content:center;
+    color:#fff; font-family:'Times New Roman',serif; font-weight:900; font-size:44pt;
+    flex-shrink:0;
+  }
+
+  .brand-text .eyebrow{ font-size:34pt; color:var(--gray); font-weight:500; line-height:1.2;}
+  .brand-text .office{ font-size:38pt; font-weight:600; color:var(--ink); line-height:1.2;}
+  .titleblock{
+    flex:1;
+    min-width:0;
+    padding:0 .5in;
+    align-self:stretch;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+  h1{
+    font-family:'Garamond',serif;
+    font-weight:900;
+    font-size:95pt;
+    line-height:1.05;
+    margin:0 0 .14in 0;
+    color:var(--ink);
+  }
+  .subtitle{ font-size:50pt; color:var(--gray); font-weight:500; line-height:1.25;}
+  .event{ text-align:right; font-size:33pt; line-height:1.35; color:var(--navy-deep); flex-shrink:0;}
+  .event strong{display:block; font-size:38pt; font-weight:600; color:var(--crimson); margin-bottom:.08in;}
+
+  /* ===== Thesis band ===== */
+  .thesis{
+    background:var(--navy-deep);
+    color:#eef1f3;
+    padding:.5in .9in;
+    display:flex;
+    gap:.4in;
+    align-items:flex-start;
+  }
+  .thesis .label{
+    font-family:'Fraunces',serif;
+    font-size:88pt;
+    line-height:1;
+    color:var(--crimson);
+    font-weight:600;
+    flex-shrink:0;
+  }
+  .thesis p{
+    font-family:'Fraunces',serif;
+    font-weight:400;
+    font-style:italic;
+    font-size:40pt;
+    line-height:1.25;
+    margin:0;
+  }
+  .thesis p + p{margin-top:.2in;}
+
+  /* ===== Body columns ===== */
+  main{
+    flex:1;
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+  }
+  .col{
+    padding:.38in .45in;
+    border-right:.02in solid var(--hair);
+    display:flex;
+    flex-direction:column;
+    gap:.24in;
+  }
+  .col:last-child{border-right:none;}
+  .col h2{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:50pt;
+    margin:0 0 .06in 0;
+    color:var(--crimson-deep);
+    border-bottom:.03in solid var(--ink);
+    padding-bottom:.14in;
+    line-height:1.15;
+  }
+  ul.pts{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.18in;}
+  ul.pts li{
+    position:relative;
+    padding-left:.4in;
+    font-size:34pt;
+    line-height:1.22;
+    color:#2b2926;
+  }
+  ul.pts li::before{
+    content:"";
+    position:absolute; left:0; top:.14in;
+    width:.16in; height:.16in;
+    background:var(--crimson);
+  }
+  ul.pts li b{color:var(--crimson-deep); font-weight:600;}
+  .section-kicker{
+    font-family:'Fraunces',serif;
+    color:var(--crimson-deep);
+    font-size:40pt;
+    font-weight:600;
+    line-height:1.1;
+    margin:.05in 0 0 0;
+  }
+  .evidence-placeholder{
+    min-height:4.2in;
+    border:.045in dashed var(--steel);
+    background:var(--panel);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:.35in;
+    color:var(--navy);
+  }
+  .evidence-placeholder .placeholder-title{
+    font-family:'Fraunces',serif;
+    font-size:38pt;
+    font-weight:600;
+    line-height:1.15;
+  }
+  .evidence-placeholder .placeholder-note{
+    font-size:29pt;
+    line-height:1.25;
+    color:var(--gray);
+    margin-top:.18in;
+  }
+  .evidence-figure{ margin:0; }
+  .evidence-figure img{
+    display:block;
+    width:100%;
+    max-height:5.25in;
+    object-fit:contain;
+    background:#fff;
+    border:.02in solid var(--hair);
+  }
+  .evidence-figure figcaption{
+    font-size:28pt;
+    line-height:1.22;
+    color:var(--gray);
+    margin-top:.12in;
+  }
+
+  /* ===== enclave diagram (HTML/CSS, not SVG) ===== */
+  .diagram{ display:flex; flex-direction:column; gap:.18in;}
+  .enclave-card, .rso-card{
+    border:.028in solid var(--ink);
+    background:var(--panel);
+    padding:.2in .3in;
+    display:flex;
+    flex-wrap:wrap;
+    align-items:baseline;
+    column-gap:.25in;
+  }
+  .enclave-card .name{ font-weight:600; font-size:31pt; color:var(--ink);}
+  .enclave-card .detail{ font-family:'IBM Plex Mono',monospace; font-size:28pt; color:var(--gray);}
+  .arrow-down{ text-align:center; font-size:34pt; color:var(--steel); line-height:1; margin:0;}
+  .rso-card{ background:var(--navy-deep); border-color:var(--navy-deep);}
+  .rso-card .name{ font-weight:600; font-size:31pt; color:#fff;}
+  .rso-card .detail{ font-family:'IBM Plex Mono',monospace; font-size:28pt; color:#c7cdd2;}
+  .diagram-cap{ font-size:30pt; color:var(--gray); line-height:1.25; margin-top:.05in;}
+
+  /* numbers box */
+  .box{ background:var(--navy); color:#f2f1ec; padding:.4in .45in;}
+  .box h3{ font-family:'Fraunces',serif; font-weight:600; font-size:40pt; margin:0 0 .22in 0; color:#fff;}
+  .stat-grid{ display:grid; grid-template-columns:1fr 1fr; gap:.20in .25in;}
+  .stat{display:flex; flex-direction:column; gap:.06in;}
+  .stat .n{ font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:54pt; color: #B9FFA1; line-height:1;}
+  .stat .l{ font-size:30pt; color:#c7cdd2; line-height:1.2;}
+
+  .cost{ background:var(--panel); border:.02in solid var(--hair); padding:.4in .45in;}
+  .cost h3{ font-family:'Fraunces',serif; font-weight:600; font-size:40pt; margin:0 0 .2in 0; color:var(--crimson-deep);}
+  .cost-row{
+    display:flex; justify-content:space-between; font-size:33pt;
+    padding:.12in 0; border-bottom:.014in dashed var(--hair);
+    font-family:'IBM Plex Mono',monospace; gap:.3in;
+  }
+  .cost-row span:first-child{font-family:'IBM Plex Sans',sans-serif; color:#3a372f;}
+  .cost-row.total{border-bottom:none; padding-top:.18in; font-weight:600;}
+  .cost-row.total span{color:var(--crimson-deep);}
+  .cost-note{ font-size:31pt; color:var(--gray); margin-top:.22in; line-height:1.25;}
+
+  footer{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:.35in .6in; border-top:.045in solid var(--ink);
+    font-size:32pt; color:var(--gray);
+  }
+  footer .who{color:var(--ink); font-weight:600;}
+</style>
+</head>
+<body>
+<div class="poster">
+
+  <header>
+    <div class="brand">
+
+      <div class="brand-text" style="text-align: center">
+        <img src="Interlocking-U_RED.png" alt="University of Utah" width="350px">
+        <div class="eyebrow">The University of Utah</div>
+        <div class="office">Research Security Office</div>
+      </div>
+    </div>
+    <div class="titleblock">
+      <h1>Embedding CCP Expertise Across a Multi-Enclave CUI Environment</h1>
+      <div class="subtitle">One CCP-credentialed analyst, three concurrently managed CUI enclaves, and one 110-control bar</div>
+    </div>
+
+  </header>
+
+  <div class="thesis">
+    <div class="label">&ldquo;</div>
+    <div>
+      <p>Universities with more than one CUI enclave face a compounding readiness gap: different owners, architectures, and maturity levels must all meet the same 110-control bar.</p>
+      <p>Embedding CCP expertise in the Research Security Office enables consistent gap assessments, SSP authorship, and assessment-objective-level interpretation across every environment.</p>
+    </div>
+  </div>
+
+  <main>
+    <!-- COLUMN 1 -->
+    <div class="col">
+      <h2>CCP Expertise &amp; NIST SP 800-171</h2>
+      <ul class="pts">
+        <li><b>Certified CMMC Professional (CCP):</b> An ISACA credentialed professional translates CMMC expectations into practical, testable safeguards for research systems, technical teams, and principal investigators.</li>
+        <li><b>NIST SP 800-171 foundation:</b> The program organizes security around protecting CUI through the 110 requirements and documented implementation of access control, audit logging, incident response, configuration management, and more.</li>
+        <li><b>Evidence before assessment:</b> System security plans, policies, procedures, screenshots, log records, and interview-ready narratives are maintained as operational artifacts.</li>
+        <li><b>Shared responsibility:</b> The Research Security Office sets the control interpretation and evidence standard; enclave administrators operate and demonstrate the safeguards.</li>
+      </ul>
+      <br>
+      <div class="diagram">
+        <h2>One Research Security Office, Three separate enclave teams</h2>
+        <div class="enclave-card"><span class="name">On-Prem Engineering</span><span class="detail">|</span><span class="detail">Connect Engineering Labs to CUI</span></div>
+        <div class="enclave-card"><span class="name">VPR Secure Research Enclave</span><span class="detail">|</span><span class="detail">Cloud-based Secure Research</span></div>
+        <div class="enclave-card"><span class="name">On-Premises HPC Cluster</span><span class="detail">|</span><span class="detail">Made for large datasets</span></div>
+      </div>
+      <br>
+      <div class="box">
+        <h3>Established Operating Model</h3>
+        <div class="stat-grid">
+          <div class="stat"><div class="n">4 yrs</div><div class="l">Operating the College of Engineering secure enclave</div></div>
+          <div class="stat"><div class="n">110</div><div class="l">NIST SP 800-171 requirements guiding CUI protection</div></div>
+          <div class="stat"><div class="n">14</div><div class="l">Control families considered in the NIST SP 800-171 program</div></div>
+          <div class="stat"><div class="n">1</div><div class="l">Security model reused across people, process, and technology</div></div>
+          <div class="stat"><div class="n">24/7</div><div class="l">Need for availability, accountability, and incident readiness</div></div>
+          <div class="stat"><div class="n">PI + IT</div><div class="l">Partnership that turns requirements into research-ready services</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COLUMN 2 -->
+    <div class="col">
+      <h2>What Cross-Enclave CCP Work Looks Like</h2>
+      <ul class="pts">
+        <li><b>College of Engineering Enclave:</b> our on-premises environment has supported controlled research for the last four years, providing an operational baseline for secure collaboration with CUI.</li>
+        <li><b>Operational controls:</b> centralized identity and access management, segmented infrastructure, endpoint protections, firewall controls, vulnerability management, audit logging, and monitored administrative access work together as a daily service.</li>
+        <li><b>Repeatable research onboarding:</b> researchers and technical staff receive clear expectations for data handling, approved access paths, incident reporting, and evidence retention.</li>
+        <li><b>Living compliance:</b> risk decisions, plans of action and milestones, annual reviews, and system security plan updates allow the enclave to evolve without losing its security narrative.</li>
+      </ul>
+
+      <div class="box">
+        <h3>By the Numbers</h3>
+        <div class="stat-grid">
+          <div class="stat"><div class="n">3</div><div class="l">CUI enclaves supported concurrently</div></div>
+          <div class="stat"><div class="n">3</div><div class="l">SSPs reviewed and contributed to</div></div>
+          <div class="stat"><div class="n">320</div><div class="l">assessment objectives addressed</div></div>
+          <div class="stat"><div class="n">19</div><div class="l">weekly log-review meetings</div></div>
+        </div>
+
+      </div>
+      <br>
+
+      <div class="section-kicker">Weekly Multi-Enclave Log Review</div>
+      <ul class="pts">
+        <li>Administrators and Research Security review enclave logs and scenarios are designed for potential audit questions.</li>
+        <li>Each scenario is correlated to the relevant NIST SP 800-171 Audit and Accountability expectation.</li>
+      </ul>
+      <img src="log-review.png" alt="Weekly log review" style="width: 100%">
+    </div>
+
+    <!-- COLUMN 3 -->
+    <div class="col">
+      <h2>Secure Research Enclave in AWS</h2>
+      <ul class="pts">
+        <li><b>Campus-scale service:</b> The new AWS enclave is being built to give researchers across campus a secure and accessible environment.</li>
+        <li><b>Data types in scope:</b> PII, PHI, HIPAA-regulated information, California Department of Public Health data, CUI, and government data requiring a FISMA Moderate implementation aligned to NIST SP 800-53 Rev. 5.</li>
+        <li><b>Designed for controlled collaboration:</b> Cloud-native identity, least privilege, encrypted storage and transit, logging, configuration baselines, continuous monitoring, and documented authorization boundaries are planned from the start.</li>
+        <li><b>Research enablement:</b> A shared enclave reduces the security burden on individual labs while preserving clear project ownership, data-use restrictions, and traceability.</li>
+        <li><b>Control conversion:</b> Mature on-premises practices are not copied blindly to AWS, they are translated into cloud-native controls and evidence that remain understandable to researchers and assessors.</li>
+      </ul>
+      <br>
+      <h2>Lessons &amp; Takeaway</h2>
+      <ul class="pts">
+        <li><b>CCP training provides the control language;</b> the live challenge is coordinating ownership among separate IT teams and architectures.</li>
+        <!--<li><b>POA&amp;M discipline:</b> use plans of action and milestones to track technical and governance gaps to an accountable owner and completion date.</li> -->
+        <li><b>In-house capacity matters</b> when an institution has multiple enclaves, recurring consultant costs, and a need for someone fluent with both PIs and system administrators.</li>
+        <li><b>Research onboarding:</b> five site visits helped researchers and labs understand CUI-specific enclave expectations.</li>
+      </ul>
+      <br>
+      <div class="cost">
+        <h3>CCP Investment</h3>
+        <div class="cost-row"><span>CCP training</span><span>$1,899</span></div>
+        <div class="cost-row"><span>ISACA CCP exam</span><span>$760</span></div>
+        <div class="cost-row"><span>Certification application</span><span>$200</span></div>
+        <div class="cost-row total"><span>Total investment</span><span>$2,859</span></div>
+        <div class="cost-note">55 hours to certification-ready: 30 hours guided study, 10 hours independent exam study, and 15 hours of CMMC immersion through internal mock auditing.</div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div><span class="who">University of Utah Research Security Office (RSO)</span></div>
+    <div>Trusted CI | 2026 NSF Cybersecurity Summit</div>
+  </footer>
+
+</div>
+</body>
+</html>
